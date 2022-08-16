@@ -1,0 +1,32 @@
+@import '../assets/menuVars.scss';
+@import 'assets/styles/variables';
+
+.weblanguage__container{
+  position: relative;
+}
+
+.weblanguage__selectedlanguage {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  
+  @media (max-width: $mobile) {
+    padding: 0 $vpadding-mobile;
+  }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) {
+    padding: 0 $vpadding-desktop;
+  }
+  @media (min-width: $desktop_sm) {
+    padding: 0 $vpadding-desktop;
+  }
+
+  .weblanguage__img {
+    border-radius: 50%;
+    height: $image-size;
+    width: $image-size;
+    &:hover {
+      cursor: pointer;
+      outline: 1px solid white;
+    }
+  }
+}

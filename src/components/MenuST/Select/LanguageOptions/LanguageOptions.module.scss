@@ -1,0 +1,42 @@
+@import 'assets/styles/variables';
+@import '../../assets/menuVars.scss';
+
+.languageoptions {
+  background: $menuColor;
+  border-radius: 0.5rem;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+
+  @media (max-width: $mobile) {
+    top: calc($image-size + $menupadding-mobile + 0.2rem);
+    padding: $vpadding-mobile;
+  }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) {
+    top: calc($image-size + $menupadding-desktop + 0.2rem);
+    padding: $vpadding-desktop;
+  }
+  @media (min-width: $desktop_sm) {
+    top: calc($image-size + $menupadding-desktop + 0.2rem);
+    padding: $vpadding-desktop;
+  }
+
+  &.languageoptions__statusmenu {
+    display: flex;
+  }
+  .languageoption{
+    margin-bottom: $vpadding-desktop;
+  }
+  .languageoptions__img {
+    border-radius: 50%;
+    height: $image-size;
+    width: $image-size;
+  
+    &:hover {
+      cursor: pointer;
+      outline: 1px solid white;
+    }
+  }
+}
+
+

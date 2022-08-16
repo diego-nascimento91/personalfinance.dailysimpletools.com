@@ -1,0 +1,18 @@
+@import '../assets/menuVars.scss';
+
+.stlogo {
+  align-items: center;
+  display: flex;
+}
+
+.stlogo__img{
+  margin-right: 0.5rem;
+  height: $image-size;
+}
+
+.stlogo__txt {
+  color: white;
+  font-family: 'Comfortaa', cursive;
+  font-size: 2rem;
+  font-weight: 700;
+}

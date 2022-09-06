@@ -1,0 +1,40 @@
+import { useUser } from 'assets/state/hooks/useUser';
+import { useUserMenuStatus } from 'assets/state/hooks/useUserMenuStatus';
+import { useEffect, useRef } from 'react';
+import styles from './UserMenu.module.scss';
+import UserMenuOptions from './UserMenuOptions/UserMenuOptions';
+
+const UserMenu = () => {
+  const [user] = useUser();
+  const [userMenuStatus, setUserMenuStatus] = useUserMenuStatus();
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Element)) {
+        setUserMenuStatus(false);
+      }
+    };
+    document.addEventListener('click', (event) => handleClickOutside(event));
+    return () => {
+      document.removeEventListener('click', (event) => handleClickOutside(event));
+    };
+  }, [ref]);
+
+  return (
+    <>
+      {!!user && <div className={styles.usermenu__container} ref={ref}>
+        <div
+          className={styles.usermenu__img}
+          role='select'
+          onClick={() => setUserMenuStatus(!userMenuStatus)}
+        >
+          <p>{user?.displayName?.charAt(0)}</p>
+        </div>
+        <UserMenuOptions />
+      </div>}
+    </>
+  );
+};
+
+export default UserMenu;

@@ -1,6 +1,6 @@
 import styles from './LanguageOptions.module.scss';
 import classNames from 'classnames';
-import { useMenuStatus } from 'assets/state/hooks/useMenuStatus';
+import { useMenuStatus } from 'assets/state/hooks/useLanguageMenuStatus';
 import { useLanguages } from 'assets/state/hooks/useLanguages';
 import { useSetSelectedLanguage } from 'assets/state/hooks/useSetSelectedLanguage';
 
@@ -28,11 +28,7 @@ export function LanguageOptions() {
           className={styles.languageoption}
           onClick={() => selectLanguage(language)}
         >
-          <img
-            src={language.image}
-            alt={`${language.label} Language`}
-            className={styles.languageoptions__img}
-          />
+          <p className={styles.languageoptions__text}>{language.label}</p>
         </div>
       ))}
     </div>

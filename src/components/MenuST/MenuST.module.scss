@@ -1,4 +1,4 @@
-@import 'assets/styles/variables';
+@import 'assets/styles/theme&variables';
 @import './assets/menuVars.scss';
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
 
@@ -6,14 +6,10 @@
   background: $menuColor;
   display: flex;
   justify-content: space-between;
+  padding: 1rem;
+}
 
-  @media (max-width: $mobile) {
-    padding: $menupadding-mobile $hpadding-mobile;
-  }
-  @media (min-width: $mobile) and (max-width: $desktop_sm) {
-    padding: $menupadding-desktop $hpadding-desktop-sm;
-  }
-  @media (min-width: $desktop_sm) {
-    padding: $menupadding-desktop $hpadding-desktop-md;
-  }
+.stheader__nav{
+  align-items: center;
+  display: flex;
 }

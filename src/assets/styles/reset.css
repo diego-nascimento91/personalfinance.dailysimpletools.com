@@ -52,6 +52,9 @@ html {
 	font-size: 62.5%;
 	font-family: 'Montserrat', sans-serif;
 }
+body {
+	font-size: 1.4rem
+}
 *, *:before, *:after {
   box-sizing: inherit;
 }

@@ -1,17 +1,19 @@
 import styles from './Select.module.scss';
-import { useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 import { LanguageOptions } from './LanguageOptions/LanguageOptions';
 import { useSelectedLanguage } from 'assets/state/hooks/useSelectedLanguage';
-import { useMenuStatus } from 'assets/state/hooks/useMenuStatus';
+import { useMenuStatus } from 'assets/state/hooks/useLanguageMenuStatus';
+import { FaGlobeAmericas } from 'react-icons/fa';
+import { AiOutlineDown } from 'react-icons/ai';
 
 const Language = () => {
 
   const selectedLanguage = useSelectedLanguage();
   const [statusMenu, setStatusMenu] = useMenuStatus();
   const ref = useRef<HTMLInputElement>(null);
-  
+
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => { 
+    const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Element)) {
         setStatusMenu(false);
       }
@@ -24,17 +26,15 @@ const Language = () => {
 
   return (
     <div className={styles.weblanguage__container} ref={ref}>
-      <div 
-        role='select' 
+      <div
+        role='select'
         className={styles.weblanguage__selectedlanguage}
         onClick={() => setStatusMenu(!statusMenu)}
       >
-        <img
-          src={selectedLanguage.image}
-          alt={`${selectedLanguage.label} Language`}
-          className={styles.weblanguage__img}
-        />
-      </div>  
+        <FaGlobeAmericas className={styles.weblanguage__globeicon}/>
+        <p className={styles.weblanguage__languagetext}>{`${selectedLanguage.label}`}</p>
+        <AiOutlineDown className={styles.weblanguage__arrowicon}/>
+      </div>
       <LanguageOptions />
     </div>
   );

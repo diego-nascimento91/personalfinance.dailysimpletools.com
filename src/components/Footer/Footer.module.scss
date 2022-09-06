@@ -1,10 +1,6 @@
-@import 'assets/styles/variables';
+@import 'assets/styles/theme&variables';
 
 .footer__container {
-  @media (max-width: $mobile) { padding: 0 $hpadding-mobile; }
-  @media (min-width: $mobile) and (max-width: $desktop_sm) { padding: 0 $hpadding-desktop-sm; }
-  @media (min-width: $desktop_sm) { padding: 0 $hpadding-desktop-md; }
-
   align-items: center;
   background: $menuColor;
   display: flex;
@@ -15,6 +11,6 @@
     color: white;
     font-size: $font-size;
     word-wrap: break-word;
-    @media (max-width: 400px) { width: 12rem }
+    @media (max-width: 400px) { width: 11rem }
   }
 }

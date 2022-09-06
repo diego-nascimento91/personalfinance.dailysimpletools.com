@@ -1,0 +1,22 @@
+@import 'assets/styles/theme&variables.scss';
+@import '../assets/menuVars.scss';
+
+.usermenu__container{
+  margin-left: 1rem;
+  position: relative;
+}
+
+.usermenu__img{
+  background: rgb(225, 223, 223);
+  border-radius: 50%;
+  font-size: calc($font-size * 1.5);
+  line-height: $image-size;
+  height: $image-size;
+  text-align: center;
+  width: $image-size;
+
+  &:hover {
+    cursor: pointer;
+    outline: 1px solid white;
+  }
+}

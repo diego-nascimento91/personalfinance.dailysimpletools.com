@@ -1,15 +1,16 @@
 @import '../assets/menuVars.scss';
-@import 'assets/styles/variables';
+@import 'assets/styles/theme&variables';
 
 .weblanguage__container{
+  height: 100%;
   position: relative;
 }
 
 .weblanguage__selectedlanguage {
   align-items: center;
+  color: white;
   display: flex;
   height: 100%;
-  
   @media (max-width: $mobile) {
     padding: 0 $vpadding-mobile;
   }
@@ -19,14 +20,22 @@
   @media (min-width: $desktop_sm) {
     padding: 0 $vpadding-desktop;
   }
+  // padding: 0.5rem;
+  &:hover {
+    cursor: pointer;
+    outline: 1px solid white;
+  }
 
-  .weblanguage__img {
-    border-radius: 50%;
-    height: $image-size;
-    width: $image-size;
-    &:hover {
-      cursor: pointer;
-      outline: 1px solid white;
-    }
+  .weblanguage__globeicon{
+    margin-right: 0.3rem;
+    font-size: calc($font-size);
+  }
+  .weblanguage__languagetext {
+    font-size: $font-size;
+    line-height: 0rem;
+    margin-right: 0.3rem;
+  }
+  .weblanguage__arrowicon{
+    font-size: calc($font-size);
   }
 }

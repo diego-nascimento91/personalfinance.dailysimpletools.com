@@ -4,15 +4,13 @@
       "id": 1,
       "value": "en",
       "label": "English",
-      "image": "assets/imgs/menu/en.jpg",
-      "pagetitle": "Calendar - SimpleTools"
+      "pagetitle": "Personal Finance Manager - SimpleTools"
     },
     {
       "id": 2,
-      "value": "pt-br",
-      "label": "Portuguese Brazil",
-      "image": "assets/imgs/menu/pt-br.gif",
-      "pagetitle": "Calendário - SimpleTools"
+      "value": "pt_br",
+      "label": "Português",
+      "pagetitle": "Gestão de Finanças Pessoais - SimpleTools"
       
     }
   ]

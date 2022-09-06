@@ -1,0 +1,89 @@
+@import 'assets/styles/theme&variables';
+
+.login__container {
+  margin: 0 auto;
+
+  @media (max-width: $mobile) {
+    width: 100%;
+    max-width: 50rem;
+  }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) {
+    width: 70%;
+  }
+  @media (min-width: $desktop_sm) and (max-width: $desktop_md) {
+    width: 70%;
+  }
+  @media (min-width: $desktop_md) {
+    width: 70%;
+    max-width: 100rem;
+  }
+
+  .login__pagetitle {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin: 2rem 0;
+  }
+
+  .login__block {
+    background: rgb(230, 230, 230);
+    border-radius: 5px;
+    padding: 1.5rem;
+
+    .login__text {
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .login__label {
+      display: block;
+      font-weight: bold;
+      margin-top: 1.5rem;
+    }
+
+    .login__input {
+      border: none;
+      border-radius: 0.4rem;
+      height: 3.5rem;
+      padding-left: 0.5rem;
+      width: 100%;
+    }
+
+    .login__inputalert{
+      color: rgb(255, 78, 78);
+      display: block;
+      font-size: 80%;
+      margin-top: 0.5rem;
+    }
+
+    .login__button {
+      background: $menuColor;
+      border: none;
+      border-radius: 2rem;
+      color: white;
+      font-weight: bold;
+      height: 4rem;
+      margin-top: 1.5rem;
+      width: 100%;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .login__forgotpass {
+      display: flex;
+      justify-content: center;
+      text-decoration: underline;
+      margin: 0.5rem 0;
+      margin-top: 1.5rem;
+    }
+
+    .login__createaccount {
+      text-align: center;
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+}

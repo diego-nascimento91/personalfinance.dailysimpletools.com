@@ -1,0 +1,56 @@
+@import 'assets/styles/theme&variables';
+@import '../../assets/menuVars.scss';
+
+.usermenuoptions {
+  background: gray;
+  // border-radius: 0.5rem;
+  color: white;
+  display: none;
+  flex-direction: column;
+  font-size: $font-size;
+  position: absolute;
+
+  @media (max-width: $mobile) {
+    min-width: calc($hpadding-mobile + 4rem);
+    padding: $vpadding-mobile;
+    right: calc(1rem - 1rem - $hpadding-mobile);
+    top: calc($image-size + $menupadding-mobile + 0.1rem);
+  }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) {
+    min-width: calc($hpadding-desksm + 4rem);
+    padding: $vpadding-desktop;
+    right: calc(1rem - 1rem - $hpadding-desksm);
+    top: calc($image-size + $menupadding-desktop + 0.1rem);
+  }
+  @media (min-width: $desktop_sm)  and (max-width: $desktop_md) {
+    min-width: calc($hpadding-deskmd + 4rem);
+    padding: $vpadding-desktop;
+    right: calc(1rem - 1rem - $hpadding-deskmd);
+    top: calc($image-size + $menupadding-desktop + 0.1rem);
+  }
+  @media (min-width: $desktop_md){
+    min-width: calc($hpadding-deskbg + 4rem);
+    padding: $vpadding-desktop;
+    right: calc(1rem - 1rem - $hpadding-deskbg);
+    top: calc($image-size + $menupadding-desktop + 0.1rem);
+  }
+
+  &.usermenuoptions__statusmenu {
+    display: flex;
+  }
+  .usermenuoption{
+    margin-bottom: $vpadding-desktop;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .usermenuoptions__text {
+    padding: 0.5rem;
+    &:hover {
+      cursor: pointer;
+      outline: 1px solid white;
+    }
+  }
+}
+
+

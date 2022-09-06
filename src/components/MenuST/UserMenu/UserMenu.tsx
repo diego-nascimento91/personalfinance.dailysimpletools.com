@@ -31,7 +31,7 @@ const UserMenu = () => {
         >
           <p>{user?.displayName?.charAt(0)}</p>
         </div>
-        <UserMenuOptions />
+        <UserMenuOptions/>
       </div>}
     </>
   );

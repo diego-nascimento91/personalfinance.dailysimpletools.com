@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useUser } from 'assets/state/hooks/useUser';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
-import { logInWithEmailAndPassword, signInWithGoogle } from 'assets/firebaseAuth';
-import { validateEmail, validatePassword } from './validation';
+import { logInWithEmailAndPassword } from 'assets/functions/firebase/loginWithEmailAndPassword';
+import { signInWithGoogle } from 'assets/functions/firebase/signInWithGoogle';
+import { validateEmail } from 'assets/functions/validateEmail';
+import { validatePassword } from 'assets/functions/validatePassword';
 
 const Login = () => {
   const [user, loading] = useUser();
@@ -52,7 +54,7 @@ const Login = () => {
       <div className={`theme__padding ${styles.login__container}`}>
         <h1 className={styles.login__pagetitle}>Personal Finance Tool</h1>
         <div className={styles.login__block}>
-          <p className={styles.login__text}>Already have an account?<br />Please sign-in:</p>
+          <p className={styles.login__text}>Sign-in</p>
           <form onSubmit={handleLoginWithEmailCall} noValidate>
             <label htmlFor='useremail' className={`${styles.login__label} ${styles.login__labelemail}`}>E-mail</label>
             <input
@@ -89,9 +91,10 @@ const Login = () => {
             type='submit'
             className={`${styles.login__button} ${styles.login__buttongoogle}`}
           >Login with Google</button>
-          <Link to='/resetpassword' className={styles.login__forgotpass}>Forgot password</Link>
-          <p className={styles.login__createaccount}>Dont have an account? </p>
-          <Link to='/register'>Register now</Link>
+          <div>
+            <Link to='/resetpassword' className={styles.login__forgotpass}>Forgot password</Link>
+            <p className={styles.login__createaccount}>Don&apos;t have an account?&nbsp;<Link to='/register'>Register now</Link></p>
+          </div>
         </div>
       </div>
     </>

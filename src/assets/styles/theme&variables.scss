@@ -22,6 +22,12 @@ $mobile: 768px;
 $desktop_sm: 980px;
 $desktop_md: 1280px;
 
+// login containers
+$width-maxmobile: 45rem;
+$width-maxtablet: 60rem;
+$width-mediumdesk: 80rem;
+$width-largedesk: 90rem;
+
 main {
   overflow: auto;
   min-height: calc(100vh - 10rem);

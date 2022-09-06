@@ -37,7 +37,6 @@ describe('The behavior of the Login form with email and password', () => {
     const emailInput = screen.getByPlaceholderText('youremail@domain.com');
     const passwordInput = screen.getByPlaceholderText('password');
     const submitButton = screen.getByText('Login');
-
     // Act
     expect(emailInput).toBeInTheDocument();
     fireEvent.change(passwordInput, {
@@ -46,13 +45,9 @@ describe('The behavior of the Login form with email and password', () => {
       }
     });
     fireEvent.click(submitButton);
-
     // Assert
     const emailAlert = screen.getByRole('alert');
     expect(emailAlert.textContent).toBe('Input required! Please enter your email.');
-    // await act(async () => {
-    //   Promise.resolve();
-    // });
   });
 
   test('An alert should be provided in case of password input empty', () => {
@@ -282,8 +277,8 @@ describe('The behavior of the links to reset password and to register', () => {
       </Router>
     );
     // Act
-    const forgotLink = screen.getByText('Register now');
-    fireEvent.click(forgotLink);
+    const linkRegister = screen.getByText('Register now');
+    fireEvent.click(linkRegister);
     // Assert
     expect(history.location.pathname).toBe('/register');
   });

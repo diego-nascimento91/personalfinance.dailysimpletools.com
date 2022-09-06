@@ -14,9 +14,8 @@ export const registerWithEmailAndPassword = async (name: string, email: string, 
       email,
     });
   } catch (err) {
-    console.error(err);
     if(err instanceof Error){
-      alert(err.message);
+      return err.message;
     }
   }
 };

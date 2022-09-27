@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Register.module.scss';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
-import { registerWithEmailAndPassword } from 'assets/functions/firebase/registerWithEmailAndPassword';
+import { registerWithEmailAndPassword } from 'assets/functions/firebase/authRegisterForm';
 
 const Register = () => {
   const [user, loading] = useUser();

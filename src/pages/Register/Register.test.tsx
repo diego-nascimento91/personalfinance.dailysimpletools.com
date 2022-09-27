@@ -5,7 +5,7 @@ import { BrowserRouter, Router } from 'react-router-dom';
 import Register from './Register';
 import { useUser } from 'assets/state/hooks/useUser';
 import { createMemoryHistory } from 'history';
-import { registerWithEmailAndPassword } from 'assets/functions/firebase/registerWithEmailAndPassword';
+import { registerWithEmailAndPassword } from 'assets/functions/firebase/authRegisterForm';
 
 jest.mock('assets/state/hooks/useUser', () => {
   return {

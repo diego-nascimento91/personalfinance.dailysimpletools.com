@@ -1,8 +1,8 @@
 import styles from './UserMenuOptions.module.scss';
 import classNames from 'classnames';
 import { useUserMenuStatus } from 'assets/state/hooks/useUserMenuStatus';
-import { deleteAccount } from 'assets/functions/firebase/deleteAccount';
-import { signOutofAccount } from 'assets/functions/firebase/signOut';
+import { deleteAccount } from 'assets/functions/firebase/authDeleteAccount';
+import { signOutofAccount } from 'assets/functions/firebase/authSignOut';
 
 const UserMenuOptions = () => {
   const [userMenuStatus, setUserMenuStatus] = useUserMenuStatus();

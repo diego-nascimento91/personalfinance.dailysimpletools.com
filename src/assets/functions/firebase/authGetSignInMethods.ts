@@ -1,5 +1,5 @@
 import { fetchSignInMethodsForEmail } from 'firebase/auth';
-import { authenticated } from './firebaseAuth';
+import { authenticated } from './setFirestoreAndAuth';
 
 //get signins methods from user
 export const getSignInMethods = async (email: string) => {

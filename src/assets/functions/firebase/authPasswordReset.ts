@@ -1,5 +1,5 @@
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { authenticated } from './firebaseAuth';
+import { authenticated } from './setFirestoreAndAuth';
 
 export const sendPasswordReset = async (email: string) => {
   try {

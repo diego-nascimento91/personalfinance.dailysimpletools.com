@@ -1,3 +1,4 @@
+import { updateTransaction } from 'assets/functions/firebase/firestoreUpdateTransaction';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +7,7 @@ import styles from './Home.module.scss';
 const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [type, setType] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('');
   const [place, setPlace] = useState('');
   const [price, setPrice] = useState(0);
   const [date, setDate] = useState('');
@@ -20,17 +21,18 @@ const Home = () => {
     if (!user) nav('/');
   }, [user, loading]);
 
-  const registerTransaction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const registerTransaction = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // const transaction = {
-    //   price: price,
-    //   type: type,
-    //   place: place,
-    //   date: date,
-    //   category: category,
-    //   description: description
-    // };
+    const transaction = {
+      paymentMethod: paymentMethod,
+      place: place,
+      price: price,
+      date: date,
+      category: category,
+      description: description
+    };
+    await updateTransaction(transaction, 1);
   };
 
   return (
@@ -45,20 +47,60 @@ const Home = () => {
         </ul>
         <div className={styles.addtransaction}>
           <h2>Fill in the form to register a new transaction</h2>
-          <form>
-            <label htmlFor='transactiontype'>Type:</label>
-            <input type="text" name='transactiontype' id='transactiontype' value={type} onChange={(event) => setType(event?.target.value)} />
+          <form onSubmit={registerTransaction}>
+            <label htmlFor='transactiontype'>Payment Method:</label>
+            <input 
+              id='transactiontype' 
+              name='transactiontype' 
+              required
+              type="text" 
+              onChange={(event) => setPaymentMethod(event?.target.value)} 
+              value={paymentMethod} 
+            />
             <label htmlFor='transactionplace'>Place:</label>
-            <input type="text" name='transactionplace' id='transactionplace' value={place} onChange={(event) => setPlace(event?.target.value)} />
+            <input 
+              id='transactionplace' 
+              name='transactionplace' 
+              required
+              type="text" 
+              onChange={(event) => setPlace(event?.target.value)}
+              value={place} 
+            />
             <label htmlFor='transactionprice'>Price:</label>
-            <input type="number" name='transactionprice' id='transactionprice' value={price} onChange={(event) => setPrice(Number(event?.target.value))} />
+            <input 
+              id='transactionprice' 
+              name='transactionprice'
+              required
+              type="number" 
+              onChange={(event) => setPrice(Number(event?.target.value))} 
+              value={price} 
+            />
             <label htmlFor='transactiondate'>Date:</label>
-            <input type="date" name='transactiondate' id='transactiondate' value={date} onChange={(event) => setDate(event?.target.value)} />
+            <input 
+              id='transactiondate' 
+              name='transactiondate' 
+              required
+              type="date" 
+              onChange={(event) => setDate(event?.target.value)} 
+              value={date} 
+            />
             <label htmlFor='transactioncategory'>Category:</label>
-            <input type="text" name='transactioncategory' id='transactioncategory' value={category} onChange={(event) => setCategory(event?.target.value)} />
+            <input 
+              id='transactioncategory' 
+              name='transactioncategory' 
+              required
+              type="text" 
+              onChange={(event) => setCategory(event?.target.value)} 
+              value={category} 
+            />
             <label htmlFor='transactiondescription'>Description:</label>
-            <textarea name='transactiondescription' id='transactiondescription' value={description} onChange={(event) => setDescription(event?.target.value)} />
-            <button type='submit' onClick={registerTransaction}>Register</button>
+            <textarea 
+              id='transactiondescription' 
+              name='transactiondescription' 
+              onChange={(event) => setDescription(event?.target.value)} 
+              value={description} 
+            />
+            <button type='submit'>Register</button>
           </form>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { authenticated } from './firebaseAuth';
+import { authenticated } from './setFirestoreAndAuth';
 
 // function signout
 export const signOutofAccount = () => {

@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { authenticated } from './firebaseAuth';
+import { authenticated } from './setFirestoreAndAuth';
 
 //LogIn with email and Password
 export const logInWithEmailAndPassword = async (email: string, password: string) => {

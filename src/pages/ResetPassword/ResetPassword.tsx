@@ -3,7 +3,7 @@ import { useUser } from 'assets/state/hooks/useUser';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './ResetPassword.module.scss';
 import { validateEmail } from 'assets/functions/validateEmail';
-import { sendPasswordReset } from 'assets/functions/firebase/sendPasswordReset';
+import { sendPasswordReset } from 'assets/functions/firebase/authPasswordReset';
 
 const ResetPassword = () => {
   const [user, loading] = useUser();

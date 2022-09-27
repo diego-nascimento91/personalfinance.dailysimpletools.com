@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
-import { authenticated, db } from './firebaseAuth';
+import { authenticated, db } from './setFirestoreAndAuth';
 
 //Create new account with email and password
 export const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {

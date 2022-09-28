@@ -5,7 +5,7 @@ import { BrowserRouter, Router } from 'react-router-dom';
 import Register from './Register';
 import { useUser } from 'assets/state/hooks/useUser';
 import { createMemoryHistory } from 'history';
-import { registerWithEmailAndPassword } from 'assets/functions/firebase/authRegisterForm';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 
 jest.mock('assets/state/hooks/useUser', () => {
   return {
@@ -223,7 +223,7 @@ describe('The behavior of the Register form with email and password', () => {
       </BrowserRouter>
     );
 
-    (registerWithEmailAndPassword as jest.Mock).mockReturnValue('auth/email-already-in-use');
+    (FirebaseAuthService.createNewUserWithEmailAndPassword as jest.Mock).mockReturnValue('auth/email-already-in-use');
     const inputName = screen.getByPlaceholderText('Full Name');
     const emailInput = screen.getByPlaceholderText('youremail@domain.com');
     const passwordInput = screen.getByPlaceholderText('password');

@@ -3,7 +3,7 @@ import { useUser } from 'assets/state/hooks/useUser';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './ResetPassword.module.scss';
 import { validateEmail } from 'assets/functions/validateEmail';
-import { sendPasswordReset } from 'assets/functions/firebase/authPasswordReset';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 
 const ResetPassword = () => {
   const [user, loading] = useUser();
@@ -27,7 +27,7 @@ const ResetPassword = () => {
     setSpanMessageEmail(alertMessage_email);
 
     if (isValid_email) {
-      await sendPasswordReset(email);
+      await FirebaseAuthService.sendPasswordReset(email);
       nav('/resetpassword/emailsent');
     }
   };

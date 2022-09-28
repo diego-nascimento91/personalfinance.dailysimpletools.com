@@ -1,26 +1,9 @@
 @import 'assets/styles/theme&variables';
 
 .loggedin__container{
-  align-items: center;
   border: 2px solid black;
   border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   margin: 3rem auto;
-  min-height: 30vh;
-  padding: 1rem;
-  width:90%;
-
-  .addtransaction {
-    margin-top: 2rem;
-    h2 {
-      margin-bottom: 1rem;
-    }
-    input, label, textarea, button{
-      display: block;
-      margin-top: 0.5rem;
-      width: 100%;
-    }
-  }
+  padding: 2rem;
+  width:100%;
 }

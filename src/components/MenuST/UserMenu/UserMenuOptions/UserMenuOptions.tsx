@@ -1,8 +1,7 @@
 import styles from './UserMenuOptions.module.scss';
 import classNames from 'classnames';
 import { useUserMenuStatus } from 'assets/state/hooks/useUserMenuStatus';
-import { deleteAccount } from 'assets/functions/firebase/authDeleteAccount';
-import { signOutofAccount } from 'assets/functions/firebase/authSignOut';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 
 const UserMenuOptions = () => {
   const [userMenuStatus, setUserMenuStatus] = useUserMenuStatus();
@@ -15,10 +14,10 @@ const UserMenuOptions = () => {
       })}
     >
       <div role='option' className={styles.usermenuoption}>
-        <p className={styles.usermenuoptions__text} onClick={() => {setUserMenuStatus(false); signOutofAccount();}}>SignOut</p>
+        <p className={styles.usermenuoptions__text} onClick={() => {setUserMenuStatus(false); FirebaseAuthService.signOutofAccount();}}>SignOut</p>
       </div>
       <div role='option' className={styles.usermenuoption}>
-        <p className={styles.usermenuoptions__text} onClick={() => {setUserMenuStatus(false); deleteAccount();}}>Delete Account</p>
+        <p className={styles.usermenuoptions__text} onClick={() => {setUserMenuStatus(false); FirebaseAuthService.deleteAccount();}}>Delete Account</p>
       </div>
     </div>
   );

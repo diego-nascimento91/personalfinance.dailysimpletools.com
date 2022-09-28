@@ -1,0 +1,32 @@
+.addtransaction__container {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 3rem 0;
+  padding: 2rem;
+  width: 100%;
+  
+  .addtransaction__title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .addtransaction__input{
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  .addtransaction__textarea {
+    display: block;
+    height: 10rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    resize: none;
+    width: 100%;
+  }
+
+  .addtransaction__button {
+    height: 3rem;
+    width: 100%;
+  }
+}

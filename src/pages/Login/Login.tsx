@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useUser } from 'assets/state/hooks/useUser';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
-import { logInWithEmailAndPassword } from 'assets/functions/firebase/authLoginWithEmailAndPassword';
-import { signInWithGoogle } from 'assets/functions/firebase/authSignInWithGoogle';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
 
@@ -36,7 +35,7 @@ const Login = () => {
     setSpanMessagePassword(alertMessage_password);
 
     if (isValid_email && isValid_password) {
-      const err = await logInWithEmailAndPassword(email, password);
+      const err = await FirebaseAuthService.logInWithEmailAndPassword(email, password);
       if (err instanceof Error) {
         setPasswordIsValid(false);
         setSpanMessagePassword('Email/ password incorrect. Check your information and try again.');
@@ -46,7 +45,7 @@ const Login = () => {
 
   const handleLoginWithGoogleCall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    signInWithGoogle();
+    FirebaseAuthService.signInWithGoogle();
   };
 
   return (

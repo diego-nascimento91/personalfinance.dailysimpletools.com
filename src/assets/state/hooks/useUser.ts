@@ -1,4 +1,4 @@
-import { authenticated } from 'assets/functions/firebase/setFirestoreAndAuth';
+import { authenticated } from 'assets/functions/FirebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 export const useUser = () => {

@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import db from 'components/MenuST/assets/languageDB.json';
 import firebase from 'firebase/compat/app';
+import { ITransaction } from 'assets/interfaces/interfaces';
 
 const languageDB = db.languages;
 export const languagesAtom = atom<typeof languageDB> ({
@@ -31,4 +32,9 @@ export const userAtom = atom<firebase.User | null> ({
 export const userMenuStatusAtom = atom<boolean> ({
   key: 'userMenuStatusAtom',
   default: false
+});
+
+export const useTransactionsAtom = atom<ITransaction[] | null> ({
+  key: 'useTransactionsAtom',
+  default: null
 });

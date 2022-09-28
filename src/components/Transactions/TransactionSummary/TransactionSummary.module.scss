@@ -1,0 +1,23 @@
+.transaction__container {
+  align-items: center;
+  background-color: rgb(230, 229, 229);
+  border-radius: 1rem;
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  .transaction__payment{
+    width: 15%;
+  }
+
+  .transaction__description{
+    width: 70%;
+    .transaction__description--price{
+      font-size: 120%;
+    }
+  }
+
+  .transaction__date {
+    width: 15%;
+  }
+}

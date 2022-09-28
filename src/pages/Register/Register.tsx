@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Register.module.scss';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
-import { registerWithEmailAndPassword } from 'assets/functions/firebase/authRegisterForm';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 
 const Register = () => {
   const [user, loading] = useUser();
@@ -42,7 +42,7 @@ const Register = () => {
     setSpanMessagePassword(alertMessage_password);
 
     if (isValid_email && isValid_password && !(name === null || name === '')) {
-      const msgErr = await registerWithEmailAndPassword(name, email, password);
+      const msgErr = await FirebaseAuthService.createNewUserWithEmailAndPassword(name, email, password);
       if(msgErr != '' && msgErr != null) {
         setPasswordIsValid(false);
         if (msgErr.includes('email-already-in-use')) {

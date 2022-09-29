@@ -29,7 +29,7 @@ const UserMenu = () => {
           role='select'
           onClick={() => setUserMenuStatus(!userMenuStatus)}
         >
-          <p>{user?.displayName?.charAt(0)}</p>
+          <p>{user.email?.charAt(0).toUpperCase()}</p>
         </div>
         <UserMenuOptions/>
       </div>}

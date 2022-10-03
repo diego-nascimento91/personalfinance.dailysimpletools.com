@@ -1,4 +1,4 @@
-import styles from './Select.module.scss';
+import styles from './Language.module.scss';
 import { useEffect, useRef } from 'react';
 import { LanguageOptions } from './LanguageOptions/LanguageOptions';
 import { useSelectedLanguage } from 'assets/state/hooks/useSelectedLanguage';

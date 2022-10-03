@@ -1,4 +1,4 @@
-import Select from './Select/Select';
+import Language from './Language/Language';
 import Logo from './Logo/Logo';
 import styles from './MenuST.module.scss';
 import { useSelectedLanguage } from 'assets/state/hooks/useSelectedLanguage';
@@ -14,7 +14,7 @@ const MenuST = () => {
     <header className={`theme__padding ${styles.stheader}`}>
       <Logo />
       <div className={styles.stheader__nav}>
-        <Select />
+        <Language />
         <UserMenu />
       </div>
     </header>

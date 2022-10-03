@@ -4,7 +4,7 @@ import Login from 'pages/Login/Login';
 import Home from 'pages/Home/Home';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import 'assets/styles/theme&variables.scss';
+import 'assets/styles/theme.scss';
 import ResetPassword from 'pages/ResetPassword/ResetPassword';
 import Register from 'pages/Register/Register';
 import PasswordReseted from 'pages/ResetPassword/PasswordReseted/PasswordReseted';

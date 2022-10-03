@@ -55,7 +55,7 @@ const AddTransaction = () => {
   };
 
   return (
-    <div className={styles.addtransaction__container}>
+    <section className={`${styles.addtransaction__container} theme__homesections`}>
       <h2 className={styles.addtransaction__title}>Add a new transaction</h2>
       <form onSubmit={handleFormSubmit}>
         <label htmlFor='transactiontype'>Payment Method:</label>
@@ -118,7 +118,7 @@ const AddTransaction = () => {
         />
         <button className={styles.addtransaction__button} type='submit'>Add Transaction</button>
       </form>
-    </div>
+    </section>
   );
 };
 

@@ -27,6 +27,19 @@ main {
   }
 }
 
+.theme__homesections {
+  @media (max-width: $mobile) {
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 1rem auto;
+    padding: 2rem;
+    width:100%;
+  }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) {}
+  @media (min-width: $desktop_sm) and (max-width: $desktop_md) {}
+  @media (min-width: $desktop_md) {}
+}
+
 //to use in the components
 @media (max-width: $mobile) {}
 @media (min-width: $mobile) and (max-width: $desktop_sm) {}

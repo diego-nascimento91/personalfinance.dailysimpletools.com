@@ -16,9 +16,9 @@ const Home = () => {
 
   return (
     <div className='theme__padding'>
-      <div className={styles.loggedin__container}>
+      <section className={`${styles.loggedin__container} theme__homesections`}>
         <p>Welcome {user?.email}!</p>
-      </div>
+      </section>
       <Transactions />
       <AddTransaction />
     </div>

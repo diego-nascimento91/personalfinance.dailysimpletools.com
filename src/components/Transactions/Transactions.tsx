@@ -21,7 +21,7 @@ const Transactions = () => {
   }, [user, loading]);
 
   return (
-    <div className={styles.transactions__container}>
+    <section className={`${styles.transactions__container} theme__homesections`}>
       <h2 className={styles.transactions__title}>Recent Transactions</h2>
       {
         transactions && transactions.length > 0 ? (
@@ -30,7 +30,7 @@ const Transactions = () => {
           ))
         ) : <p>No transactions added yet</p>
       }
-    </div>
+    </section>
   );
 };
 

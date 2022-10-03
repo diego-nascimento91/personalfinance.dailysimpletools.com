@@ -4,7 +4,6 @@ import { LanguageOptions } from './LanguageOptions/LanguageOptions';
 import { useSelectedLanguage } from 'assets/state/hooks/useSelectedLanguage';
 import { useMenuStatus } from 'assets/state/hooks/useLanguageMenuStatus';
 import { FaGlobeAmericas } from 'react-icons/fa';
-import { AiOutlineDown } from 'react-icons/ai';
 
 const Language = () => {
 
@@ -33,7 +32,6 @@ const Language = () => {
       >
         <FaGlobeAmericas className={styles.weblanguage__globeicon}/>
         <p className={styles.weblanguage__languagetext}>{`${selectedLanguage.label}`}</p>
-        <AiOutlineDown className={styles.weblanguage__arrowicon}/>
       </div>
       <LanguageOptions />
     </div>

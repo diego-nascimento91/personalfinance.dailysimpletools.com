@@ -1,9 +1,9 @@
 import { useUser } from 'assets/state/hooks/useUser';
-import AddTransaction from 'components/AddTransaction/AddTransaction';
-import Transactions from 'components/Transactions/Transactions';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Home.module.scss';
+import AddTransaction from './AddTransaction/AddTransaction';
+import Transactions from './Transactions/Transactions';
+import Welcome from './Welcome/Welcome';
 
 const Home = () => {
   const nav = useNavigate();
@@ -16,9 +16,7 @@ const Home = () => {
 
   return (
     <div className='theme__padding'>
-      <section className={`${styles.loggedin__container} theme__homesections`}>
-        <p>Welcome {user?.email}!</p>
-      </section>
+      <Welcome />
       <Transactions />
       <AddTransaction />
     </div>

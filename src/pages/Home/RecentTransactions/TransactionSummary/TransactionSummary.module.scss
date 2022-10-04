@@ -21,15 +21,11 @@
       justify-content: space-between;
     }
 
-    .transaction__description{
-      // width: 70%;
-      .transaction__description--price{
-        // font-size: 120%;
-      }
+    .transaction__price__positive {
+      color: green;
     }
-  }
-
-  .transaction__date {
-    // width: 15%;
+    .transaction__price__negative {
+      color: red;
+    }
   }
 }

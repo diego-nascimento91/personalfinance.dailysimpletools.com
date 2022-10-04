@@ -1,4 +1,5 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
+import classNames from 'classnames';
 import styles from './TransactionSummary.module.scss';
 
 interface Props {
@@ -25,7 +26,13 @@ const TransactionSummary = (props: Props) => {
           <p className={styles.transaction__description}>{transaction.description}</p>
           <p className={styles.transaction__date}>{formatDate(transaction.date)}</p>
         </div>
-        <div className={styles['transaction__description--price']}>R$ {(+transaction.price).toFixed(2)}</div>
+        <div className={classNames({
+          [styles.transaction__price]: true,
+          [styles.transaction__price__positive]: transaction.type === 'income',
+          [styles.transaction__price__negative]: transaction.type === 'expense',
+        })}>
+          { transaction.type === 'expense' ? '- ' : '+ '}
+          R$ {(+transaction.price).toFixed(2)}</div>
       </div>
     </div>
   );

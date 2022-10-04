@@ -30,11 +30,11 @@ const Overview = () => {
       <div>
         <div className={styles.overview__sum}>
           <p>Income:</p>
-          <p>+ R$ {sumIncome.toFixed(2)}</p>
+          <p className={styles.overview__price__positive}>+ R$ {sumIncome.toFixed(2)}</p>
         </div>
         <div className={styles.overview__sum}>
           <p>Expenses:</p>
-          <p>- R$ {sumExpense.toFixed(2)}</p>
+          <p className={styles.overview__price__negative}>- R$ {sumExpense.toFixed(2)}</p>
         </div>
       </div>
     </section>

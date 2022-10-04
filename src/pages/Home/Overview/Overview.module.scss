@@ -11,4 +11,11 @@
     border-bottom: 1px solid black;
     cursor: pointer;
   }
+
+  .overview__price__positive {
+    color: green;
+  }
+  .overview__price__negative {
+    color: red
+  }
 }

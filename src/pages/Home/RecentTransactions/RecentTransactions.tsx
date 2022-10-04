@@ -3,10 +3,10 @@ import { useTransactions } from 'assets/state/hooks/useTransactions';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Transactions.module.scss';
+import styles from './RecentTransactions.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 
-const Transactions = () => {
+const RecentTransactions = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
   const [transactions, setTransactions] = useTransactions();
@@ -34,4 +34,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+export default RecentTransactions;

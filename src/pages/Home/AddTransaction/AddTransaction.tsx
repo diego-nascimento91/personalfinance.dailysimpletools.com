@@ -9,6 +9,7 @@ import styles from './AddTransaction.module.scss';
 const AddTransaction = () => {
   const [user,] = useUser();
   const [, setTransactions] = useTransactions();
+  const [transactionType, setTransactionType] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [place, setPlace] = useState('');
   const [price, setPrice] = useState('');
@@ -17,6 +18,7 @@ const AddTransaction = () => {
   const [description, setDescription] = useState('');
 
   const resetForm = () => {
+    setTransactionType('');
     setPaymentMethod('');
     setPlace('');
     setPrice('');
@@ -29,6 +31,7 @@ const AddTransaction = () => {
     event.preventDefault();
 
     const transaction: ITransaction = {
+      type: transactionType,
       payment: paymentMethod,
       place: place,
       price: price,
@@ -58,14 +61,27 @@ const AddTransaction = () => {
     <section className={`${styles.addtransaction__container} theme__homesections`}>
       <h2 className={styles.addtransaction__title}>Add a new transaction</h2>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor='transactiontype'>Payment Method:</label>
+        <label htmlFor='transactiontype'>Type:</label>
+        <select 
+          name="transactiontype" 
+          id="transactiontype" 
+          required
+          className={styles.addtransaction__input}
+          value={transactionType}
+          onChange={(event) => setTransactionType(event.target.value)}
+        >
+          <option value=""></option>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+        <label htmlFor='paymentmethod'>Payment Method:</label>
         <input
           className={styles.addtransaction__input}
-          id='transactiontype'
-          name='transactiontype'
+          id='paymentmethod'
+          name='paymentmethod'
           required
           type="text"
-          onChange={(event) => setPaymentMethod(event?.target.value)}
+          onChange={(event) => setPaymentMethod(event.target.value)}
           value={paymentMethod}
         />
         <label htmlFor='transactionplace'>Place:</label>
@@ -75,7 +91,7 @@ const AddTransaction = () => {
           name='transactionplace'
           required
           type="text"
-          onChange={(event) => setPlace(event?.target.value)}
+          onChange={(event) => setPlace(event.target.value)}
           value={place}
         />
         <label htmlFor='transactionprice'>Price:</label>
@@ -85,7 +101,7 @@ const AddTransaction = () => {
           name='transactionprice'
           required
           type="number"
-          onChange={(event) => setPrice(event?.target.value)}
+          onChange={(event) => setPrice(event.target.value)}
           value={price}
         />
         <label htmlFor='transactiondate'>Date:</label>
@@ -95,7 +111,7 @@ const AddTransaction = () => {
           name='transactiondate'
           required
           type="date"
-          onChange={(event) => setDate(event?.target.value)}
+          onChange={(event) => setDate(event.target.value)}
           value={date}
         />
         <label htmlFor='transactioncategory'>Category:</label>
@@ -105,7 +121,7 @@ const AddTransaction = () => {
           name='transactioncategory'
           required
           type="text"
-          onChange={(event) => setCategory(event?.target.value)}
+          onChange={(event) => setCategory(event.target.value)}
           value={category}
         />
         <label htmlFor='transactiondescription'>Description:</label>

@@ -2,6 +2,7 @@ import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddTransaction from './AddTransaction/AddTransaction';
+import Overview from './Overview/Overview';
 import RecentTransactions from './RecentTransactions/RecentTransactions';
 import Welcome from './Welcome/Welcome';
 
@@ -17,6 +18,7 @@ const Home = () => {
   return (
     <div className='theme__padding'>
       <Welcome />
+      <Overview />
       <RecentTransactions />
       <AddTransaction />
     </div>

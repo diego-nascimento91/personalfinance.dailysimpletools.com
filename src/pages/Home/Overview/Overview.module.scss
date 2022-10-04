@@ -1,0 +1,14 @@
+
+.overview__sum {
+  display: flex;
+  justify-content: space-between;
+
+  &:first-child {
+    margin-bottom: 1rem;
+  }
+
+  &:hover {
+    border-bottom: 1px solid black;
+    cursor: pointer;
+  }
+}

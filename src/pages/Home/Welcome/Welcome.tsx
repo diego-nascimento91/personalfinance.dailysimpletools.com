@@ -26,7 +26,6 @@ const Welcome = () => {
     });
     const collectionPath = `users/${user?.uid}/transactions`;
     fetchTransactions({ collectionPath, setTransactions, queries });
-
   }, [month]);
 
   const formatDate = (date: Date) => {

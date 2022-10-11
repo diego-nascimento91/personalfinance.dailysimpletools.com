@@ -1,8 +1,9 @@
 import { fetchTransactions } from 'assets/functions/fetchTransactions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
+import { Category } from 'assets/interfaces/interfaces';
 import { useTransactions } from 'assets/state/hooks/useTransactions';
 import { useUser } from 'assets/state/hooks/useUser';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './AddTransaction.module.scss';
 
 const AddTransaction = () => {
@@ -14,7 +15,23 @@ const AddTransaction = () => {
   const [price, setPrice] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState<Category[]>();
   const [description, setDescription] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      FirebaseFirestoreService.readAllDocsFromCollection('basicCategories')
+        .then(response => {
+          setCategories(response as Category[]);
+        })
+        .catch(error => {
+          if (error instanceof Error) {
+            alert(`Error Fetching Categories: ${error.message}`);
+            throw error;
+          }
+        });
+    }
+  }, [user]);
 
   const resetForm = () => {
     setTransactionType('');
@@ -46,7 +63,7 @@ const AddTransaction = () => {
       }
       alert('Transactions successfully added');
       resetForm();
-      fetchTransactions({collectionPath, setTransactions});
+      fetchTransactions({ collectionPath, setTransactions });
 
     } catch (error) {
       if (error instanceof Error) {
@@ -61,9 +78,9 @@ const AddTransaction = () => {
       <h2 className={styles.addtransaction__title}>Add a new transaction</h2>
       <form onSubmit={handleFormSubmit}>
         <label htmlFor='transactiontype'>Type:</label>
-        <select 
-          name="transactiontype" 
-          id="transactiontype" 
+        <select
+          name="transactiontype"
+          id="transactiontype"
           required
           className={styles.addtransaction__input}
           value={transactionType}
@@ -113,16 +130,21 @@ const AddTransaction = () => {
           onChange={(event) => setDate(event.target.value)}
           value={date}
         />
-        <label htmlFor='transactioncategory'>Category:</label>
-        <input
-          className={styles.addtransaction__input}
-          id='transactioncategory'
-          name='transactioncategory'
-          required
-          type="text"
-          onChange={(event) => setCategory(event.target.value)}
-          value={category}
-        />
+        <label>
+          Category:
+          <select className={styles.addtransaction__input} value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value=""></option>
+            {
+              categories && categories.length > 0
+                ? (
+                  categories.map(cat => (
+                    <option value={cat.id} key={cat.id}>{cat.value}</option>
+                  ))
+                )
+                : null
+            }
+          </select>
+        </label>
         <label htmlFor='transactiondescription'>Description:</label>
         <textarea
           className={styles.addtransaction__textarea}

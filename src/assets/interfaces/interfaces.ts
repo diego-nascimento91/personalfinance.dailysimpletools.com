@@ -15,3 +15,9 @@ export interface Query {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
 }
+
+export interface Category {
+  id: string,
+  value: string,
+  description: string
+}

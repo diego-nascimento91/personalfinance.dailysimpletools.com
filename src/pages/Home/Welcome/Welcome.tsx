@@ -1,43 +1,17 @@
-import { useTransactions } from 'assets/state/hooks/useTransactions';
+// import { useTransactions } from 'assets/state/hooks/useTransactions';
 import styles from './Welcome.module.scss';
 import { useUser } from 'assets/state/hooks/useUser';
-import { useEffect, useState } from 'react';
+// import { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { fetchTransactions } from 'assets/functions/fetchTransactions';
+// import { fetchTransactions } from 'assets/functions/fetchTransactions';
 
-const Welcome = () => {
-  const [month, setMonth] = useState(new Date());
-  const [, setTransactions] = useTransactions();
+interface Props{
+  month: Date, 
+  setMonth: React.Dispatch<React.SetStateAction<Date>>
+}
+const Welcome = ({ month, setMonth }: Props) => {
   const [user,] = useUser();
-
-  useEffect(() => {
-    if (user) {
-      const { firstDay, lastDay } = formatDate(month);
-      const queries = [];
-      queries.push({
-        field: 'date',
-        condition: '>=',
-        value: firstDay
-      });
-      queries.push({
-        field: 'date',
-        condition: '<=',
-        value: lastDay
-      });
-      const collectionPath = `users/${user?.uid}/transactions`;
-      fetchTransactions({ collectionPath, setTransactions, queries });
-    }
-  }, [month, user]);
-
-  const formatDate = (date: Date) => {
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const firstDay = new Date(year, month);
-    const lastDay = new Date(year, month + 1, 0);
-
-    return { firstDay, lastDay };
-  };
 
   return (
     <section className='theme__homesections'>

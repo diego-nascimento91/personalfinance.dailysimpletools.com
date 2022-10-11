@@ -25,9 +25,13 @@ const RecentTransactions = () => {
       <h2 className={styles.transactions__title}>Recent Transactions</h2>
       {
         transactions && transactions.length > 0 ? (
-          transactions.map(transaction => (
-            <TransactionSummary transaction={transaction} key={transaction.id} />
-          ))
+          transactions.map((transaction, index) => {
+            if(index < 4){
+              return (
+                <TransactionSummary transaction={transaction} key={transaction.id} />
+              );
+            }
+          })
         ) : <p>No transactions added yet</p>
       }
     </section>

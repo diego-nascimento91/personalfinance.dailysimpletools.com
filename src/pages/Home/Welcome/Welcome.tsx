@@ -1,10 +1,7 @@
-// import { useTransactions } from 'assets/state/hooks/useTransactions';
 import styles from './Welcome.module.scss';
 import { useUser } from 'assets/state/hooks/useUser';
-// import { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-// import { fetchTransactions } from 'assets/functions/fetchTransactions';
 
 interface Props{
   month: Date, 

@@ -10,7 +10,8 @@ interface Props{
   month: Date, 
   setMonth: React.Dispatch<React.SetStateAction<Date>>
 }
-const Welcome = ({ month, setMonth }: Props) => {
+const Welcome = (props: Props) => {
+  const { month, setMonth } = props;
   const [user,] = useUser();
 
   return (

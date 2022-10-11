@@ -2,12 +2,8 @@ import { ITransaction } from 'assets/interfaces/interfaces';
 import classNames from 'classnames';
 import styles from './TransactionSummary.module.scss';
 
-interface Props {
-  transaction: ITransaction
-}
 
-const TransactionSummary = (props: Props) => {
-  const { transaction } = props;
+const TransactionSummary = ({ transaction }:{ transaction: ITransaction }) => {
 
   const formatDate = (date: Date) => {
     const day = date.getUTCDate();

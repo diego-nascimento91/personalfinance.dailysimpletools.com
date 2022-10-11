@@ -9,8 +9,13 @@ const Overview = () => {
   const [sumExpense, setSumExpense] = useState(0);
 
   useEffect(() => {
-    setSumIncome(getSumPerType('income', transactions as ITransaction[]));
-    setSumExpense(getSumPerType('expense', transactions as ITransaction[]));
+    if(transactions && transactions.length > 0){
+      setSumIncome(getSumPerType('income', transactions as ITransaction[]));
+      setSumExpense(getSumPerType('expense', transactions as ITransaction[]));
+    } else {
+      setSumIncome(0);
+      setSumExpense(0);
+    }
   }, [transactions]);
 
   const getSumPerType = (type: string, transactionsArray: ITransaction[]) => {

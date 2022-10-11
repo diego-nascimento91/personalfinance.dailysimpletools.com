@@ -1,0 +1,17 @@
+.datepicker__label {
+  align-items: center;
+  display: flex;
+  margin-top: 1rem;
+  width: 23rem;
+
+  .datepicker__component{
+    border: none;
+    font-weight: bold;
+    margin-left: 0.5rem;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}

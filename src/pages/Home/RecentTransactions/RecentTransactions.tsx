@@ -24,7 +24,7 @@ const RecentTransactions = () => {
     <section className={`${styles.transactions__container} theme__homesections`}>
       <h2 className={styles.transactions__title}>Recent Transactions</h2>
       {
-        transactions && transactions.length > 0
+        transactions && transactions.length > 0  && transactions[0].id !== ''
           ? (
             transactions.map((transaction, index) => {
               if (index < 4) {

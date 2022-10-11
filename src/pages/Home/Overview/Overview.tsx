@@ -9,7 +9,7 @@ const Overview = () => {
   const [sumExpense, setSumExpense] = useState(0);
 
   useEffect(() => {
-    if(transactions && transactions.length > 0){
+    if(transactions && transactions.length > 0 && transactions[0].id !== ''){
       setSumIncome(getSumPerType('income', transactions as ITransaction[]));
       setSumExpense(getSumPerType('expense', transactions as ITransaction[]));
     } else {

@@ -1,22 +1,26 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { useTransactions } from 'assets/state/hooks/useTransactions';
+import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import styles from './Overview.module.scss';
 
 const Overview = () => {
+  const [user,] = useUser();
   const [transactions] = useTransactions();
   const [sumIncome, setSumIncome] = useState(0);
   const [sumExpense, setSumExpense] = useState(0);
 
   useEffect(() => {
-    if(transactions && transactions.length > 0 && transactions[0].id !== ''){
-      setSumIncome(getSumPerType('income', transactions));
-      setSumExpense(getSumPerType('expense', transactions));
-    } else {
-      setSumIncome(0);
-      setSumExpense(0);
+    if(user) {
+      if(transactions && transactions.length > 0 && transactions[0].id !== ''){
+        setSumIncome(getSumPerType('income', transactions));
+        setSumExpense(getSumPerType('expense', transactions));
+      } else {
+        setSumIncome(0);
+        setSumExpense(0);
+      }
     }
-  }, [transactions]);
+  }, [transactions, user]);
 
   const getSumPerType = (type: string, transactionsArray: ITransaction[]) => {
     return transactionsArray.filter(transaction => {

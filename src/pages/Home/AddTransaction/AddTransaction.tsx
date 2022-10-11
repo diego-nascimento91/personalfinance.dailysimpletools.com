@@ -1,6 +1,6 @@
 import { fetchTransactions } from 'assets/functions/fetchTransactions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { Category } from 'assets/interfaces/interfaces';
+import { ICategory } from 'assets/interfaces/interfaces';
 import { useTransactions } from 'assets/state/hooks/useTransactions';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
@@ -15,14 +15,14 @@ const AddTransaction = () => {
   const [price, setPrice] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
-  const [categories, setCategories] = useState<Category[]>();
+  const [categories, setCategories] = useState<ICategory[]>();
   const [description, setDescription] = useState('');
 
   useEffect(() => {
     if (user) {
       FirebaseFirestoreService.readAllDocsFromCollection('basicCategories')
         .then(response => {
-          setCategories(response as Category[]);
+          setCategories(response as ICategory[]);
         })
         .catch(error => {
           if (error instanceof Error) {

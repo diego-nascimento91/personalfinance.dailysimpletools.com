@@ -1,9 +1,9 @@
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection} from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
-import { ITransaction, Query } from 'assets/interfaces/interfaces';
+import { ITransaction, IQuery } from 'assets/interfaces/interfaces';
 
-const readAllDocsFromCollection = async (collectionPath: string, queries?: Query[], orderByField?: string, orderByDirection?: string) => {
+const readAllDocsFromCollection = async (collectionPath: string, queries?: IQuery[], orderByField?: string, orderByDirection?: string) => {
   const collectionRef = collection(db, collectionPath);
   
   let q;

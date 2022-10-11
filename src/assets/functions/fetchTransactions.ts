@@ -1,11 +1,11 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ITransaction, Query } from 'assets/interfaces/interfaces';
+import { ITransaction, IQuery } from 'assets/interfaces/interfaces';
 import { SetterOrUpdater } from 'recoil';
 
 interface Props {
   collectionPath: string, 
   setTransactions: SetterOrUpdater<ITransaction[]>,
-  queries?: Query[],
+  queries?: IQuery[],
 }
 export const fetchTransactions = async (props: Props) => {
   const { collectionPath, setTransactions, queries } = props;

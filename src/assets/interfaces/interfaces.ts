@@ -9,14 +9,14 @@ export interface ITransaction {
   price: string
 }
 
-export interface Query {
+export interface IQuery {
   field: string,
   condition: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
 }
 
-export interface Category {
+export interface ICategory {
   id: string,
   value: string,
   description: string

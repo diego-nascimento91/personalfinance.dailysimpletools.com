@@ -1,6 +1,5 @@
 import { fetchTransactions } from 'assets/functions/fetchTransactions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ITransaction } from 'assets/interfaces/interfaces';
 import { useTransactions } from 'assets/state/hooks/useTransactions';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useState } from 'react';
@@ -30,7 +29,7 @@ const AddTransaction = () => {
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const transaction: ITransaction = {
+    const transaction = {
       type: transactionType,
       payment: paymentMethod,
       place: place,

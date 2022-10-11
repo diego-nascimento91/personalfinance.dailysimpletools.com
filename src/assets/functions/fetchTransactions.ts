@@ -11,7 +11,7 @@ export const fetchTransactions = async (props: Props) => {
   const { collectionPath, setTransactions, queries } = props;
 
   try {
-    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, queries);
+    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, queries, 'date', 'desc');
     setTransactions(response as ITransaction[]);
   } catch (error) {
     if (error instanceof Error) {

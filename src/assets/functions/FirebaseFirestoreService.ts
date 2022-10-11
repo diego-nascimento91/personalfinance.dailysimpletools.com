@@ -1,9 +1,9 @@
-import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp} from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection} from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
 import { ITransaction, Query } from 'assets/interfaces/interfaces';
 
-const readAllDocsFromCollection = async (collectionPath: string, queries?: Query[]) => {
+const readAllDocsFromCollection = async (collectionPath: string, queries?: Query[], orderByField?: string, orderByDirection?: string) => {
   const collectionRef = collection(db, collectionPath);
   
   let q;
@@ -11,9 +11,17 @@ const readAllDocsFromCollection = async (collectionPath: string, queries?: Query
     const Qs = queries.map(querie => {
       return where(querie.field, querie.condition as WhereFilterOp, querie.value);
     });
-    q = query(collectionRef, orderBy('date', 'desc'), ...Qs);
+    if(orderByField && orderByDirection) {
+      q = query(collectionRef, orderBy(orderByField, orderByDirection as OrderByDirection), ...Qs);
+    } else {
+      q = query(collectionRef, ...Qs);
+    }
   } else {
-    q = query(collectionRef, orderBy('date', 'desc'));
+    if(orderByField && orderByDirection) {
+      q = query(collectionRef, orderBy(orderByField, orderByDirection as OrderByDirection));
+    } else {
+      q = query(collectionRef);
+    }
   }
   
   const results = await getDocs(q);

@@ -1,9 +1,22 @@
-import { addDoc, collection, doc, getDoc, getDocs, setDoc} from 'firebase/firestore';
-import { db } from 'assets/functions/FirebaseConfig';
-import { ITransaction } from 'assets/interfaces/interfaces';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp} from 'firebase/firestore';
 
-const readAllDocsFromCollection = async (collectionPath: string) => {
-  const results = await getDocs(collection(db, collectionPath));
+import { db } from 'assets/functions/FirebaseConfig';
+import { ITransaction, Query } from 'assets/interfaces/interfaces';
+
+const readAllDocsFromCollection = async (collectionPath: string, queries?: Query[]) => {
+  const collectionRef = collection(db, collectionPath);
+  
+  let q;
+  if(queries && queries.length > 0){
+    const Qs = queries.map(querie => {
+      return where(querie.field, querie.condition as WhereFilterOp, querie.value);
+    });
+    q = query(collectionRef, orderBy('date', 'desc'), ...Qs);
+  } else {
+    q = query(collectionRef, orderBy('date', 'desc'));
+  }
+  
+  const results = await getDocs(q);
 
   // map results to attach id in the objects
   const docs = results.docs.map(result => {

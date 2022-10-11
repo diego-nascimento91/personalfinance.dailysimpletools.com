@@ -8,3 +8,10 @@ export interface ITransaction {
   place: string,
   price: string
 }
+
+export interface Query {
+  field: string,
+  condition: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any
+}

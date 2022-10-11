@@ -16,7 +16,7 @@ const RecentTransactions = () => {
     if (!user) nav('/');
     if (user) {
       const collectionPath = `users/${user.uid}/transactions`;
-      fetchTransactions(collectionPath, setTransactions);
+      fetchTransactions({collectionPath, setTransactions});
     }
   }, [user, loading]);
 

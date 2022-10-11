@@ -1,11 +1,17 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ITransaction } from 'assets/interfaces/interfaces';
+import { ITransaction, Query } from 'assets/interfaces/interfaces';
 import { SetterOrUpdater } from 'recoil';
 
+interface Props {
+  collectionPath: string, 
+  setTransactions: SetterOrUpdater<ITransaction[]>,
+  queries?: Query[],
+}
+export const fetchTransactions = async (props: Props) => {
+  const { collectionPath, setTransactions, queries } = props;
 
-export const fetchTransactions = async (collectionPath: string, setTransactions: SetterOrUpdater<ITransaction[]>) => {
   try {
-    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath);
+    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, queries);
     setTransactions(response as ITransaction[]);
   } catch (error) {
     if (error instanceof Error) {

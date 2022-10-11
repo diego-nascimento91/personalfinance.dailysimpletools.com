@@ -46,7 +46,7 @@ const AddTransaction = () => {
       }
       alert('Transactions successfully added');
       resetForm();
-      fetchTransactions(collectionPath, setTransactions);
+      fetchTransactions({collectionPath, setTransactions});
 
     } catch (error) {
       if (error instanceof Error) {

@@ -12,15 +12,19 @@ const Overview = () => {
 
   useEffect(() => {
     if(user) {
-      if(transactions && transactions.length > 0 && transactions[0].id !== ''){
-        setSumIncome(getSumPerType('income', transactions));
-        setSumExpense(getSumPerType('expense', transactions));
-      } else {
-        setSumIncome(0);
-        setSumExpense(0);
-      }
+      handleGetSumsPerType();
     }
   }, [transactions, user]);
+
+  const handleGetSumsPerType = () => {
+    if(transactions && transactions.length > 0 && transactions[0].id !== ''){
+      setSumIncome(getSumPerType('income', transactions));
+      setSumExpense(getSumPerType('expense', transactions));
+    } else {
+      setSumIncome(0);
+      setSumExpense(0);
+    }
+  };
 
   const getSumPerType = (type: string, transactionsArray: ITransaction[]) => {
     return transactionsArray.filter(transaction => {

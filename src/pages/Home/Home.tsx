@@ -1,9 +1,13 @@
 import { fetchTransactions } from 'assets/functions/fetchTransactions';
+import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
+import { ICategory, IQuery } from 'assets/interfaces/interfaces';
+import { useCategories } from 'assets/state/hooks/useCategories';
 import { useTransactions } from 'assets/state/hooks/useTransactions';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddTransaction from './AddTransaction/AddTransaction';
+import ExpensePerCategory from './ExpensePerCategory/ExpensePerCategory';
 import Overview from './Overview/Overview';
 import RecentTransactions from './RecentTransactions/RecentTransactions';
 import Welcome from './Welcome/Welcome';
@@ -11,13 +15,17 @@ import Welcome from './Welcome/Welcome';
 const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [,setTransactions] = useTransactions();
+  const [, setTransactions] = useTransactions();
   const [month, setMonth] = useState(new Date());
+  const [, setCategories] = useCategories();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
-    if (user) handleFetchTransactions();
+    if (user) {
+      handleFetchTransactions();
+      handleFetchCategories();
+    }
   }, [user, loading, month]);
 
   const handleFetchTransactions = () => {
@@ -52,10 +60,27 @@ const Home = () => {
     return { firstDay, lastDay };
   };
 
+  const handleFetchCategories = () => {
+    const orderByField = 'value';
+    const orderByDirection = 'asc';
+    const queries: IQuery[] = [];
+    FirebaseFirestoreService.readAllDocsFromCollection('basicCategories', queries, orderByField, orderByDirection)
+      .then(response => {
+        setCategories(response as ICategory[]);
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          alert(`Error Fetching Categories: ${error.message}`);
+          throw error;
+        }
+      });
+  };
+
   return (
     <div className='theme__padding'>
       <Welcome month={month} setMonth={setMonth} />
       <Overview />
+      <ExpensePerCategory />
       <RecentTransactions />
       <AddTransaction />
     </div>

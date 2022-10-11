@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import db from 'components/MenuST/assets/languageDB.json';
 import firebase from 'firebase/compat/app';
-import { ITransaction } from 'assets/interfaces/interfaces';
+import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
 
 const languageDB = db.languages;
 export const languagesAtom = atom<typeof languageDB> ({
@@ -46,4 +46,9 @@ export const useTransactionsAtom = atom<ITransaction[]> ({
     place: '',
     price: ''
   }]
+});
+
+export const useCategoriesAtom = atom<ICategory[]> ({
+  key: 'useCategoriesAtom',
+  default: []
 });

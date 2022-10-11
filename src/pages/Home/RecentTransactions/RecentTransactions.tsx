@@ -1,30 +1,32 @@
 import { fetchTransactions } from 'assets/functions/fetchTransactions';
-import { useTransactions } from 'assets/state/hooks/useTransactions';
+import { ITransaction } from 'assets/interfaces/interfaces';
 import { useUser } from 'assets/state/hooks/useUser';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import styles from './RecentTransactions.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 
 const RecentTransactions = () => {
-  const nav = useNavigate();
   const [user, loading] = useUser();
-  const [transactions, setTransactions] = useTransactions();
+  const [transactions, setTransactions] = useState<ITransaction[]>();
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) nav('/');
-    if (user) {
-      const collectionPath = `users/${user.uid}/transactions`;
-      fetchTransactions({collectionPath, setTransactions});
-    }
+    if (user) handleFetchTransactions();
   }, [user, loading]);
+
+  const handleFetchTransactions = () => {
+    const collectionPath = `users/${user?.uid}/transactions`;
+    interface Props {
+      collectionPath: string,
+      setTransactions: React.Dispatch<React.SetStateAction<ITransaction[]>>
+    }
+    fetchTransactions({ collectionPath, setTransactions } as Props);
+  };
 
   return (
     <section className={`${styles.transactions__container} theme__homesections`}>
       <h2 className={styles.transactions__title}>Recent Transactions</h2>
       {
-        transactions && transactions.length > 0  && transactions[0].id !== ''
+        transactions && transactions.length > 0 && transactions[0].id !== ''
           ? (
             transactions.map((transaction, index) => {
               if (index < 4) {

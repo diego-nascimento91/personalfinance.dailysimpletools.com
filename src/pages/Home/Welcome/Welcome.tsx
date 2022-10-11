@@ -12,21 +12,23 @@ const Welcome = () => {
   const [user,] = useUser();
 
   useEffect(() => {
-    const { firstDay, lastDay } = formatDate(month);
-    const queries = [];
-    queries.push({
-      field: 'date',
-      condition: '>=',
-      value: firstDay
-    });
-    queries.push({
-      field: 'date',
-      condition: '<=',
-      value: lastDay
-    });
-    const collectionPath = `users/${user?.uid}/transactions`;
-    fetchTransactions({ collectionPath, setTransactions, queries });
-  }, [month]);
+    if (user) {
+      const { firstDay, lastDay } = formatDate(month);
+      const queries = [];
+      queries.push({
+        field: 'date',
+        condition: '>=',
+        value: firstDay
+      });
+      queries.push({
+        field: 'date',
+        condition: '<=',
+        value: lastDay
+      });
+      const collectionPath = `users/${user?.uid}/transactions`;
+      fetchTransactions({ collectionPath, setTransactions, queries });
+    }
+  }, [month, user]);
 
   const formatDate = (date: Date) => {
     const month = date.getMonth();

@@ -10,8 +10,8 @@ const Overview = () => {
 
   useEffect(() => {
     if(transactions && transactions.length > 0 && transactions[0].id !== ''){
-      setSumIncome(getSumPerType('income', transactions as ITransaction[]));
-      setSumExpense(getSumPerType('expense', transactions as ITransaction[]));
+      setSumIncome(getSumPerType('income', transactions));
+      setSumExpense(getSumPerType('expense', transactions));
     } else {
       setSumIncome(0);
       setSumExpense(0);
@@ -19,12 +19,11 @@ const Overview = () => {
   }, [transactions]);
 
   const getSumPerType = (type: string, transactionsArray: ITransaction[]) => {
-    const priceArray = transactionsArray.filter(transaction => {
+    return transactionsArray.filter(transaction => {
       return transaction.type === type;
     }).map(transaction => {
       return +transaction.price;
-    });
-    return priceArray.reduce(
+    }).reduce(
       (previousValue, currentValue) => previousValue + currentValue, 0
     );
   };

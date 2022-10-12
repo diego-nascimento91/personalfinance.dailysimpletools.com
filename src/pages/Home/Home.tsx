@@ -23,12 +23,12 @@ const Home = () => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchTransactions();
+      handleFetchTransactionsMonth();
       handleFetchCategories();
     }
   }, [user, loading, month]);
 
-  const handleFetchTransactions = () => {
+  const handleFetchTransactionsMonth = () => {
     const { firstDay, lastDay } = formatDate(month);
     const queries = getQueries(firstDay, lastDay);
 
@@ -82,7 +82,7 @@ const Home = () => {
       <Overview />
       <ExpensePerCategory />
       <RecentTransactions />
-      <AddTransaction handleFetchTransactions={handleFetchTransactions}/>
+      <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth}/>
     </div>
   );
 };

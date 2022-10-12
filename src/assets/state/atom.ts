@@ -34,18 +34,9 @@ export const userMenuStatusAtom = atom<boolean> ({
   default: false
 });
 
-export const useTransactionsAtom = atom<ITransaction[]> ({
-  key: 'useTransactionsAtom',
-  default: [{
-    type: '',
-    category: '',
-    date: new Date(),
-    description: '',
-    id: '',
-    payment: '',
-    place: '',
-    price: ''
-  }]
+export const useTransactionsMonthAtom = atom<ITransaction[]> ({
+  key: 'useTransactionsMonthAtom',
+  default: []
 });
 
 export const useCategoriesAtom = atom<ICategory[]> ({

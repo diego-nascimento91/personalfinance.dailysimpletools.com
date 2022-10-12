@@ -1,11 +1,11 @@
 import { useCategories } from 'assets/state/hooks/useCategories';
-import { useTransactions } from 'assets/state/hooks/useTransactions';
+import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 
 const ExpensePerCategory = () => {
   const [user,] = useUser();
-  const [transactions,] = useTransactions();
+  const [transactions,] = useTransactionsMonth();
   const [categories,] = useCategories();
   const [totalsCategories, setTotalsCategories] = useState<(string | number)[][]>([]);
 

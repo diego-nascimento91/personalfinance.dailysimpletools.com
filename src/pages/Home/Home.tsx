@@ -2,7 +2,7 @@ import { fetchTransactions } from 'assets/functions/fetchTransactions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
 import { ICategory, IQuery } from 'assets/interfaces/interfaces';
 import { useCategories } from 'assets/state/hooks/useCategories';
-import { useTransactions } from 'assets/state/hooks/useTransactions';
+import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ import Welcome from './Welcome/Welcome';
 const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [, setTransactions] = useTransactions();
+  const [, setTransactions] = useTransactionsMonth();
   const [month, setMonth] = useState(new Date());
   const [, setCategories] = useCategories();
 

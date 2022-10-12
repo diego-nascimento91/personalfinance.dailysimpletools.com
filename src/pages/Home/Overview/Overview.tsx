@@ -1,12 +1,12 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useTransactions } from 'assets/state/hooks/useTransactions';
+import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import styles from './Overview.module.scss';
 
 const Overview = () => {
   const [user,] = useUser();
-  const [transactions] = useTransactions();
+  const [transactions] = useTransactionsMonth();
   const [sumIncome, setSumIncome] = useState(0);
   const [sumExpense, setSumExpense] = useState(0);
 

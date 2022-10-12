@@ -52,7 +52,7 @@ const ExpensePerCategory = () => {
                 );
               })
             )
-            : null
+            : <span>No transactions added yet</span>
         }
       </ul>
     </section>

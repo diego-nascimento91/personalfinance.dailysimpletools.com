@@ -82,7 +82,7 @@ const Home = () => {
       <Overview />
       <ExpensePerCategory />
       <RecentTransactions />
-      <AddTransaction />
+      <AddTransaction handleFetchTransactions={handleFetchTransactions}/>
     </div>
   );
 };

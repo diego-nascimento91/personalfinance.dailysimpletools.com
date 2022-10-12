@@ -13,7 +13,7 @@ const AddTransaction = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [place, setPlace] = useState('');
   const [price, setPrice] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [publishDate, setPublishDate] = useState(new Date().toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState<ICategory[]>();
   const [description, setDescription] = useState('');
@@ -38,7 +38,7 @@ const AddTransaction = () => {
     setPaymentMethod('');
     setPlace('');
     setPrice('');
-    setDate(new Date().toISOString().split('T')[0]);
+    setPublishDate(new Date().toISOString().split('T')[0]);
     setCategory('');
     setDescription('');
   };
@@ -51,7 +51,7 @@ const AddTransaction = () => {
       payment: paymentMethod,
       place: place,
       price: price,
-      date: new Date(date),
+      date: new Date(publishDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
       category: category,
       description: description
     };
@@ -127,8 +127,8 @@ const AddTransaction = () => {
           name='transactiondate'
           required
           type="date"
-          onChange={(event) => setDate(event.target.value)}
-          value={date}
+          onChange={(event) => setPublishDate(event.target.value)}
+          value={publishDate}
         />
         <label>
           Category:

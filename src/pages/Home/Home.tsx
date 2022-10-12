@@ -15,7 +15,7 @@ import Welcome from './Welcome/Welcome';
 const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [, setTransactions] = useTransactionsMonth();
+  const [, setTransactionsMonth] = useTransactionsMonth();
   const [month, setMonth] = useState(new Date());
   const [, setCategories] = useCategories();
 
@@ -33,7 +33,12 @@ const Home = () => {
     const queries = getQueries(firstDay, lastDay);
 
     const collectionPath = `users/${user?.uid}/transactions`;
-    fetchTransactions({ collectionPath, setTransactions, queries });
+    const props = {
+      collectionPath,
+      setTransactions: setTransactionsMonth,
+      queries
+    };
+    fetchTransactions(props);
   };
 
   const getQueries = (firstDay: Date, lastDay: Date) => {

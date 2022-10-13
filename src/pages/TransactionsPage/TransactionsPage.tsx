@@ -1,6 +1,6 @@
 import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { fetchTransactions } from 'assets/functions/fetchTransactions';
+import { fetchTransactions } from 'assets/functions/fetchFunctions';
 import { ICategory, IQuery, ITransaction } from 'assets/interfaces/interfaces';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';

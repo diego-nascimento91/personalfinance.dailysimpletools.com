@@ -1,4 +1,4 @@
-import { fetchTransactions } from 'assets/functions/fetchTransactions';
+import { fetchTransactions } from 'assets/functions/fetchFunctions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
 import { ICategory, IQuery, ITransaction } from 'assets/interfaces/interfaces';
 import { useCategories } from 'assets/state/hooks/useCategories';

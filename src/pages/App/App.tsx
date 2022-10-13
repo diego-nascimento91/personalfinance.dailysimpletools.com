@@ -8,6 +8,7 @@ import 'assets/styles/theme.scss';
 import ResetPassword from 'pages/ResetPassword/ResetPassword';
 import Register from 'pages/Register/Register';
 import PasswordReseted from 'pages/ResetPassword/PasswordReseted/PasswordReseted';
+import TransactionsPage from 'pages/TransactionsPage/TransactionsPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/home' element={<Home />} />
+            <Route path='/transactions' element={<TransactionsPage />} />
             <Route path='/register' element={<Register />} />
             <Route path='/resetpassword' element={<ResetPassword />} />
             <Route path='/resetpassword/emailsent' element={<PasswordReseted />} />

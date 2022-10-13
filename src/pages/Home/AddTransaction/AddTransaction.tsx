@@ -4,7 +4,14 @@ import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import styles from './AddTransaction.module.scss';
 
-const AddTransaction = ({ handleFetchTransactionsMonth }:{ handleFetchTransactionsMonth: () => void }) => {
+interface Props {
+  handleFetchTransactionsMonth: () => void,
+  handleFetchTransactionsAll: () => void 
+}
+
+const AddTransaction = (props: Props) => {
+  const { handleFetchTransactionsMonth, handleFetchTransactionsAll } = props;
+
   const [user,] = useUser();
   const [transactionType, setTransactionType] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -61,6 +68,7 @@ const AddTransaction = ({ handleFetchTransactionsMonth }:{ handleFetchTransactio
       alert('Transactions successfully added');
       resetForm();
       handleFetchTransactionsMonth();
+      handleFetchTransactionsAll();
 
     } catch (error) {
       if (error instanceof Error) {

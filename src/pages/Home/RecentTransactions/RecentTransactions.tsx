@@ -1,26 +1,8 @@
-import { fetchTransactions } from 'assets/functions/fetchTransactions';
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useUser } from 'assets/state/hooks/useUser';
-import { useEffect, useState } from 'react';
 import styles from './RecentTransactions.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 
-const RecentTransactions = () => {
-  const [user, loading] = useUser();
-  const [transactions, setTransactions] = useState<ITransaction[]>();
-
-  useEffect(() => {
-    if (user) handleFetchTransactions();
-  }, [user, loading]);
-
-  const handleFetchTransactions = () => {
-    const collectionPath = `users/${user?.uid}/transactions`;
-    interface Props {
-      collectionPath: string,
-      setTransactions: React.Dispatch<React.SetStateAction<ITransaction[]>>
-    }
-    fetchTransactions({ collectionPath, setTransactions } as Props);
-  };
+const RecentTransactions = ({ transactions }:{ transactions?: ITransaction[] }) => {
 
   return (
     <section className={`${styles.transactions__container} theme__homesections`}>

@@ -1,6 +1,6 @@
 import { fetchTransactions } from 'assets/functions/fetchTransactions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ICategory, IQuery } from 'assets/interfaces/interfaces';
+import { ICategory, IQuery, ITransaction } from 'assets/interfaces/interfaces';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useUser } from 'assets/state/hooks/useUser';
@@ -16,17 +16,33 @@ const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
   const [, setTransactionsMonth] = useTransactionsMonth();
-  const [month, setMonth] = useState(new Date());
   const [, setCategories] = useCategories();
+  const [month, setMonth] = useState(new Date());
+  const [transactionsAll, setTransactionsAll] = useState<ITransaction[]>();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchTransactionsMonth();
       handleFetchCategories();
+      handleFetchTransactionsMonth();
+      handleFetchTransactionsAll();
     }
   }, [user, loading, month]);
+
+  // trazer useState useTransactionsAll para cá e arrumar essa função
+  const handleFetchTransactionsAll = () => {
+    const collectionPath = `users/${user?.uid}/transactions`;
+    interface Props {
+      collectionPath: string,
+      setTransactions: React.Dispatch<React.SetStateAction<ITransaction[]>>
+    }
+    const props = {
+      collectionPath,
+      setTransactions: setTransactionsAll
+    };
+    fetchTransactions(props as Props);
+  };
 
   const handleFetchTransactionsMonth = () => {
     const { firstDay, lastDay } = formatDate(month);
@@ -86,8 +102,8 @@ const Home = () => {
       <Welcome month={month} setMonth={setMonth} />
       <Overview />
       <ExpensePerCategory />
-      <RecentTransactions />
-      <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth}/>
+      <RecentTransactions transactions = {transactionsAll}/>
+      <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth} handleFetchTransactionsAll={handleFetchTransactionsAll}/>
     </div>
   );
 };

@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 
 const ExpensePerCategory = () => {
   const [user,] = useUser();
-  const [transactions,] = useTransactionsMonth();
+  const [transactionsMonth,] = useTransactionsMonth();
   const [categories,] = useCategories();
   const [totalsCategories, setTotalsCategories] = useState<(string | number)[][]>([]);
 
   useEffect(() => {
     if (user) handleGetTotalPerCategory();
 
-  }, [categories, user]);
+  }, [user, categories, transactionsMonth]);
 
   const handleGetTotalPerCategory = () => {
     const totalOfEachCategory = getTotalPerCategory();
@@ -21,10 +21,10 @@ const ExpensePerCategory = () => {
 
   const getTotalPerCategory = () => {
     const totalOfCategories = new Array(0);
-    if (categories && categories.length > 0 && transactions && transactions.length > 0) {
+    if (categories && categories.length > 0 && transactionsMonth.length > 0) {
       categories.forEach(category => {
-        const transactionsCategory = transactions.filter(transaction => {
-          return transaction.category === category.id;
+        const transactionsCategory = transactionsMonth.filter(transaction => {
+          return transaction.category === category.id && transaction.type !== 'income';
         });
         const pricesTransactionsCategory = transactionsCategory.map(transaction => {
           return +transaction.price;

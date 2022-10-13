@@ -4,7 +4,7 @@ import { SetterOrUpdater } from 'recoil';
 
 interface Props {
   collectionPath: string, 
-  setTransactions: SetterOrUpdater<ITransaction[]>,
+  setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>,
   queries?: IQuery[],
 }
 export const fetchTransactions = async (props: Props) => {

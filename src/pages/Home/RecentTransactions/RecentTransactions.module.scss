@@ -1,4 +1,10 @@
 .transactions__container {
+  position: relative;
+
+  .transactions__seeall {
+      position: absolute;
+      right: 2rem;
+  }
 
   .transactions__title {
     font-weight: bold;

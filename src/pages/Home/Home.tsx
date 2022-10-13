@@ -11,14 +11,15 @@ import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCa
 import Overview from './Overview/Overview';
 import RecentTransactions from './RecentTransactions/RecentTransactions';
 import Welcome from './Welcome/Welcome';
+import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 
 const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
+  const [transactionsAll, setTransactionsAll] = useTransactionsAll();
   const [, setCategories] = useCategories();
   const [month, setMonth] = useState(new Date());
-  const [transactionsAll, setTransactionsAll] = useState<ITransaction[]>();
 
   useEffect(() => {
     if (loading) return;
@@ -30,7 +31,6 @@ const Home = () => {
     }
   }, [user, loading, month]);
 
-  // trazer useState useTransactionsAll para cá e arrumar essa função
   const handleFetchTransactionsAll = () => {
     const collectionPath = `users/${user?.uid}/transactions`;
     interface Props {

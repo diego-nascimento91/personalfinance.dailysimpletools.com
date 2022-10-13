@@ -39,6 +39,11 @@ export const useTransactionsMonthAtom = atom<ITransaction[]> ({
   default: []
 });
 
+export const useTransactionsAllAtom = atom<ITransaction[]> ({
+  key: 'useTransactionsAllAtom',
+  default: []
+});
+
 export const useCategoriesAtom = atom<ICategory[]> ({
   key: 'useCategoriesAtom',
   default: []

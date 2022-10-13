@@ -15,7 +15,7 @@ import Welcome from './Welcome/Welcome';
 const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [, setTransactionsMonth] = useTransactionsMonth();
+  const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
   const [, setCategories] = useCategories();
   const [month, setMonth] = useState(new Date());
   const [transactionsAll, setTransactionsAll] = useState<ITransaction[]>();
@@ -101,8 +101,8 @@ const Home = () => {
     <div className='theme__padding'>
       <Welcome month={month} setMonth={setMonth} />
       <Overview />
-      <ExpensePerCategory />
-      <RecentTransactions transactions = {transactionsAll}/>
+      <ExpensePerCategory transactions={ transactionsMonth } />
+      <RecentTransactions transactions = { transactionsAll }/>
       <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth} handleFetchTransactionsAll={handleFetchTransactionsAll}/>
     </div>
   );

@@ -1,18 +1,22 @@
+import { ITransaction } from 'assets/interfaces/interfaces';
 import { useCategories } from 'assets/state/hooks/useCategories';
-import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 
-const ExpensePerCategory = () => {
+interface Props {
+  transactions: ITransaction[]
+}
+const ExpensePerCategory = (props: Props) => {
+  const { transactions } = props;
+
   const [user,] = useUser();
-  const [transactionsMonth,] = useTransactionsMonth();
   const [categories,] = useCategories();
   const [totalsCategories, setTotalsCategories] = useState<(string | number)[][]>([]);
 
   useEffect(() => {
     if (user) handleGetTotalPerCategory();
 
-  }, [user, categories, transactionsMonth]);
+  }, [user, categories, transactions]);
 
   const handleGetTotalPerCategory = () => {
     const totalOfEachCategory = getTotalPerCategory();
@@ -21,9 +25,9 @@ const ExpensePerCategory = () => {
 
   const getTotalPerCategory = () => {
     const totalOfCategories = new Array(0);
-    if (categories && categories.length > 0 && transactionsMonth.length > 0) {
+    if (categories && categories.length > 0 && transactions.length > 0) {
       categories.forEach(category => {
-        const transactionsCategory = transactionsMonth.filter(transaction => {
+        const transactionsCategory = transactions.filter(transaction => {
           return transaction.category === category.id && transaction.type !== 'income';
         });
         const pricesTransactionsCategory = transactionsCategory.map(transaction => {

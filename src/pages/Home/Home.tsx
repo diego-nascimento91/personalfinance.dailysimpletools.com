@@ -7,7 +7,7 @@ import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddTransaction from './AddTransaction/AddTransaction';
-import ExpensePerCategory from './ExpensePerCategory/ExpensePerCategory';
+import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
 import Overview from './Overview/Overview';
 import RecentTransactions from './RecentTransactions/RecentTransactions';
 import Welcome from './Welcome/Welcome';

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import AddTransaction from './AddTransaction/AddTransaction';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
 import Overview from './Overview/Overview';
-import RecentTransactions from './RecentTransactions/RecentTransactions';
+import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import Welcome from './Welcome/Welcome';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 
@@ -71,7 +71,7 @@ const Home = () => {
       <Welcome month={month} setMonth={setMonth} />
       <Overview />
       <ExpensePerCategory transactions={ transactionsMonth } />
-      <RecentTransactions transactions = { transactionsAll }/>
+      <TransactionsSummary transactions = { transactionsAll }/>
       <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth} />
     </div>
   );

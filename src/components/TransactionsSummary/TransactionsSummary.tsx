@@ -1,9 +1,9 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { Link } from 'react-router-dom';
-import styles from './RecentTransactions.module.scss';
+import styles from './TransactionsSummary.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 
-const RecentTransactions = ({ transactions }:{ transactions?: ITransaction[] }) => {
+const TransactionsSummary = ({ transactions }:{ transactions?: ITransaction[] }) => {
 
   return (
     <section className={`${styles.transactions__container} theme__homesections`}>
@@ -26,4 +26,4 @@ const RecentTransactions = ({ transactions }:{ transactions?: ITransaction[] }) 
   );
 };
 
-export default RecentTransactions;
+export default TransactionsSummary;

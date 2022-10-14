@@ -1,7 +1,7 @@
 import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { fetchTransactions } from 'assets/functions/fetchFunctions';
-import { ICategory, IQuery, ITransaction } from 'assets/interfaces/interfaces';
+import { handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
+import { ICategory, IQuery } from 'assets/interfaces/interfaces';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import { useUser } from 'assets/state/hooks/useUser';
@@ -18,23 +18,10 @@ const TransactionsPage = () => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchTransactionsAll();
+      handleFetchTransactionsAll(`users/${user?.uid}/transactions`, setTransactionsAll);
       handleFetchCategories();
     }
   }, [user, loading]);
-
-  const handleFetchTransactionsAll = () => {
-    const collectionPath = `users/${user?.uid}/transactions`;
-    interface Props {
-      collectionPath: string,
-      setTransactions: React.Dispatch<React.SetStateAction<ITransaction[]>>
-    }
-    const props = {
-      collectionPath,
-      setTransactions: setTransactionsAll
-    };
-    fetchTransactions(props as Props);
-  };
 
   const handleFetchCategories = () => {
     const orderByField = 'value';

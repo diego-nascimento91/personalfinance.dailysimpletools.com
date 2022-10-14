@@ -1,7 +1,5 @@
 import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
-import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
-import { ICategory, IQuery } from 'assets/interfaces/interfaces';
+import { handleFetchCategories, handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import { useUser } from 'assets/state/hooks/useUser';
@@ -19,25 +17,9 @@ const TransactionsPage = () => {
     if (!user) nav('/');
     if (user) {
       handleFetchTransactionsAll(`users/${user?.uid}/transactions`, setTransactionsAll);
-      handleFetchCategories();
+      handleFetchCategories('basicCategories', setCategories);
     }
   }, [user, loading]);
-
-  const handleFetchCategories = () => {
-    const orderByField = 'value';
-    const orderByDirection = 'asc';
-    const queries: IQuery[] = [];
-    FirebaseFirestoreService.readAllDocsFromCollection('basicCategories', queries, orderByField, orderByDirection)
-      .then(response => {
-        setCategories(response as ICategory[]);
-      })
-      .catch(error => {
-        if (error instanceof Error) {
-          alert(`Error Fetching Categories: ${error.message}`);
-          throw error;
-        }
-      });
-  };
 
   return(
     <div className='theme__padding'>

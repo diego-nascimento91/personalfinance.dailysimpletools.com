@@ -19,7 +19,7 @@ const AddTransaction = (props: Props) => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [place, setPlace] = useState('');
   const [price, setPrice] = useState('');
-  const [publishDate, setPublishDate] = useState(new Date().toISOString().split('T')[0]);
+  const [publishDate, setPublishDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset()*60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState<ICategory[]>();
   const [description, setDescription] = useState('');

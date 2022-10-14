@@ -1,31 +1,51 @@
 @import 'assets/styles/variables';
 
 .transaction__container {
-  align-items: top;
   background-color: rgb(230, 229, 229);
   border-radius: 1rem;
   display: flex;
   margin-bottom: 1rem;
   padding: 1rem;
 
-  .transaction__payment{
-    width: 15%;
+  .transaction__category{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    // width: 4rem;
+
+    .transaction__category--icon {
+      border: 0.5px solid black;
+      border-radius: 50%;
+      height: 3rem;
+      line-height: 3rem;
+      text-align: center;
+      margin: 0 0.5rem;
+      width: 3rem;
+    }
   }
 
   .transaction__body {
-    margin-left: 5%;
-    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 4%;
+    width: 100%;
 
-    .transaction__description__date{
-      display: flex;
-      justify-content: space-between;
+    .transaction__place{
+      margin-bottom: 0.5rem;
     }
-
     .transaction__price__positive {
       color: green;
     }
     .transaction__price__negative {
       color: red;
     }
+  }
+
+  .transaction__date{
+    align-items: center;
+    display: flex;
+    width: 6rem;
+    margin: 0 0.5rem;
   }
 }

@@ -1,6 +1,4 @@
-import { fetchTransactions, handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
-import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ICategory, IQuery } from 'assets/interfaces/interfaces';
+import { fetchTransactions, handleFetchCategories, handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useUser } from 'assets/state/hooks/useUser';
@@ -25,7 +23,7 @@ const Home = () => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchCategories();
+      handleFetchCategories('basicCategories', setCategories);
       handleFetchTransactionsMonth();
       handleFetchTransactionsAll(`users/${user?.uid}/transactions`, setTransactionsAll);
     }
@@ -66,22 +64,6 @@ const Home = () => {
     const lastDay = new Date(year, month + 1, 0);
 
     return { firstDay, lastDay };
-  };
-
-  const handleFetchCategories = () => {
-    const orderByField = 'value';
-    const orderByDirection = 'asc';
-    const queries: IQuery[] = [];
-    FirebaseFirestoreService.readAllDocsFromCollection('basicCategories', queries, orderByField, orderByDirection)
-      .then(response => {
-        setCategories(response as ICategory[]);
-      })
-      .catch(error => {
-        if (error instanceof Error) {
-          alert(`Error Fetching Categories: ${error.message}`);
-          throw error;
-        }
-      });
   };
 
   return (

@@ -6,6 +6,7 @@ import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
+import NavBar from 'components/NavBar/NavBar';
 
 const TransactionsPage = () => {
   const nav = useNavigate();
@@ -24,6 +25,7 @@ const TransactionsPage = () => {
 
   return(
     <div className='theme__padding'>
+      <NavBar />
       <ExpensePerCategory transactions={transactionsAll}/>
       <TransactionsSummary transactions={transactionsAll} allTransactions={true}/>
     </div>

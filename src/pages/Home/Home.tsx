@@ -10,6 +10,7 @@ import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import Welcome from './Welcome/Welcome';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
+import NavBar from 'components/NavBar/NavBar';
 
 const Home = () => {
   const nav = useNavigate();
@@ -68,6 +69,7 @@ const Home = () => {
 
   return (
     <div className='theme__padding'>
+      <NavBar />
       <Welcome month={month} setMonth={setMonth} />
       <Overview />
       <ExpensePerCategory transactions={ transactionsMonth } />

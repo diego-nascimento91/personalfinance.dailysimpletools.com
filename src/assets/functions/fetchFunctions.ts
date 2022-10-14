@@ -2,6 +2,7 @@ import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService'
 import { ITransaction, IQuery } from 'assets/interfaces/interfaces';
 import { SetterOrUpdater } from 'recoil';
 
+// fetchTransactions function
 interface Props {
   collectionPath: string, 
   setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>,
@@ -19,4 +20,10 @@ export const fetchTransactions = async (props: Props) => {
       alert(error.message);
     }
   }
+};
+
+
+// call fetchTransactions with queries to get all transactions
+export const handleFetchTransactionsAll = (collectionPath: string,  setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>) => {
+  fetchTransactions( { collectionPath, setTransactions } );
 };

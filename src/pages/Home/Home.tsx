@@ -20,7 +20,7 @@ const Home = () => {
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
   const [transactionsAll, setTransactionsAll] = useTransactionsAll();
   const [, setCategories] = useCategories();
-  const [month, setMonth] = useChosenMonth();
+  const [month, ] = useChosenMonth();
 
   useEffect(() => {
     if (loading) return;
@@ -68,7 +68,7 @@ const Home = () => {
     <div className='theme__padding'>
       <Welcome />
       <NavBar />
-      <DatePicker month={month} setMonth={setMonth} />
+      <DatePicker />
       <Overview />
       <ExpensePerCategory transactions={ transactionsMonth } />
       <TransactionsSummary transactions = { transactionsAll }/>

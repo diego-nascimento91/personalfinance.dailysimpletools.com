@@ -1,13 +1,9 @@
 import styles from './DatePicker.module.scss';
 import DatePickerReact from 'react-datepicker';
+import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
 
-interface Props{
-  month: Date, 
-  setMonth: React.Dispatch<React.SetStateAction<Date>>
-}
-
-const DatePicker = (props: Props) => {
-  const { month, setMonth } = props;
+const DatePicker = () => {
+  const [ month, setMonth ] = useChosenMonth();
 
   return (
     <section className='theme__homesections'>

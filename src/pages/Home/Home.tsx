@@ -8,9 +8,10 @@ import AddTransaction from './AddTransaction/AddTransaction';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
-import Welcome from './Welcome/Welcome';
+import Welcome from '../../components/Welcome/Welcome';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import NavBar from 'components/NavBar/NavBar';
+import DatePicker from 'components/DatePicker/DatePicker';
 
 const Home = () => {
   const nav = useNavigate();
@@ -69,8 +70,9 @@ const Home = () => {
 
   return (
     <div className='theme__padding'>
+      <Welcome />
       <NavBar />
-      <Welcome month={month} setMonth={setMonth} />
+      <DatePicker month={month} setMonth={setMonth} />
       <Overview />
       <ExpensePerCategory transactions={ transactionsMonth } />
       <TransactionsSummary transactions = { transactionsAll }/>

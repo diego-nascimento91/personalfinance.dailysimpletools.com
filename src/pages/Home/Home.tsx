@@ -36,12 +36,7 @@ const Home = () => {
     const queries = getQueries(firstDay, lastDay);
 
     const collectionPath = `users/${user?.uid}/transactions`;
-    const props = {
-      collectionPath,
-      setTransactions: setTransactionsMonth,
-      queries
-    };
-    fetchTransactions(props);
+    fetchTransactions({ collectionPath, setTransactions: setTransactionsMonth, queries });
   };
 
   const getQueries = (firstDay: Date, lastDay: Date) => {

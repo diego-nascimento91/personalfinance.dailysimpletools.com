@@ -48,3 +48,8 @@ export const useCategoriesAtom = atom<ICategory[]> ({
   key: 'useCategoriesAtom',
   default: []
 });
+
+export const useChosenMonthAtom = atom<Date> ({
+  key: 'useChosenMonthAtom',
+  default: new Date()
+});

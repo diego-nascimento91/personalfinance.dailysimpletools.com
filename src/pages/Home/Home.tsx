@@ -1,15 +1,16 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchTransactions, handleFetchCategories, handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
 import { useCategories } from 'assets/state/hooks/useCategories';
+import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
 import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
+import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import { useUser } from 'assets/state/hooks/useUser';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import AddTransaction from './AddTransaction/AddTransaction';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import Welcome from '../../components/Welcome/Welcome';
-import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import NavBar from 'components/NavBar/NavBar';
 import DatePicker from 'components/DatePicker/DatePicker';
 
@@ -19,7 +20,7 @@ const Home = () => {
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
   const [transactionsAll, setTransactionsAll] = useTransactionsAll();
   const [, setCategories] = useCategories();
-  const [month, setMonth] = useState(new Date());
+  const [month, setMonth] = useChosenMonth();
 
   useEffect(() => {
     if (loading) return;

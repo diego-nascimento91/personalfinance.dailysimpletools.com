@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchTransactions, handleFetchCategories, handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
+import { handleFetchCategories, handleFetchTransactionsAll, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
 import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
@@ -27,41 +27,13 @@ const Home = () => {
     if (!user) nav('/');
     if (user) {
       handleFetchCategories('basicCategories', setCategories);
-      handleFetchTransactionsMonth();
+      handleCallFetchTransactionsMonth();
       handleFetchTransactionsAll(`users/${user?.uid}/transactions`, setTransactionsAll);
     }
   }, [user, loading, month]);
 
-  const handleFetchTransactionsMonth = () => {
-    const { firstDay, lastDay } = formatDate(month);
-    const queries = getQueries(firstDay, lastDay);
-
-    const collectionPath = `users/${user?.uid}/transactions`;
-    fetchTransactions({ collectionPath, setTransactions: setTransactionsMonth, queries });
-  };
-
-  const getQueries = (firstDay: Date, lastDay: Date) => {
-    const queries = [];
-    queries.push({
-      field: 'date',
-      condition: '>=',
-      value: firstDay
-    });
-    queries.push({
-      field: 'date',
-      condition: '<=',
-      value: lastDay
-    });
-    return queries;
-  };
-
-  const formatDate = (date: Date) => {
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const firstDay = new Date(year, month);
-    const lastDay = new Date(year, month + 1, 0);
-
-    return { firstDay, lastDay };
+  const handleCallFetchTransactionsMonth = () => {
+    handleFetchTransactionsMonth(`users/${user?.uid}/transactions`, month, setTransactionsMonth);
   };
 
   return (
@@ -72,7 +44,7 @@ const Home = () => {
       <Overview />
       <ExpensePerCategory transactions={ transactionsMonth } />
       <TransactionsSummary transactions = { transactionsAll }/>
-      <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth} />
+      <AddTransaction handleFetchTransactionsMonth={handleCallFetchTransactionsMonth} />
     </div>
   );
 };

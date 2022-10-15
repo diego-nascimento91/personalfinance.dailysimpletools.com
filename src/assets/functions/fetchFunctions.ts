@@ -44,3 +44,36 @@ export const handleFetchCategories = (collectionPath: string, setCategories: Set
       }
     });
 };
+
+
+// call fetchTransactions with queries to get transactions from Month
+export const handleFetchTransactionsMonth = (collectionPath: string, month: Date, setTransactionsMonth: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>) => {
+  const { firstDay, lastDay } = formatDate(month);
+  const queries = getQueries(firstDay, lastDay);
+
+  fetchTransactions({ collectionPath, setTransactions: setTransactionsMonth, queries });
+};
+
+const getQueries = (firstDay: Date, lastDay: Date) => {
+  const queries = [];
+  queries.push({
+    field: 'date',
+    condition: '>=',
+    value: firstDay
+  });
+  queries.push({
+    field: 'date',
+    condition: '<=',
+    value: lastDay
+  });
+  return queries;
+};
+
+const formatDate = (date: Date) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const firstDay = new Date(year, month);
+  const lastDay = new Date(year, month + 1, 0);
+
+  return { firstDay, lastDay };
+};

@@ -8,7 +8,7 @@ interface Props {
   setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>,
   queries?: IQuery[],
 }
-export const fetchTransactions = async (props: Props) => {
+export const fetchFunction = async (props: Props) => {
   const { collectionPath, setTransactions, queries } = props;
 
   try {
@@ -25,7 +25,7 @@ export const fetchTransactions = async (props: Props) => {
 
 // call fetchTransactions with queries to get all transactions
 export const handleFetchTransactionsAll = (collectionPath: string,  setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>) => {
-  fetchTransactions( { collectionPath, setTransactions } );
+  fetchFunction( { collectionPath, setTransactions } );
 };
 
 
@@ -51,7 +51,7 @@ export const handleFetchTransactionsMonth = (collectionPath: string, month: Date
   const { firstDay, lastDay } = formatDate(month);
   const queries = getQueries(firstDay, lastDay);
 
-  fetchTransactions({ collectionPath, setTransactions: setTransactionsMonth, queries });
+  fetchFunction({ collectionPath, setTransactions: setTransactionsMonth, queries });
 };
 
 const getQueries = (firstDay: Date, lastDay: Date) => {

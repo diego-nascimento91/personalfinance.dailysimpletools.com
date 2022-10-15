@@ -12,7 +12,7 @@ export const fetchTransactions = async (props: Props) => {
   const { collectionPath, setTransactions, queries } = props;
 
   try {
-    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, queries, 'date', 'desc');
+    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, 'date', 'desc', queries);
     setTransactions(response as ITransaction[]);
   } catch (error) {
     if (error instanceof Error) {
@@ -33,7 +33,7 @@ export const handleFetchTransactionsAll = (collectionPath: string,  setTransacti
 export const handleFetchCategories = (collectionPath: string, setCategories: SetterOrUpdater<ICategory[]> | React.Dispatch<React.SetStateAction<ICategory[]>>) => {
   const orderByField = 'value';
   const orderByDirection = 'asc';
-  FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, undefined, orderByField, orderByDirection)
+  FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderByField, orderByDirection)
     .then(response => {
       setCategories(response as ICategory[]);
     })

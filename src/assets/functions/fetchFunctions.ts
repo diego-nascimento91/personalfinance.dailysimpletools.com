@@ -1,57 +1,66 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ITransaction, IQuery, ICategory } from 'assets/interfaces/interfaces';
-import { SetterOrUpdater } from 'recoil';
 
-// fetch function
-export const fetchFunction =
+// function handleFetchFunction (to be used for any call of fetchFunction)
+export const newFetchFunction =
   async (
-    collectionPath: string,
-    setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>,
-    queries?: IQuery[],
+    collectionName: string,
+    userId: string,
+    month?: Date,
+    limitDocs?: number,
   ) => {
-    // const { collectionPath, setTransactions, queries } = props;
-
-    try {
-      const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, 'date', 'desc', queries);
-      setTransactions(response as ITransaction[]);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
-        alert(error.message);
-      }
+    // get collectionPath
+    const collectionPath = getCollectionPath(collectionName, userId);
+    // get fieldToBeOrdered and orderDirection according to collection name
+    const [fieldToBeOrdered, orderDirection] = getOrderConfig(collectionName);
+    // get queries by first and last day of month
+    let queries;
+    if (month) {
+      const { firstDay, lastDay } = getFormatDate(month);
+      queries = getQueries(firstDay, lastDay);
     }
+
+    // const response = await fetchFunction(collectionPath, orderByField, orderByDirection, queries);
+    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection, queries, limitDocs);
+    return response;
   };
 
+// helper functions
+const getCollectionPath = (collectionName: string, userId: string) => {
+  let collectionPath;
+  if (collectionName === 'categories') {
+    collectionPath = 'basicCategories';
+  } else if (collectionName === 'transactions') {
+    collectionPath = `users/${userId}/${collectionName}`;
+  } else {
+    throw Error('Missing/wrong collection name');
+  }
 
-// call fetchTransactions with queries to get all transactions
-export const handleFetchTransactionsAll = (collectionPath: string, setTransactions: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>) => {
-  fetchFunction(collectionPath, setTransactions);
+  return collectionPath;
 };
 
+const getFormatDate = (date: Date) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const firstDay = new Date(year, month);
+  const lastDay = new Date(year, month + 1, 0);
 
-// call fetchTransactions with queries to get all categories
-export const handleFetchCategories = (collectionPath: string, setCategories: SetterOrUpdater<ICategory[]> | React.Dispatch<React.SetStateAction<ICategory[]>>) => {
-  const orderByField = 'value';
-  const orderByDirection = 'asc';
-  FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderByField, orderByDirection)
-    .then(response => {
-      setCategories(response as ICategory[]);
-    })
-    .catch(error => {
-      if (error instanceof Error) {
-        alert(`Error Fetching Categories: ${error.message}`);
-        throw error;
-      }
-    });
+  return { firstDay, lastDay };
 };
 
+const getOrderConfig = (collectionName: string) => {
+  let fieldToBeOrdered, orderDirection;
 
-// call fetchTransactions with queries to get transactions from Month
-export const handleFetchTransactionsMonth = (collectionPath: string, month: Date, setTransactionsMonth: SetterOrUpdater<ITransaction[]> | React.Dispatch<React.SetStateAction<ITransaction[]>>) => {
-  const { firstDay, lastDay } = formatDate(month);
-  const queries = getQueries(firstDay, lastDay);
+  if (collectionName === 'categories') {
+    fieldToBeOrdered = 'value';
+    orderDirection = 'asc';
+  } else if (collectionName === 'transactions') {
+    fieldToBeOrdered = 'date';
+    orderDirection = 'desc';
+  } else {
+    throw Error('Missing/wrong collection name');
+  }
 
-  fetchFunction(collectionPath, setTransactionsMonth, queries);
+  return [fieldToBeOrdered, orderDirection];
 };
 
 const getQueries = (firstDay: Date, lastDay: Date) => {
@@ -67,13 +76,4 @@ const getQueries = (firstDay: Date, lastDay: Date) => {
     value: lastDay
   });
   return queries;
-};
-
-const formatDate = (date: Date) => {
-  const month = date.getMonth();
-  const year = date.getFullYear();
-  const firstDay = new Date(year, month);
-  const lastDay = new Date(year, month + 1, 0);
-
-  return { firstDay, lastDay };
 };

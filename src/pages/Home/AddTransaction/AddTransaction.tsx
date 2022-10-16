@@ -1,20 +1,18 @@
-import { handleFetchTransactionsAll } from 'assets/functions/fetchFunctions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
 import { ICategory } from 'assets/interfaces/interfaces';
-import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
 import styles from './AddTransaction.module.scss';
 
 interface Props {
   handleFetchTransactionsMonth: () => void,
+  handleFetchTransactionsAll: () => Promise<void>
 }
 
 const AddTransaction = (props: Props) => {
-  const { handleFetchTransactionsMonth } = props;
+  const { handleFetchTransactionsMonth, handleFetchTransactionsAll } = props;
 
   const [user,] = useUser();
-  const [, setTransactionsAll] = useTransactionsAll();
   const [transactionType, setTransactionType] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [place, setPlace] = useState('');
@@ -70,7 +68,7 @@ const AddTransaction = (props: Props) => {
       alert('Transactions successfully added');
       resetForm();
       handleFetchTransactionsMonth();
-      handleFetchTransactionsAll(collectionPath, setTransactionsAll);
+      handleFetchTransactionsAll();
 
     } catch (error) {
       if (error instanceof Error) {

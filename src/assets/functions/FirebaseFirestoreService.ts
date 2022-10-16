@@ -1,36 +1,33 @@
-import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection, limit, QueryConstraint } from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
 import { ITransaction, IQuery } from 'assets/interfaces/interfaces';
 
 const readAllDocsFromCollection =
   async (
-    collectionPath: string, 
-    orderByField?: string, 
+    collectionPath: string,
+    orderByField?: string,
     orderByDirection?: string,
     queries?: IQuery[],
-    // perPage?: number,
-    // cursorId?: string, 
+    limitDocs?: number,
   ) => {
-    const collectionRef = collection(db, collectionPath);
-
-    let q;
+    // get constraints array
+    const queriesConfig: QueryConstraint[] = [];
     if (queries && queries.length > 0) {
-      const Qs = queries.map(querie => {
-        return where(querie.field, querie.condition as WhereFilterOp, querie.value);
+      queries.forEach(querie => {
+        queriesConfig.push(where(querie.field, querie.condition as WhereFilterOp, querie.value));
       });
-      if (orderByField && orderByDirection) {
-        q = query(collectionRef, orderBy(orderByField, orderByDirection as OrderByDirection), ...Qs);
-      } else {
-        q = query(collectionRef, ...Qs);
-      }
-    } else {
-      if (orderByField && orderByDirection) {
-        q = query(collectionRef, orderBy(orderByField, orderByDirection as OrderByDirection));
-      } else {
-        q = query(collectionRef);
-      }
     }
+
+    if (orderByField && orderByDirection) {
+      queriesConfig.push(orderBy(orderByField, orderByDirection as OrderByDirection));
+    }
+
+    if (limitDocs) {
+      queriesConfig.push(limit(limitDocs));
+    }
+    const collectionRef = collection(db, collectionPath);
+    const q = query(collectionRef, ...queriesConfig);
 
     const results = await getDocs(q);
 
@@ -38,7 +35,7 @@ const readAllDocsFromCollection =
     const docs = results.docs.map(result => {
       const data = result.data();
 
-      // converts timestamp to Date before returning response
+      // if there is a date field, it converts timestamp to Date before returning response
       if (data.date) data.date = new Date(data.date.seconds * 1000);
 
       // return data with its id

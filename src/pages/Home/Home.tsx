@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleFetchCategories, handleFetchTransactionsAll, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { newFetchFunction } from 'assets/functions/fetchFunctions';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
 import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
@@ -13,6 +13,7 @@ import TransactionsSummary from 'components/TransactionsSummary/TransactionsSumm
 import Welcome from '../../components/Welcome/Welcome';
 import NavBar from 'components/NavBar/NavBar';
 import DatePicker from 'components/DatePicker/DatePicker';
+import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
 
 const Home = () => {
   const nav = useNavigate();
@@ -20,20 +21,59 @@ const Home = () => {
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
   const [transactionsAll, setTransactionsAll] = useTransactionsAll();
   const [, setCategories] = useCategories();
-  const [month, ] = useChosenMonth();
+  const [month,] = useChosenMonth();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchCategories('basicCategories', setCategories);
-      handleCallFetchTransactionsMonth();
-      handleFetchTransactionsAll(`users/${user?.uid}/transactions`, setTransactionsAll);
+      handleFetchCategories();
+      handleFetchTransactionsMonth();
+      handleFetchTransactionsAll();
     }
   }, [user, loading, month]);
 
-  const handleCallFetchTransactionsMonth = () => {
-    handleFetchTransactionsMonth(`users/${user?.uid}/transactions`, month, setTransactionsMonth);
+  const handleFetchCategories = async () => {
+    if (user) {
+      try {
+        const categoriesDB = await newFetchFunction('categories', user.uid);
+        setCategories(categoriesDB as ICategory[]);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+          throw error;
+        }
+      }
+    }
+  };
+
+  const handleFetchTransactionsMonth = async () => {
+    if (user) {
+      try {
+        const transactionsDB = await newFetchFunction('transactions', user.uid, month);
+        setTransactionsMonth(transactionsDB as ITransaction[]);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+          throw error;
+        }
+      }
+    }
+  };
+
+  const handleFetchTransactionsAll = async () => {
+    if (user) {
+      try {
+        const limitDocs = 4;
+        const transactionsDB = await newFetchFunction('transactions', user.uid, undefined, limitDocs);
+        setTransactionsAll(transactionsDB as ITransaction[]);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+          throw error;
+        }
+      }
+    }
   };
 
   return (
@@ -42,9 +82,9 @@ const Home = () => {
       <NavBar />
       <DatePicker />
       <Overview />
-      <ExpensePerCategory transactions={ transactionsMonth } />
-      <TransactionsSummary transactions = { transactionsAll }/>
-      <AddTransaction handleFetchTransactionsMonth={handleCallFetchTransactionsMonth} />
+      <ExpensePerCategory transactions={transactionsMonth} />
+      <TransactionsSummary transactions={transactionsAll} />
+      <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth} handleFetchTransactionsAll={handleFetchTransactionsAll} />
     </div>
   );
 };

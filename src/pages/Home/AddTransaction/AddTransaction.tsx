@@ -1,3 +1,4 @@
+import { newFetchFunction } from 'assets/functions/fetchFunctions';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
 import { ICategory } from 'assets/interfaces/interfaces';
 import { useUser } from 'assets/state/hooks/useUser';
@@ -17,25 +18,30 @@ const AddTransaction = (props: Props) => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [place, setPlace] = useState('');
   const [price, setPrice] = useState('');
-  const [publishDate, setPublishDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset()*60000)).toISOString().split('T')[0]);
+  const [publishDate, setPublishDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState<ICategory[]>();
   const [description, setDescription] = useState('');
 
   useEffect(() => {
     if (user) {
-      FirebaseFirestoreService.readAllDocsFromCollection('basicCategories')
-        .then(response => {
-          setCategories(response as ICategory[]);
-        })
-        .catch(error => {
-          if (error instanceof Error) {
-            alert(`Error Fetching Categories: ${error.message}`);
-            throw error;
-          }
-        });
+      handleFetchCategories();
     }
   }, [user]);
+
+  const handleFetchCategories = async () => {
+    if(user) {
+      try {
+        const response = await newFetchFunction('categories', user.uid);
+        setCategories(response as ICategory[]);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+          throw error;
+        }
+      }
+    }
+  };
 
   const resetForm = () => {
     setTransactionType('');

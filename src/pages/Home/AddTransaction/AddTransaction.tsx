@@ -67,7 +67,7 @@ const AddTransaction = (props: Props) => {
     };
 
     try {
-      const collectionPath = `users/${user?.uid}/transactions`;
+      const collectionPath = `users/${user?.uid}/expenseTransactions`;
       if (user) {
         await FirebaseFirestoreService.createDocument(collectionPath, transaction);
       }

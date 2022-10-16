@@ -30,7 +30,7 @@ const getCollectionPath = (collectionName: string, userId: string) => {
   if (collectionName === 'categories') {
     collectionPath = 'expenseCategories';
   } else if (collectionName === 'transactions') {
-    collectionPath = `users/${userId}/${collectionName}`;
+    collectionPath = `users/${userId}/expenseTransactions`;
   } else {
     throw Error('Missing/wrong collection name');
   }

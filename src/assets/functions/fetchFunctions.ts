@@ -51,7 +51,7 @@ const getOrderConfig = (collectionName: string) => {
   let fieldToBeOrdered, orderDirection;
 
   if (collectionName === 'categories') {
-    fieldToBeOrdered = 'value';
+    fieldToBeOrdered = 'ordering';
     orderDirection = 'asc';
   } else if (collectionName === 'transactions') {
     fieldToBeOrdered = 'date';

@@ -28,7 +28,7 @@ export const newFetchFunction =
 const getCollectionPath = (collectionName: string, userId: string) => {
   let collectionPath;
   if (collectionName === 'categories') {
-    collectionPath = 'basicCategories';
+    collectionPath = 'expenseCategories';
   } else if (collectionName === 'transactions') {
     collectionPath = `users/${userId}/${collectionName}`;
   } else {

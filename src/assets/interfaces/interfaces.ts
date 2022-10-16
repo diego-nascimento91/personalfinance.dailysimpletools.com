@@ -17,7 +17,8 @@ export interface IQuery {
 }
 
 export interface ICategory {
-  id?: string,
-  value: string,
   description: string
+  value: string,
+  id?: string,
+  ordering?: number
 }

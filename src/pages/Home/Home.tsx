@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
 import { newFetchFunction } from 'assets/functions/fetchFunctions';
 import { useCategories } from 'assets/state/hooks/useCategories';
 import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
@@ -7,13 +8,12 @@ import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import { useUser } from 'assets/state/hooks/useUser';
 import AddTransaction from './AddTransaction/AddTransaction';
+import DatePicker from 'components/DatePicker/DatePicker';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
+import NavBar from 'components/NavBar/NavBar';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import Welcome from '../../components/Welcome/Welcome';
-import NavBar from 'components/NavBar/NavBar';
-import DatePicker from 'components/DatePicker/DatePicker';
-import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
 
 const Home = () => {
   const nav = useNavigate();

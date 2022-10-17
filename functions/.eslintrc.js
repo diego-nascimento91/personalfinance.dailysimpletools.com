@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 module.exports = {
   root: true,
   env: {
@@ -9,6 +10,22 @@ module.exports = {
     "google",
   ],
   rules: {
-    quotes: ["error", "double"],
+    "indent": [
+      "error",
+      2,
+    ],
+    "linebreak-style": [
+      "error",
+      "unix",
+    ],
+    "quotes": [
+      "error",
+      "single",
+    ],
+    "semi": [
+      "error",
+      "always",
+    ],
+    "parser": "@babel/eslint-parser",
   },
 };

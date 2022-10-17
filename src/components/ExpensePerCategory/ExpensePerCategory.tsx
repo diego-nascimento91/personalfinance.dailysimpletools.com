@@ -28,14 +28,14 @@ const ExpensePerCategory = (props: Props) => {
     if (categories && categories.length > 0 && transactions.length > 0) {
       categories.forEach(category => {
         const transactionsCategory = transactions.filter(transaction => {
-          return transaction.category === category.id && transaction.type !== 'income';
+          return transaction.category === category.value && transaction.type !== 'income';
         });
         const pricesTransactionsCategory = transactionsCategory.map(transaction => {
           return +transaction.price;
         });
         const totalCategory = pricesTransactionsCategory.reduce((previousValue, currentValue) => (previousValue + currentValue), 0);
         if (totalCategory) {
-          totalOfCategories.push([category.id, totalCategory]);
+          totalOfCategories.push([category.value, totalCategory]);
         }
       });
     }

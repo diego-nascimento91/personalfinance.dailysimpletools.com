@@ -149,7 +149,7 @@ const AddTransaction = (props: Props) => {
               categories && categories.length > 0
                 ? (
                   categories.map(item => (
-                    <option value={item.id} key={item.id}>{item.ordering} - {item.value}</option>
+                    <option value={item.value} key={item.id}>{item.ordering} - {item.value}</option>
                   ))
                 )
                 : null

@@ -1,5 +1,4 @@
 const FirebaseConfig = require('./FirebaseConfig');
-
 const functions = FirebaseConfig.functions;
 const firestore = FirebaseConfig.firestore;
 

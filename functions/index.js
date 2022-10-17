@@ -45,6 +45,7 @@ exports.onDeleteUser = functions.auth.user().onDelete(async (user) => {
 
     // delete user document
     userRef.delete();
-  }
+  };
 
+  deleteUserData();
 });

@@ -7,7 +7,7 @@ import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
 import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
 import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
 import { useUser } from 'assets/state/hooks/useUser';
-import AddTransaction from './AddTransaction/AddTransaction';
+import AddTransaction from '../../components/AddTransaction/AddTransaction';
 import DatePicker from 'components/DatePicker/DatePicker';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
 import NavBar from 'components/NavBar/NavBar';

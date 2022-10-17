@@ -26,3 +26,4 @@ yarn-error.log*
 
 # my tests
 test.js
+test.ts

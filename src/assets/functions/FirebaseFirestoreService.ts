@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection, limit, QueryConstraint } from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
-import { ITransaction, IQuery } from 'assets/interfaces/interfaces';
+import { ITransaction, IQuery, ICategory } from 'assets/interfaces/interfaces';
 
 const readAllDocsFromCollection =
   async (
@@ -55,8 +55,12 @@ const readDocument = async (collectionPath: string, docPath: string) => {
   return { id: result.id, ...data };
 };
 
-const createDocument = async (collectionPath: string, document: ITransaction) => {
-  return addDoc(collection(db, collectionPath), document);
+const createDocument = async (collectionPath: string, document: ITransaction | ICategory, id?: string) => {
+  if(id) {
+    return setDoc(doc(db, collectionPath, id), document);
+  } else {
+    return addDoc(collection(db, collectionPath), document);
+  }
 };
 
 // it has to be checked if it is working

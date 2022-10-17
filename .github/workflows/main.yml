@@ -5,7 +5,6 @@ on:
       - main
 jobs:
   web-deploy_hostgator:
-    name: 🎉 Deploy
     runs-on: ubuntu-latest
     env:
       REACT_APP_API_KEY: "${{ secrets.REACT_APP_API_KEY }}"

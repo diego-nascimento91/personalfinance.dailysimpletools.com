@@ -22,6 +22,7 @@
     font-size: 150%;
     height: 5rem;
     padding: 0;
+    transition: 100ms;
     width: 5rem;
 
     @media (max-width: $smallmob) {
@@ -36,5 +37,10 @@
     &:hover {
       cursor: pointer;
     }
+  }
+
+  .addtransaction__button-x{
+    transition: 100ms;
+    transform: rotate(45deg);
   }
 }

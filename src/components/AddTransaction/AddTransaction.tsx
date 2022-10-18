@@ -3,6 +3,7 @@ import AddTransactionPopUp from './AddTransactionPopUp/AddTransactionsPopUp';
 import { useEffect, useRef } from 'react';
 import AddTransactionForm from './AddTransactionForm/AddTransactionForm';
 import { useShowPopUp } from 'assets/state/hooks/addTransactionHooks';
+import classNames from 'classnames';
 
 interface Props {
   handleFetchTransactionsMonth: () => void,
@@ -35,7 +36,10 @@ const AddTransaction = (props: Props) => {
     <section ref={ref} className={styles.addtransaction__container}>
       <button
         type="button"
-        className={styles.addtransaction__button} title='Add a new transaction'
+        className={classNames({
+          [styles.addtransaction__button]: true,
+          [styles['addtransaction__button-x']]: showPopUp
+        })} title='Add a new transaction'
         onClick={handlePlusButtonClick}
       >+</button>
       <AddTransactionPopUp />

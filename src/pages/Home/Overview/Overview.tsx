@@ -30,7 +30,7 @@ const Overview = () => {
     return transactionsArray.filter(transaction => {
       return transaction.type === type;
     }).map(transaction => {
-      return +transaction.price;
+      return +transaction.amount;
     }).reduce(
       (previousValue, currentValue) => previousValue + currentValue, 0
     );

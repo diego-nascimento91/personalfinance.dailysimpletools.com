@@ -1,11 +1,12 @@
 export interface ITransaction {
   description: string,
-  price: string
+  amount: string
   category: string,
   date: Date,
-  payment: string,
+  account: string,
   note: string,
-  type: string,
+  publishDate: Date,
+  type: string;
   id?: string,
 }
 
@@ -19,6 +20,8 @@ export interface IQuery {
 export interface ICategory {
   description: string
   value: string,
+  type: 'income' | 'expense' | 'other',
+  icon: string,
   id?: string,
   ordering?: number
 }

@@ -31,7 +31,7 @@ const ExpensePerCategory = (props: Props) => {
           return transaction.category === category.value && transaction.type !== 'income';
         });
         const pricesTransactionsCategory = transactionsCategory.map(transaction => {
-          return +transaction.price;
+          return +transaction.amount;
         });
         const totalCategory = pricesTransactionsCategory.reduce((previousValue, currentValue) => (previousValue + currentValue), 0);
         if (totalCategory) {

@@ -1,4 +1,6 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
+import { ITransaction } from 'assets/interfaces/interfaces';
+import { collection } from 'firebase/firestore';
 
 // function handleFetchFunction (to be used for any call of fetchFunction)
 export const newFetchFunction =
@@ -24,13 +26,19 @@ export const newFetchFunction =
     return response;
   };
 
+export const createDocFunction = async (collectionName: string, userId: string ,document: ITransaction) => {
+  
+  const collectionPath = getCollectionPath(collectionName, userId);
+  await FirebaseFirestoreService.createDocument(collectionPath, document);
+};
+
 // helper functions
 const getCollectionPath = (collectionName: string, userId: string) => {
   let collectionPath;
   if (collectionName === 'categories') {
-    collectionPath = 'expenseCategories';
+    collectionPath = 'categories';
   } else if (collectionName === 'transactions') {
-    collectionPath = `users/${userId}/expenseTransactions`;
+    collectionPath = `users/${userId}/transactions`;
   } else {
     throw Error('Missing/wrong collection name');
   }

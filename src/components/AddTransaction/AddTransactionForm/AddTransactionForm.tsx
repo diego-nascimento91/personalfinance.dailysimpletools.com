@@ -1,6 +1,5 @@
-import { newFetchFunction } from 'assets/functions/fetchFunctions';
-import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ICategory } from 'assets/interfaces/interfaces';
+import { createDocFunction, newFetchFunction } from 'assets/functions/fetchFunctions';
+import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
 import { useShowAddForm, useChosenType } from 'assets/state/hooks/addTransactionHooks';
 import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
@@ -17,9 +16,9 @@ const AddTransactionForm = (props: Props) => {
   const [user,] = useUser();
   const [showAddForm, setShowAddForm] = useShowAddForm();
   const [transactionType,] = useChosenType();
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [account, setAccount] = useState('');
   const [note, setNote] = useState('');
-  const [price, setPrice] = useState('');
+  const [amount, setAmount] = useState('');
   const [publishDate, setPublishDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState<ICategory[]>();
@@ -48,47 +47,51 @@ const AddTransactionForm = (props: Props) => {
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const transaction = {
-      description: description,
-      price: price,
-      category: category,
-      date: new Date(publishDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
-      payment: paymentMethod,
-      note: note,
-      type: transactionType,
-    };
-
-    try {
-      const collectionPath = `users/${user?.uid}/expenseTransactions`;
-      if (user) {
-        await FirebaseFirestoreService.createDocument(collectionPath, transaction);
+    if (user) {
+      const transaction = getTransactionDoc();
+      try {
+        await createDocFunction('transactions', user.uid, transaction);
+        alert('Transactions successfully added');
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+          throw error;
+        }
       }
-      alert('Transactions successfully added');
       resetForm();
       handleCloseButton();
       handleFetchTransactionsMonth();
       handleFetchTransactionsAll();
-
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-        throw error;
-      }
     }
+  };
+
+  const getTransactionDoc = () => {
+    const transaction: ITransaction = {
+      description: description,
+      amount: amount,
+      category: category,
+      date: new Date(publishDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
+      account: account,
+      note: note,
+      publishDate: new Date(),
+      type: transactionType,
+    };
+
+    return transaction;
   };
 
   const resetForm = () => {
     setDescription('');
-    setPrice('');
+    setAmount('');
     setCategory('');
     setPublishDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
-    setPaymentMethod('');
+    setAccount('');
     setNote('');
   };
 
   const handleCloseButton = () => {
     const body = document.querySelector('body');
-    if(body){
+    if (body) {
       body.style.overflow = 'scroll';
     }
     setShowAddForm(false);
@@ -101,12 +104,12 @@ const AddTransactionForm = (props: Props) => {
           (
             <div className={styles.addtransactionform__background}>
               <section className={styles.addtransactionform__container}>
-                <button 
+                <button
                   className={styles.addtransactionform__closebutton}
                   type='button'
                   onClick={handleCloseButton}
                 >+</button>
-                <h2 className={styles.addtransactionform__title}>Add a new transaction</h2>
+                <h2 className={styles.addtransactionform__title}>Add a new {transactionType === 'income' ? 'Income' : 'Expense'}</h2>
                 <form onSubmit={handleFormSubmit}>
                   <label htmlFor='transactiondescription'>Description:</label>
                   <input
@@ -118,15 +121,15 @@ const AddTransactionForm = (props: Props) => {
                     onChange={(event) => setDescription(event.target.value)}
                     value={description}
                   />
-                  <label htmlFor='transactionprice'>Price:</label>
+                  <label htmlFor='transactionamount'>{transactionType === 'income' ? 'Amount ($)' : 'Price ($)'}:</label>
                   <input
                     className={styles.addtransactionform__input}
-                    id='transactionprice'
-                    name='transactionprice'
+                    id='transactionamount'
+                    name='transactionamount'
                     required
                     type="number"
-                    onChange={(event) => setPrice(event.target.value)}
-                    value={price}
+                    onChange={(event) => setAmount(event.target.value)}
+                    value={amount}
                   />
                   <label>
                     Category:
@@ -136,7 +139,15 @@ const AddTransactionForm = (props: Props) => {
                         categories && categories.length > 0
                           ? (
                             categories.map(item => (
-                              <option value={item.value} key={item.id}>{item.ordering} - {item.value}</option>
+                              item.type === transactionType
+                                ? (
+                                  <option value={item.value} key={item.id}>{item.ordering} - {item.value}</option>
+                                )
+                                : item.type === 'other'
+                                  ? (
+                                    <option value={item.value} key={item.id}> {item.value}</option>
+                                  )
+                                  : null
                             ))
                           )
                           : null
@@ -153,16 +164,16 @@ const AddTransactionForm = (props: Props) => {
                     onChange={(event) => setPublishDate(event.target.value)}
                     value={publishDate}
                   />
-                  <label htmlFor='paymentmethod'>Payment Method:</label>
+                  < label htmlFor='account'>{transactionType === 'income' ? 'Account' : 'Payment Account'}:</label>
                   <input
                     className={styles.addtransactionform__input}
-                    id='paymentmethod'
-                    name='paymentmethod'
+                    id='account'
+                    name='account'
                     required
                     type="text"
-                    onChange={(event) => setPaymentMethod(event.target.value)}
-                    value={paymentMethod}
-                  />                  
+                    onChange={(event) => setAccount(event.target.value)}
+                    value={account}
+                  />
                   <label htmlFor='transactionnote'>Notes:</label>
                   <textarea
                     className={styles.addtransactionform__note}

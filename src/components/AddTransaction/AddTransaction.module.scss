@@ -4,7 +4,7 @@
   bottom: 1rem;
   display: flex;
   justify-content: flex-end;
-  margin-top: -5rem;
+  margin-top: -4rem;
   position:-webkit-sticky;
   position: sticky;
 
@@ -16,8 +16,9 @@
 
   .addtransaction__button {
     background: white;
-    border: 0.25rem solid black;
+    border: 0.4rem double rgb(16, 220, 6);
     border-radius: 50%;
+    color: rgb(7, 148, 0);
     font-size: 150%;
     height: 5rem;
     padding: 0;

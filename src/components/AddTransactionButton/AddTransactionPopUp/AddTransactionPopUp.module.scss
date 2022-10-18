@@ -7,8 +7,17 @@
   min-width: 20rem;
   padding: 2rem;
   position: absolute;
-  right: 3rem;
-  bottom: 3rem;
+  right: 5rem;
+  bottom: 5rem;
+
+  @media (max-width: $smallmob) { 
+    right: 3rem;
+    bottom: 3rem;
+  }
+  @media (min-width: $smallmob) and (max-width: $mobile) { 
+    right: 4rem;
+    bottom: 4rem;
+  }
 
   .popup__title{
     margin-bottom: 2rem;

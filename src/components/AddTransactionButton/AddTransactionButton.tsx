@@ -1,14 +1,14 @@
-import styles from './AddTransaction.module.scss';
+import styles from './AddTransactionButton.module.scss';
 import AddTransactionPopUp from './AddTransactionPopUp/AddTransactionsPopUp';
 import { useEffect, useRef } from 'react';
-import AddTransactionForm from './AddTransactionForm/AddTransactionForm';
+import AddTransactionForm from '../AddTransactionForm/AddTransactionForm';
 import { useShowPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 
 interface Props {
   handleUpdateTransactions: () => void,
 }
-const AddTransaction = (props: Props) => {
+const AddTransactionButton = (props: Props) => {
   const { handleUpdateTransactions } = props;
 
   const ref = useRef<HTMLDivElement>(null);
@@ -47,4 +47,4 @@ const AddTransaction = (props: Props) => {
   );
 };
 
-export default AddTransaction;
+export default AddTransactionButton;

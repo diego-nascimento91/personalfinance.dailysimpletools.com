@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { newFetchFunction } from 'assets/functions/fetchFunctions';
-import AddTransaction from '../../components/AddTransaction/AddTransaction';
+import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
 import DatePicker from 'components/DatePicker/DatePicker';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
 import NavBar from 'components/NavBar/NavBar';
@@ -77,7 +77,7 @@ const Home = () => {
         <ExpensePerCategory transactions={transactionsMonth} />
         <TransactionsSummary transactions={transactionsAll} />
       </div>
-      <AddTransaction handleUpdateTransactions={handleUpdateTransactions} />
+      <AddTransactionButton handleUpdateTransactions={handleUpdateTransactions} />
     </div>
   );
 };

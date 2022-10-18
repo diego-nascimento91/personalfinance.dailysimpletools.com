@@ -31,7 +31,7 @@ const AddTransactionButton = () => {
   return (
     <section ref={ref} className={classNames({
       [styles.addtransaction__container]: true,
-      [styles['addtransaction__container-position']]: !showAddForm && !showReceiptPopUp
+      [styles['addtransaction__container-position']]: showAddForm || showReceiptPopUp
     })}>
       <button
         type="button"

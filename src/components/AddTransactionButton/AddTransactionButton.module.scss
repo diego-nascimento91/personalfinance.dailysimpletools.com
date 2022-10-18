@@ -1,14 +1,12 @@
 @import 'assets/styles/variables.scss';
 
-.addtransaction__container-position{
+.addtransaction__container {
+  bottom: 1rem;
+  display: flex;
+  height: 5rem;
   justify-content: flex-end;
   position:-webkit-sticky;
   position: sticky;
-}
-.addtransaction__container {
-  height: 5rem;
-  bottom: 1rem;
-  display: flex;
 
   //position of + button @media
   height: 6rem;
@@ -55,4 +53,8 @@
     transition: 100ms;
     transform: rotate(45deg);
   }
+}
+
+.addtransaction__container-position{
+  display: none;
 }

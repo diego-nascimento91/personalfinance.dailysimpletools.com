@@ -1,7 +1,6 @@
 import styles from './AddTransactionButton.module.scss';
 import AddTransactionPopUp from './AddTransactionPopUp/AddTransactionsPopUp';
 import { useEffect, useRef } from 'react';
-import AddTransactionForm from '../AddTransactionForm/AddTransactionForm';
 import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 
@@ -43,7 +42,6 @@ const AddTransactionButton = () => {
         onClick={handlePlusButtonClick}
       >+</button>
       <AddTransactionPopUp />
-      <AddTransactionForm />
     </section>
   );
 };

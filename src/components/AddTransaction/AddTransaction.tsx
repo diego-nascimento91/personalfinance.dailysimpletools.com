@@ -6,11 +6,10 @@ import { useShowPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 
 interface Props {
-  handleFetchTransactionsMonth: () => void,
-  handleFetchTransactionsAll: () => Promise<void>
+  handleUpdateTransactions: () => void,
 }
 const AddTransaction = (props: Props) => {
-  const { handleFetchTransactionsMonth, handleFetchTransactionsAll } = props;
+  const { handleUpdateTransactions } = props;
 
   const ref = useRef<HTMLDivElement>(null);
   const [showPopUp, setShowPopUp] = useShowPopUp();
@@ -43,10 +42,7 @@ const AddTransaction = (props: Props) => {
         onClick={handlePlusButtonClick}
       >+</button>
       <AddTransactionPopUp />
-      <AddTransactionForm 
-        handleFetchTransactionsMonth={handleFetchTransactionsMonth} 
-        handleFetchTransactionsAll={handleFetchTransactionsAll}
-      />
+      <AddTransactionForm handleUpdateTransactions={handleUpdateTransactions} />
     </section>
   );
 };

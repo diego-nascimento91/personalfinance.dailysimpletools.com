@@ -25,3 +25,8 @@ export interface ICategory {
   id?: string,
   ordering?: number
 }
+
+export interface IAccounts {
+  value: string,
+  id?: string,
+}

@@ -1,20 +1,20 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { createDocFunction } from 'assets/functions/fetchFunctions';
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { useShowAddForm, useChosenType } from 'assets/state/hooks/addTransactionHooks';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useAccounts, useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
 
 interface Props {
-  handleFetchTransactionsMonth: () => void,
-  handleFetchTransactionsAll: () => Promise<void>
+  handleUpdateTransactions: () => void,
 }
 
 const AddTransactionForm = (props: Props) => {
-  const { handleFetchTransactionsMonth, handleFetchTransactionsAll } = props;
+  const { handleUpdateTransactions } = props;
 
   const [user,] = useUser();
-  const [categories, ] = useCategories();
+  const [categories,] = useCategories();
+  const [accounts,] = useAccounts();
   const [showAddForm, setShowAddForm] = useShowAddForm();
   const [transactionType,] = useChosenType();
   const [account, setAccount] = useState('');
@@ -40,8 +40,7 @@ const AddTransactionForm = (props: Props) => {
       }
       resetForm();
       handleCloseButton();
-      handleFetchTransactionsMonth();
-      handleFetchTransactionsAll();
+      handleUpdateTransactions();
     }
   };
 
@@ -113,7 +112,12 @@ const AddTransactionForm = (props: Props) => {
                   />
                   <label>
                     Category:
-                    <select className={styles.addtransactionform__input} value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <select 
+                      className={styles.addtransactionform__input} 
+                      value={category} 
+                      onChange={(e) => setCategory(e.target.value)}
+                      required
+                    >
                       <option value=""></option>
                       {
                         categories && categories.length > 0
@@ -144,16 +148,26 @@ const AddTransactionForm = (props: Props) => {
                     onChange={(event) => setTransactionDate(event.target.value)}
                     value={transactionDate}
                   />
-                  < label htmlFor='account'>{transactionType === 'income' ? 'Account' : 'Payment Account'}:</label>
-                  <input
-                    className={styles.addtransactionform__input}
-                    id='account'
-                    name='account'
-                    required
-                    type="text"
-                    onChange={(event) => setAccount(event.target.value)}
-                    value={account}
-                  />
+                  <label>
+                    {transactionType === 'income' ? 'Account' : 'Payment Account'}:
+                    <select 
+                      className={styles.addtransactionform__input} 
+                      value={account} 
+                      onChange={(e) => setAccount(e.target.value)}
+                      required
+                    >
+                      <option value=""></option>
+                      {
+                        accounts && accounts.length > 0
+                          ? (
+                            accounts.map(item => (
+                              <option value={item.value} key={item.id}>{item.value}</option>
+                            ))
+                          )
+                          : null
+                      }
+                    </select>
+                  </label>
                   <label htmlFor='transactionnote'>Notes:</label>
                   <textarea
                     className={styles.addtransactionform__note}

@@ -39,6 +39,8 @@ const getCollectionPath = (collectionName: string, userId: string) => {
     collectionPath = 'categories';
   } else if (collectionName === 'transactions') {
     collectionPath = `users/${userId}/transactions`;
+  } else if (collectionName === 'accounts') {
+    collectionPath = `accounts`;
   } else {
     throw Error('Missing/wrong collection name');
   }
@@ -64,6 +66,9 @@ const getOrderConfig = (collectionName: string) => {
   } else if (collectionName === 'transactions') {
     fieldToBeOrdered = 'date';
     orderDirection = 'desc';
+  } else if (collectionName === 'accounts') {
+    fieldToBeOrdered = 'value';
+    orderDirection = 'asc';
   } else {
     throw Error('Missing/wrong collection name');
   }

@@ -1,7 +1,7 @@
 import { authenticated } from 'assets/functions/FirebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRecoilState } from 'recoil';
-import { useCategoriesAtom, useChosenMonthAtom, useTransactionsAllAtom, useTransactionsMonthAtom } from '../firebaseAtoms';
+import { useAccountsAtom, useCategoriesAtom, useChosenMonthAtom, useTransactionsAllAtom, useTransactionsMonthAtom } from '../firebaseAtoms';
 
 export const useUser = () => {
   return useAuthState(authenticated);
@@ -22,3 +22,8 @@ export const useTransactionsAll = () => {
 export const useTransactionsMonth = () => {
   return useRecoilState(useTransactionsMonthAtom);
 };
+
+export const useAccounts = () => {
+  return useRecoilState(useAccountsAtom);
+};
+

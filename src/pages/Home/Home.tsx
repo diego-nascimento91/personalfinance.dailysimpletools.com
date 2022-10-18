@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
-import { newFetchFunction } from 'assets/functions/fetchFunctions';
+import { handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
 import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
 import DatePicker from 'components/DatePicker/DatePicker';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
@@ -17,54 +16,33 @@ const Home = () => {
   const [user, loading] = useUser();
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
   const [transactionsAll, setTransactionsAll] = useTransactionsAll();
-  const [, setCategories] = useCategories();
-  const [, setAccounts] = useAccounts();
+  const [categories, setCategories] = useCategories();
+  const [accounts, setAccounts] = useAccounts();
   const [month,] = useChosenMonth();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchCategories();
-      handleUpdateTransactions();
+      handleUpdateDBs();
     }
-  }, [user, loading, month]);
+  }, [user, loading]);
 
-  const handleFetchCategories = () => {
+  const handleUpdateDBs = () => {
     if (user) {
-      newFetchFunction('categories', user.uid)
-        .then(categoriesDB => { setCategories(categoriesDB as ICategory[]); })
-        .catch(error => {
-          alert(error.message);
-          throw error;
-        });
-
-      newFetchFunction('accounts', user.uid)
-        .then(accountsDB => { setAccounts(accountsDB as IAccounts[]); })
-        .catch(error => {
-          alert(error.message);
-          throw error;
-        });
-    }
-  };
-
-  const handleUpdateTransactions = () => {
-    if (user) {
-      newFetchFunction('transactions', user.uid, month)
-        .then(transactionsMonth => { setTransactionsMonth(transactionsMonth as ITransaction[]); })
-        .catch(error => {
-          alert(error.message);
-          throw error;
-        });
-
-      const limitDocs = 4;
-      newFetchFunction('transactions', user.uid, undefined, limitDocs)
-        .then(transactionAll => { setTransactionsAll(transactionAll as ITransaction[]); })
-        .catch(error => {
-          alert(error.message);
-          throw error;
-        });
-    }
+      if(!(categories && categories.length > 0)){
+        handleFetchCategories(user.uid, setCategories);
+      }
+      if(!(accounts && accounts.length > 0)){
+        handleFetchAccounts(user.uid, setAccounts);
+      }
+      if(!(transactionsAll && transactionsAll.length > 0)) {
+        handleFetchRecentTransactions(user.uid, setTransactionsAll);
+      }
+      if(!(transactionsMonth && transactionsMonth.length > 0)){
+        handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
+      }
+    } 
   };
 
   return (
@@ -77,7 +55,7 @@ const Home = () => {
         <ExpensePerCategory transactions={transactionsMonth} />
         <TransactionsSummary transactions={transactionsAll} />
       </div>
-      <AddTransactionButton handleUpdateTransactions={handleUpdateTransactions} />
+      <AddTransactionButton />
     </div>
   );
 };

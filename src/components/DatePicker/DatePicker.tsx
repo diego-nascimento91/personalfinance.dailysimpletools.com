@@ -1,9 +1,19 @@
-import { useChosenMonth } from 'assets/state/hooks/firebaseHooks';
+import { handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useEffect } from 'react';
 import DatePickerReact from 'react-datepicker';
 import styles from './DatePicker.module.scss';
 
 const DatePicker = () => {
   const [ month, setMonth ] = useChosenMonth();
+  const [user] = useUser();
+  const [, setTransactionsMonth] = useTransactionsMonth();
+  
+  useEffect(() => {
+    if (user) {
+      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
+    }
+  }, [month]);
 
   return (
     <section className='theme__homesections'>

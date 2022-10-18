@@ -1,6 +1,6 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { ITransaction } from 'assets/interfaces/interfaces';
-import { collection } from 'firebase/firestore';
+import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces';
+import { SetterOrUpdater } from 'recoil';
 
 // function handleFetchFunction (to be used for any call of fetchFunction)
 export const newFetchFunction =
@@ -26,8 +26,45 @@ export const newFetchFunction =
     return response;
   };
 
-export const createDocFunction = async (collectionName: string, userId: string ,document: ITransaction) => {
-  
+export const handleFetchCategories = (userId: string, setCategories: SetterOrUpdater<ICategory[]>) => {
+  newFetchFunction('categories', userId)
+    .then(categoriesDB => { setCategories(categoriesDB as ICategory[]); })
+    .catch(error => {
+      alert(error.message);
+      throw error;
+    });
+};
+
+export const handleFetchAccounts = (userId: string, setAccounts: SetterOrUpdater<IAccounts[]>) => {
+  newFetchFunction('accounts', userId)
+    .then(accountsDB => { setAccounts(accountsDB as IAccounts[]); })
+    .catch(error => {
+      alert(error.message);
+      throw error;
+    });
+};
+
+export const handleFetchRecentTransactions = (userId: string, setTransactionsAll: SetterOrUpdater<ITransaction[]>) => {
+  const limitDocs = 4;
+  newFetchFunction('transactions', userId, undefined, limitDocs)
+    .then(transactionAll => { setTransactionsAll(transactionAll as ITransaction[]); })
+    .catch(error => {
+      alert(error.message);
+      throw error;
+    });
+};
+
+export const handleFetchTransactionsMonth = (userId: string, setTransactionsMonth: SetterOrUpdater<ITransaction[]>, month: Date) => {
+  newFetchFunction('transactions', userId, month)
+    .then(transactionsMonth => { setTransactionsMonth(transactionsMonth as ITransaction[]); })
+    .catch(error => {
+      alert(error.message);
+      throw error;
+    });
+};
+
+export const createDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+
   const collectionPath = getCollectionPath(collectionName, userId);
   await FirebaseFirestoreService.createDocument(collectionPath, document);
 };
@@ -40,7 +77,7 @@ const getCollectionPath = (collectionName: string, userId: string) => {
   } else if (collectionName === 'transactions') {
     collectionPath = `users/${userId}/transactions`;
   } else if (collectionName === 'accounts') {
-    collectionPath = `accounts`;
+    collectionPath = 'accounts';
   } else {
     throw Error('Missing/wrong collection name');
   }

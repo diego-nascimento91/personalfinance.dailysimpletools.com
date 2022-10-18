@@ -5,12 +5,8 @@ import AddTransactionForm from '../AddTransactionForm/AddTransactionForm';
 import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 
-interface Props {
-  handleUpdateTransactions: () => void,
-}
-const AddTransactionButton = (props: Props) => {
-  const { handleUpdateTransactions } = props;
 
+const AddTransactionButton = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
   const [showReceiptPopUp] = useShowReceiptPopUp();
@@ -47,7 +43,7 @@ const AddTransactionButton = (props: Props) => {
         onClick={handlePlusButtonClick}
       >+</button>
       <AddTransactionPopUp />
-      <AddTransactionForm handleUpdateTransactions={handleUpdateTransactions} />
+      <AddTransactionForm />
     </section>
   );
 };

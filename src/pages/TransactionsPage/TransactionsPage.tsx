@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { newFetchFunction } from 'assets/functions/fetchFunctions';
-import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
+import { handleFetchCategories, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
 import { useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
@@ -12,42 +11,24 @@ const TransactionsPage = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
-  const [, setCategories] = useCategories();
+  const [categories, setCategories] = useCategories();
   const [month] = useChosenMonth();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleFetchCategories();
-      handleFetchTransactionsMonth();
+      handleUpdateDBs();
     }
-  }, [user, loading, month]);
+  }, [user, loading]);
 
-  const handleFetchCategories = async () => {
-    try {
-      if (user) {
-        const categoriesDB = await newFetchFunction('categories', user.uid);
-        setCategories(categoriesDB as ICategory[]);
+  const handleUpdateDBs = () => {
+    if(user){
+      if(!(categories && categories.length > 0)){
+        handleFetchCategories(user.uid, setCategories);
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-        throw error;
-      }
-    }
-  };
-
-  const handleFetchTransactionsMonth = async () => {
-    try {
-      if (user) {
-        const transactionsDB = await newFetchFunction('transactions', user.uid, month);
-        setTransactionsMonth(transactionsDB as ITransaction[]);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-        throw error;
+      if(!(transactionsMonth && transactionsMonth.length > 0)){
+        handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
       }
     }
   };

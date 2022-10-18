@@ -1,18 +1,27 @@
 @import 'assets/styles/variables.scss';
 
 .addtransaction__container {
+  height: 5rem;
   bottom: 1rem;
   display: flex;
   justify-content: flex-end;
-  margin-top: -4rem;
   position:-webkit-sticky;
   position: sticky;
 
-  @media (max-width: $smallmob) { margin-right: 1.5rem; }
-  @media (min-width: $smallmob) and (max-width: $mobile) { margin-right: calc(1rem + $hpadding-mobile); }
-  @media (min-width: $mobile) and (max-width: $desktop_sm) { margin-right: $hpadding-desksm; }
-  @media (min-width: $desktop_sm) and (max-width: $desktop_md) { margin-right: $hpadding-deskmd; }
-  @media (min-width: $desktop_md) { margin-right: $hpadding-deskbg; }
+  //position of + button @media
+  height: 6rem;
+  margin-right: 1.5rem; 
+  margin-top: -7rem;
+  @media (max-width: $smallmob) { 
+    height: 3.5rem;
+    margin-right: 1rem; 
+    margin-top: -4.75rem;
+  }
+  @media (min-width: $smallmob) and (max-width: $mobile) { 
+    height: 5rem;
+    margin-right: 1rem; 
+    margin-top: -6rem;
+  }
 
   .addtransaction__button {
     background: white;
@@ -20,11 +29,12 @@
     border-radius: 50%;
     color: $positiveMoney;
     font-size: 150%;
-    height: 5rem;
     padding: 0;
     transition: 100ms;
+    
+    // size of + button @media
+    height: 5rem;
     width: 5rem;
-
     @media (max-width: $smallmob) {
       height: 3rem;
       width: 3rem;

@@ -16,9 +16,9 @@
 
   .addtransaction__button {
     background: white;
-    border: 0.4rem double rgb(16, 220, 6);
+    border: 0.4rem double $positiveMoney;
     border-radius: 50%;
-    color: rgb(7, 148, 0);
+    color: $positiveMoney;
     font-size: 150%;
     height: 5rem;
     padding: 0;

@@ -35,10 +35,10 @@
       margin-bottom: 0.5rem;
     }
     .transaction__price__positive {
-      color: green;
+      color: $positiveMoney;
     }
     .transaction__price__negative {
-      color: red;
+      color: $negativeMoney;
     }
   }
 

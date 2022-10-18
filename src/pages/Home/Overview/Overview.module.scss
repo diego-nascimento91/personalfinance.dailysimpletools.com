@@ -1,3 +1,4 @@
+@import 'assets/styles/variables.scss';
 
 .overview__sum {
   display: flex;
@@ -13,9 +14,9 @@
   }
 
   .overview__price__positive {
-    color: green;
+    color: $positiveMoney;
   }
   .overview__price__negative {
-    color: red
+    color: $negativeMoney
   }
 }

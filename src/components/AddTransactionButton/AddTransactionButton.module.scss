@@ -1,12 +1,14 @@
 @import 'assets/styles/variables.scss';
 
+.addtransaction__container-position{
+  justify-content: flex-end;
+  position:-webkit-sticky;
+  position: sticky;
+}
 .addtransaction__container {
   height: 5rem;
   bottom: 1rem;
   display: flex;
-  justify-content: flex-end;
-  position:-webkit-sticky;
-  position: sticky;
 
   //position of + button @media
   height: 6rem;

@@ -1,0 +1,79 @@
+@import 'assets/styles/variables.scss';
+
+.receipt__background {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  
+  .receipt__container {
+    background: rgb(255, 239, 200);
+    border-radius: 0.5rem;
+    max-width: 90%;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    width: 30rem;
+
+    .receipt__closebutton {
+      background: $menuColor;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 150%;
+      height: 2.5rem;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      transform: rotate(45deg);
+      width: 2.5rem;
+    }
+
+    .receipt__title {
+      font-weight: bold;
+      font-size: 1.7rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .receipt__list {
+
+      .receipt__type, .receipt__description {
+        font-size: 105%;
+        text-align: center;
+      }
+      .receipt__description {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .receipt__amount, .receipt__category, .receipt__date, .receipt__account, .receipt__notes {
+        border-bottom: 0.05rem dashed rgb(178, 178, 178);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        text-overflow: ellipsis;
+        span {
+          font-weight: bold;
+        }
+      }
+      .receipt__notes {
+        span{
+          margin-right: 0.5rem
+        }
+      }
+
+      .receipt__publishDate {
+        margin-top: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .receipt__id, .receipt__publishDate {
+        text-align: center;
+      }
+    }
+  }
+}

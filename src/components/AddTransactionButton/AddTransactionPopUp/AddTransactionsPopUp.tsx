@@ -1,11 +1,11 @@
-import { useShowAddForm, useShowPopUp, useChosenType } from 'assets/state/hooks/addTransactionHooks';
+import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useChosenType } from 'assets/state/hooks/addTransactionHooks';
 import styles from './AddTransactionPopUp.module.scss';
 
 
 const AddTransactionPopUp = () => {
-  const [showPopUp, setShowPopUp] = useShowPopUp();
+  const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
   const [, setChosenType] = useChosenType();
-  const [, setShowAddForm] = useShowAddForm();
+  const [, setShowAddForm] = useShowAddFormPopUp();
 
   const handleIncomeClick = () => {
     setOverflowHidden();

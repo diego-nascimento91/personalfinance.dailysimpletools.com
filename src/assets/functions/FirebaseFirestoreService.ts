@@ -37,6 +37,7 @@ const readAllDocsFromCollection =
 
       // if there is a date field, it converts timestamp to Date before returning response
       if (data.date) data.date = new Date(data.date.seconds * 1000);
+      if (data.publishDate) data.publishDate = new Date(data.publishDate.seconds * 1000);
 
       // return data with its id
       return { id: result.id, ...data };

@@ -7,6 +7,10 @@
   margin-bottom: 1rem;
   padding: 1rem;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   .transaction__category{
     align-items: center;
     display: flex;

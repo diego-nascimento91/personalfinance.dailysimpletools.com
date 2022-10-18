@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createDocFunction } from 'assets/functions/fetchFunctions';
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useShowAddForm, useChosenType } from 'assets/state/hooks/addTransactionHooks';
+import { useShowAddFormPopUp, useChosenType } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
 
@@ -15,7 +15,7 @@ const AddTransactionForm = (props: Props) => {
   const [user,] = useUser();
   const [categories,] = useCategories();
   const [accounts,] = useAccounts();
-  const [showAddForm, setShowAddForm] = useShowAddForm();
+  const [showAddForm, setShowAddForm] = useShowAddFormPopUp();
   const [transactionType,] = useChosenType();
   const [account, setAccount] = useState('');
   const [note, setNote] = useState('');

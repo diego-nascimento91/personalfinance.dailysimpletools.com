@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useUser } from 'assets/state/hooks/useUser';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './ResetPassword.module.scss';
 import { validateEmail } from 'assets/functions/validateEmail';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import styles from './ResetPassword.module.scss';
 
 const ResetPassword = () => {
   const [user, loading] = useUser();

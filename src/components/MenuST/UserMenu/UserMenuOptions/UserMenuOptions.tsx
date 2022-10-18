@@ -1,7 +1,7 @@
-import styles from './UserMenuOptions.module.scss';
+import { useUserMenuStatus } from 'assets/state/hooks/menuHooks';
 import classNames from 'classnames';
-import { useUserMenuStatus } from 'assets/state/hooks/useUserMenuStatus';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import styles from './UserMenuOptions.module.scss';
 
 const UserMenuOptions = () => {
   const [userMenuStatus, setUserMenuStatus] = useUserMenuStatus();

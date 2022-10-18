@@ -1,5 +1,5 @@
-import { useUser } from 'assets/state/hooks/useUser';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './Welcome.module.scss';
 
 

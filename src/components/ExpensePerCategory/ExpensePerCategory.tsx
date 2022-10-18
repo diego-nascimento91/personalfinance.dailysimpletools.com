@@ -1,7 +1,6 @@
-import { ITransaction } from 'assets/interfaces/interfaces';
-import { useCategories } from 'assets/state/hooks/useCategories';
-import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
+import { ITransaction } from 'assets/interfaces/interfaces';
+import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 
 interface Props {
   transactions: ITransaction[]

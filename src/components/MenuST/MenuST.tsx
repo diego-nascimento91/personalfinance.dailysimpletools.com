@@ -1,8 +1,8 @@
+import { useSelectedLanguage } from 'assets/state/hooks/menuHooks';
 import Language from './Language/Language';
 import Logo from './Logo/Logo';
-import styles from './MenuST.module.scss';
-import { useSelectedLanguage } from 'assets/state/hooks/useSelectedLanguage';
 import UserMenu from './UserMenu/UserMenu';
+import styles from './MenuST.module.scss';
 
 const MenuST = () => {
   const language = useSelectedLanguage();

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useUser } from 'assets/state/hooks/useUser';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './Register.module.scss';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import styles from './Register.module.scss';
 
 const Register = () => {
   const [user, loading] = useUser();

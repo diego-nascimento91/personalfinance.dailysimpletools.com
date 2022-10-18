@@ -1,15 +1,12 @@
-import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
-import { useCategories } from 'assets/state/hooks/useCategories';
-import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
-import NavBar from 'components/NavBar/NavBar';
-import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
-import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
-import DatePicker from 'components/DatePicker/DatePicker';
 import { newFetchFunction } from 'assets/functions/fetchFunctions';
 import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
+import { useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
+import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
+import NavBar from 'components/NavBar/NavBar';
+import DatePicker from 'components/DatePicker/DatePicker';
 
 const TransactionsPage = () => {
   const nav = useNavigate();

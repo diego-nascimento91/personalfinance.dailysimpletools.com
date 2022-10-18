@@ -1,10 +1,8 @@
-import styles from './LanguageOptions.module.scss';
+import { useLanguages, useMenuStatus, useSetSelectedLanguage } from 'assets/state/hooks/menuHooks';
 import classNames from 'classnames';
-import { useMenuStatus } from 'assets/state/hooks/useLanguageMenuStatus';
-import { useLanguages } from 'assets/state/hooks/useLanguages';
-import { useSetSelectedLanguage } from 'assets/state/hooks/useSetSelectedLanguage';
+import styles from './LanguageOptions.module.scss';
 
-export function LanguageOptions() {
+export default function LanguageOptions() {
   const [menuStatus, setMenuStatus] = useMenuStatus();
   const setSelectedLanguage = useSetSelectedLanguage();
   const languages = useLanguages();

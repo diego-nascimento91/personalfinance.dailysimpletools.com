@@ -1,8 +1,8 @@
-import { useUser } from 'assets/state/hooks/useUser';
-import { useUserMenuStatus } from 'assets/state/hooks/useUserMenuStatus';
 import { useEffect, useRef } from 'react';
-import styles from './UserMenu.module.scss';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUserMenuStatus } from 'assets/state/hooks/menuHooks';
 import UserMenuOptions from './UserMenuOptions/UserMenuOptions';
+import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
   const [user] = useUser();

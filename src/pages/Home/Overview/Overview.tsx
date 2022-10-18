@@ -1,7 +1,6 @@
-import { ITransaction } from 'assets/interfaces/interfaces';
-import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
-import { useUser } from 'assets/state/hooks/useUser';
 import { useEffect, useState } from 'react';
+import { ITransaction } from 'assets/interfaces/interfaces';
+import { useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './Overview.module.scss';
 
 const Overview = () => {

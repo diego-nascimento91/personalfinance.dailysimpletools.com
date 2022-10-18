@@ -1,9 +1,9 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import { useUser } from 'assets/state/hooks/useUser';
-import { BrowserRouter, Router } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import ResetPassword from './ResetPassword';
+import { BrowserRouter, Router } from 'react-router-dom';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
+import ResetPassword from './ResetPassword';
 
 const mockedNav = jest.fn();
 jest.mock('react-router-dom', () => {

@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ICategory, ITransaction } from 'assets/interfaces/interfaces';
+import { useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { newFetchFunction } from 'assets/functions/fetchFunctions';
-import { useCategories } from 'assets/state/hooks/useCategories';
-import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
-import { useTransactionsMonth } from 'assets/state/hooks/useTransactionsMonth';
-import { useTransactionsAll } from 'assets/state/hooks/useTransactionsAll';
-import { useUser } from 'assets/state/hooks/useUser';
 import AddTransaction from '../../components/AddTransaction/AddTransaction';
 import DatePicker from 'components/DatePicker/DatePicker';
 import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';

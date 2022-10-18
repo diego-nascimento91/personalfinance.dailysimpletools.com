@@ -1,9 +1,8 @@
+import {  useState } from 'react';
 import { createDocFunction } from 'assets/functions/fetchFunctions';
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { useShowAddForm, useChosenType } from 'assets/state/hooks/addTransactionHooks';
-import { useCategories } from 'assets/state/hooks/useCategories';
-import { useUser } from 'assets/state/hooks/useUser';
-import {  useState } from 'react';
+import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
 
 interface Props {
@@ -24,26 +23,6 @@ const AddTransactionForm = (props: Props) => {
   const [transactionDate, setTransactionDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
-
-  // useEffect(() => {
-  //   if (user) {
-  //     handleFetchCategories();
-  //   }
-  // }, [user]);
-
-  // const handleFetchCategories = async () => {
-  //   if (user) {
-  //     try {
-  //       const response = await newFetchFunction('categories', user.uid);
-  //       setCategories(response as ICategory[]);
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         alert(error.message);
-  //         throw error;
-  //       }
-  //     }
-  //   }
-  // };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

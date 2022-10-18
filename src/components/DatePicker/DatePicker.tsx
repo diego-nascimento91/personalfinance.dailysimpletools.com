@@ -1,6 +1,6 @@
-import styles from './DatePicker.module.scss';
+import { useChosenMonth } from 'assets/state/hooks/firebaseHooks';
 import DatePickerReact from 'react-datepicker';
-import { useChosenMonth } from 'assets/state/hooks/useChosenMonth';
+import styles from './DatePicker.module.scss';
 
 const DatePicker = () => {
   const [ month, setMonth ] = useChosenMonth();

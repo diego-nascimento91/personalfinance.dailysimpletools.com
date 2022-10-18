@@ -1,10 +1,9 @@
-import React from 'react';
-import { fireEvent, render, screen, act } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Router } from 'react-router-dom';
-import Login from './Login';
-import { useUser } from 'assets/state/hooks/useUser';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
+import Login from './Login';
 
 jest.mock('assets/state/hooks/useUser', () => {
   return {

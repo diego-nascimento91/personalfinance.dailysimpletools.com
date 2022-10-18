@@ -1,9 +1,8 @@
-import styles from './Language.module.scss';
 import { useEffect, useRef } from 'react';
-import { LanguageOptions } from './LanguageOptions/LanguageOptions';
-import { useSelectedLanguage } from 'assets/state/hooks/useSelectedLanguage';
-import { useMenuStatus } from 'assets/state/hooks/useLanguageMenuStatus';
 import { FaGlobeAmericas } from 'react-icons/fa';
+import { useMenuStatus, useSelectedLanguage } from 'assets/state/hooks/menuHooks';
+import LanguageOptions from './LanguageOptions/LanguageOptions';
+import styles from './Language.module.scss';
 
 const Language = () => {
 

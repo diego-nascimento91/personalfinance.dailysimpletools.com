@@ -19,7 +19,7 @@ const AddTransactionForm = (props: Props) => {
   const [transactionType,] = useChosenType();
   const [account, setAccount] = useState('');
   const [note, setNote] = useState('');
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0);
   const [transactionDate, setTransactionDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -61,7 +61,7 @@ const AddTransactionForm = (props: Props) => {
 
   const resetForm = () => {
     setDescription('');
-    setAmount('');
+    setAmount(0);
     setCategory('');
     setTransactionDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
     setAccount('');
@@ -107,7 +107,7 @@ const AddTransactionForm = (props: Props) => {
                     name='transactionamount'
                     required
                     type="number"
-                    onChange={(event) => setAmount(event.target.value)}
+                    onChange={(event) => setAmount(+event.target.value)}
                     value={amount}
                   />
                   <label>

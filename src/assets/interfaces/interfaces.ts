@@ -1,6 +1,6 @@
 export interface ITransaction {
   description: string,
-  amount: string
+  amount: number
   category: string,
   date: Date,
   account: string,

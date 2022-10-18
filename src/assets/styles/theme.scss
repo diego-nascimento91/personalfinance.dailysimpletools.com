@@ -1,12 +1,17 @@
 @import './variables.scss';
 
 main {
-  overflow: auto;
+  display: flow-root;
   min-height: calc(100vh - 10rem);
 }
 
 .theme__padding {
-  @media (max-width: $mobile) {
+  @media (max-width: $smallmob) {
+    padding-left: $hpadding-smallmob;
+    padding-right: $hpadding-smallmob;
+  }
+
+  @media (min-width: $smallmob) and (max-width: $mobile) {
     padding-left: $hpadding-mobile;
     padding-right: $hpadding-mobile;
   }
@@ -33,17 +38,18 @@ main {
   margin: 1rem auto;
   padding: 2rem;
   width:100%;
-
-  .theme__title {
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
   
-  @media (max-width: $mobile) {
+  @media (max-width: $smallmob) {
   }
+  @media (min-width: $smallmob) and (max-width: $mobile) {}
   @media (min-width: $mobile) and (max-width: $desktop_sm) {}
   @media (min-width: $desktop_sm) and (max-width: $desktop_md) {}
   @media (min-width: $desktop_md) {}
+}
+
+.theme__title {
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 //to use in the components

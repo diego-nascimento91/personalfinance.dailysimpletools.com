@@ -1,27 +1,39 @@
-.addtransaction__container {
-  
-  .addtransaction__title {
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  .addtransaction__input{
-    height: 2.5rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    width: 100%;
-  }
+@import 'assets/styles/variables.scss';
 
-  .addtransaction__textarea {
-    display: block;
-    height: 10rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    resize: none;
-    width: 100%;
-  }
+.addtransaction__container {
+  bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -5rem;
+  position:-webkit-sticky;
+  position: sticky;
+
+  @media (max-width: $smallmob) { margin-right: 1.5rem; }
+  @media (min-width: $smallmob) and (max-width: $mobile) { margin-right: calc(1rem + $hpadding-mobile); }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) { margin-right: $hpadding-desksm; }
+  @media (min-width: $desktop_sm) and (max-width: $desktop_md) { margin-right: $hpadding-deskmd; }
+  @media (min-width: $desktop_md) { margin-right: $hpadding-deskbg; }
 
   .addtransaction__button {
-    height: 3rem;
-    width: 100%;
+    background: white;
+    border: 0.25rem solid black;
+    border-radius: 50%;
+    font-size: 150%;
+    height: 5rem;
+    padding: 0;
+    width: 5rem;
+
+    @media (max-width: $smallmob) {
+      height: 3rem;
+      width: 3rem;
+    }
+    @media (min-width: $smallmob) and (max-width: $mobile) {
+      height: 4rem;
+      width: 4rem;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

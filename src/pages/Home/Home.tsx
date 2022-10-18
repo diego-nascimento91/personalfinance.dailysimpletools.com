@@ -14,6 +14,7 @@ import NavBar from 'components/NavBar/NavBar';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import Welcome from '../../components/Welcome/Welcome';
+import styles from './Home.module.scss';
 
 const Home = () => {
   const nav = useNavigate();
@@ -77,13 +78,15 @@ const Home = () => {
   };
 
   return (
-    <div className='theme__padding'>
-      <Welcome />
-      <NavBar />
-      <DatePicker />
-      <Overview />
-      <ExpensePerCategory transactions={transactionsMonth} />
-      <TransactionsSummary transactions={transactionsAll} />
+    <div className={`theme__padding ${styles.homepage}`}>
+      <div>
+        <Welcome />
+        <NavBar />
+        <DatePicker />
+        <Overview />
+        <ExpensePerCategory transactions={transactionsMonth} />
+        <TransactionsSummary transactions={transactionsAll} />
+      </div>
       <AddTransaction handleFetchTransactionsMonth={handleFetchTransactionsMonth} handleFetchTransactionsAll={handleFetchTransactionsAll} />
     </div>
   );

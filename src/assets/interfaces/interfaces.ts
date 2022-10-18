@@ -1,12 +1,12 @@
 export interface ITransaction {
-  type: string,
+  description: string,
+  price: string
   category: string,
   date: Date,
-  description: string,
-  id?: string,
   payment: string,
-  place: string,
-  price: string
+  note: string,
+  type: string,
+  id?: string,
 }
 
 export interface IQuery {

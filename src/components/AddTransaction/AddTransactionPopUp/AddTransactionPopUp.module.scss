@@ -1,0 +1,28 @@
+@import 'assets/styles/variables.scss';
+
+.popup__container{
+  background: rgb(233, 233, 233);
+  border: 0.2rem solid $menuColor;
+  border-radius: 0.5rem;
+  min-width: 20rem;
+  padding: 2rem;
+  position: absolute;
+  right: 3rem;
+  bottom: 3rem;
+
+  .popup__title{
+    margin-bottom: 2rem;
+  }
+
+  .popup__option {
+    background: $menuColor;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    display: block;
+    height: 3rem;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    width: 90%;
+  }
+}

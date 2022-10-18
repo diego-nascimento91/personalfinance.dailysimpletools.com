@@ -44,9 +44,6 @@ table {
 }
 
 /* minhas adições */
-a {
-  text-decoration: none;
-}
 html {
   box-sizing: border-box;
 	font-size: 62.5%;
@@ -57,4 +54,10 @@ body {
 }
 *, *:before, *:after {
   box-sizing: inherit;
+}
+button:hover{
+	cursor: pointer;
+}
+a {
+  text-decoration: none;
 }

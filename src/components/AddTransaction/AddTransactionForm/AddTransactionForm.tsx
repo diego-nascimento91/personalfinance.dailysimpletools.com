@@ -19,7 +19,7 @@ const AddTransactionForm = (props: Props) => {
   const [account, setAccount] = useState('');
   const [note, setNote] = useState('');
   const [amount, setAmount] = useState('');
-  const [publishDate, setPublishDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
+  const [transactionDate, setTransactionDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState<ICategory[]>();
   const [description, setDescription] = useState('');
@@ -70,7 +70,7 @@ const AddTransactionForm = (props: Props) => {
       description: description,
       amount: amount,
       category: category,
-      date: new Date(publishDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
+      date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
       account: account,
       note: note,
       publishDate: new Date(),
@@ -84,7 +84,7 @@ const AddTransactionForm = (props: Props) => {
     setDescription('');
     setAmount('');
     setCategory('');
-    setPublishDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
+    setTransactionDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
     setAccount('');
     setNote('');
   };
@@ -161,8 +161,8 @@ const AddTransactionForm = (props: Props) => {
                     name='transactiondate'
                     required
                     type="date"
-                    onChange={(event) => setPublishDate(event.target.value)}
-                    value={publishDate}
+                    onChange={(event) => setTransactionDate(event.target.value)}
+                    value={transactionDate}
                   />
                   < label htmlFor='account'>{transactionType === 'income' ? 'Account' : 'Payment Account'}:</label>
                   <input

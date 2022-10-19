@@ -27,7 +27,7 @@ const TransactionsPage = () => {
   const handleUpdateDBs = () => {
     if (user) {
       if (!(categories && categories.length > 0)) {
-        handleFetchCategories(user.uid, setCategories);
+        handleFetchCategories(setCategories);
       }
       if (!(transactionsMonth && transactionsMonth.length > 0)) {
         handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);

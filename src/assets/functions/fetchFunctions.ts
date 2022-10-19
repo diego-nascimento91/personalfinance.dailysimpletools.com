@@ -20,13 +20,19 @@ export const fetchFunction = async (collectionName: string, userId: string, mont
   return response;
 };
 
-export const handleFetchCategories = (userId: string, setCategories: SetterOrUpdater<ICategory[]>) => {
-  fetchFunction('categories', userId)
-    .then(categoriesDB => { setCategories(categoriesDB as ICategory[]); })
-    .catch(error => {
-      alert(error.message);
-      throw error;
-    });
+export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>) => {
+  const collectionPath = 'categories';
+  const [fieldToBeOrdered, orderDirection] = ['ordering', 'asc'];
+
+  const categoriesDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection);
+  setCategories(categoriesDB as ICategory[]);
+
+  // fetchFunction('categories', userId)
+  //   .then(categoriesDB => { setCategories(categoriesDB as ICategory[]); })
+  //   .catch(error => {
+  //     alert(error.message);
+  //     throw error;
+  //   });
 };
 
 export const handleFetchAccounts = (userId: string, setAccounts: SetterOrUpdater<IAccounts[]>) => {

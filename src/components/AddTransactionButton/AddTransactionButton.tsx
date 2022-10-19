@@ -1,4 +1,5 @@
 import styles from './AddTransactionButton.module.scss';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 import AddTransactionPopUp from './AddTransactionPopUp/AddTransactionsPopUp';
 import { useEffect, useRef } from 'react';
 import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
@@ -32,15 +33,15 @@ const AddTransactionButton = () => {
     <section ref={ref} className={classNames({
       [styles.addtransaction__container]: true,
     })}>
-      <button
-        type="button"
+      <AiOutlinePlusCircle 
+        role="button"
         className={classNames({
           [styles.addtransaction__button]: true,
           [styles['addtransaction__button-x']]: showPopUp,
           [styles['addtransaction__button-position']]: showAddForm || showReceiptPopUp
         })} title='Add a new transaction'
         onClick={handlePlusButtonClick}
-      >+</button>
+      />
       <AddTransactionPopUp />
     </section>
   );

@@ -19,18 +19,11 @@
     width: 30rem;
 
     .addtransactionform__closebutton {
-      background: $menuColor;
-      border: none;
       border-radius: 50%;
-      color: white;
-      font-size: 100%;
       height: 2.5rem;
-      line-height: 2.5rem;
       position: absolute;
       right: 1rem;
-      text-align: center;
       top: 1rem;
-      transform: rotate(45deg);
       width: 2.5rem;
     }
 

@@ -2,8 +2,6 @@
 
 .addtransaction__container {
   bottom: 1rem;
-  // display: flex;
-  // justify-content: flex-end;
   position:-webkit-sticky;
   position: sticky;
 
@@ -36,12 +34,10 @@
 
   .addtransaction__button {
     background: white;
-    border: 0.4rem double $positiveMoney;
+    border: 0.15rem solid $positiveMoney;
     border-radius: 50%;
     color: $positiveMoney;
-    font-size: 150%;
-    padding: 0;
-    transition: 100ms;
+    transition: 200ms;
     
     // size of + button @media
     height: 5rem;
@@ -61,7 +57,7 @@
   }
 
   .addtransaction__button-x{
-    transition: 100ms;
+    transition: 200ms;
     transform: rotate(45deg);
   }
 

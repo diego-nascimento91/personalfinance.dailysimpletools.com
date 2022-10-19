@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AiFillCloseCircle } from 'react-icons/ai';
 import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useShowAddFormPopUp, useChosenType, useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
@@ -42,7 +43,7 @@ const AddTransactionForm = () => {
     if (user) {
       const transaction = getTransactionDoc();
       if (currentTransaction) {
-        await handleUpdateDocFunction('transactions', user.uid, {...transaction, id: currentTransaction.id});
+        await handleUpdateDocFunction('transactions', user.uid, { ...transaction, id: currentTransaction.id });
       } else {
         await handleCreateDocFunction('transactions', user.uid, transaction);
       }
@@ -104,11 +105,12 @@ const AddTransactionForm = () => {
                   [styles.updatetransactionform__container]: currentTransaction
                 })
               }>
-                <div
+                <AiFillCloseCircle 
                   className={styles.addtransactionform__closebutton}
                   role='button'
                   onClick={handleCloseButton}
-                >+</div>
+                />
+
                 <h2 className={styles.addtransactionform__title}>
                   {
                     currentTransaction
@@ -188,7 +190,7 @@ const AddTransactionForm = () => {
                   </label>
                   <label htmlFor='transactiondate' className={styles.addtransactionform__label}>Date:</label>
                   <input
-                    className={styles.addtransactionform__input}
+                    className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}
                     id='transactiondate'
                     name='transactiondate'
                     required

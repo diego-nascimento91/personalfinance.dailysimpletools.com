@@ -33,7 +33,7 @@ const AddTransactionForm = () => {
       setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
       setAccount(currentTransaction.account);
       setNote(currentTransaction.note);
-    } 
+    }
   }, [currentTransaction]);
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,19 +41,10 @@ const AddTransactionForm = () => {
 
     if (user) {
       const transaction = getTransactionDoc();
-      try {
-        if (currentTransaction) {
-          await handleUpdateDocFunction('transactions', user.uid, transaction, currentTransaction.id as string);
-          alert('Transaction Updated!');
-        } else {
-          await handleCreateDocFunction('transactions', user.uid, transaction);
-          alert('Transaction successfully added!');
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-          throw error;
-        }
+      if (currentTransaction) {
+        await handleUpdateDocFunction('transaction', user.uid, transaction, currentTransaction.id as string);
+      } else {
+        await handleCreateDocFunction('transaction', user.uid, transaction);
       }
       resetForm();
       setCurrentTransaction(null);

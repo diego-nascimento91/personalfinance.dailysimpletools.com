@@ -58,9 +58,35 @@ export const handleFetchTransactionsMonth = (userId: string, setTransactionsMont
 };
 
 export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+  try {
+    const collectionPath = getCollectionPath(collectionName, userId);
+    await FirebaseFirestoreService.createDocument(collectionPath, document);
+    alert('Document added successfully!');
+  } catch (error) {
+    if(error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
+  }
+};
 
-  const collectionPath = getCollectionPath(collectionName, userId);
-  await FirebaseFirestoreService.createDocument(collectionPath, document);
+export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction, docId: string) => {
+  if(document.id) {
+    delete document.id;
+  } 
+  try {
+    const collectionPath = getCollectionPath(collectionName, userId);
+    if(!docId) {
+      throw new Error ('Missing document id');
+    }
+    await FirebaseFirestoreService.updateDocument(collectionPath, document, docId);
+    alert('Document updated successfully!');
+  } catch (error) {
+    if(error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
+  }
 };
 
 export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
@@ -74,24 +100,6 @@ export const handleDeleteDocFunction = async (collectionName: string, userId: st
     }
   } else {
     throw new Error('Document deletion cancelled');
-  }
-};
-
-export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction, docId: string) => {
-  const collectionPath = getCollectionPath(collectionName, userId);
-  if(!docId) {
-    throw new Error ('Missing document id');
-  }
-  if(document.id) {
-    delete document.id;
-  } 
-  try {
-    await FirebaseFirestoreService.updateDocument(collectionPath, document, docId);
-  } catch (error) {
-    if(error instanceof Error) {
-      alert(error.message);
-      throw error;
-    }
   }
 };
 

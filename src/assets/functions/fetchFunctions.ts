@@ -3,28 +3,22 @@ import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces
 import { SetterOrUpdater } from 'recoil';
 
 // function handleFetchFunction (to be used for any call of fetchFunction)
-export const fetchFunction =
-  async (
-    collectionName: string,
-    userId: string,
-    month?: Date,
-    limitDocs?: number,
-  ) => {
-    // get collectionPath
-    const collectionPath = getCollectionPath(collectionName, userId);
-    // get fieldToBeOrdered and orderDirection according to collection name
-    const [fieldToBeOrdered, orderDirection] = getOrderConfig(collectionName);
-    // get queries by first and last day of month
-    let queries;
-    if (month) {
-      const { firstDay, lastDay } = getFormatDate(month);
-      queries = getQueries(firstDay, lastDay);
-    }
+export const fetchFunction = async (collectionName: string, userId: string, month?: Date, limitDocs?: number) => {
+  // get collectionPath
+  const collectionPath = getCollectionPath(collectionName, userId);
+  // get fieldToBeOrdered and orderDirection according to collection name
+  const [fieldToBeOrdered, orderDirection] = getOrderConfig(collectionName);
+  // get queries by first and last day of month
+  let queries;
+  if (month) {
+    const { firstDay, lastDay } = getFormatDate(month);
+    queries = getQueries(firstDay, lastDay);
+  }
 
-    // const response = await fetchFunction(collectionPath, orderByField, orderByDirection, queries);
-    const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection, queries, limitDocs);
-    return response;
-  };
+  // const response = await fetchFunction(collectionPath, orderByField, orderByDirection, queries);
+  const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection, queries, limitDocs);
+  return response;
+};
 
 export const handleFetchCategories = (userId: string, setCategories: SetterOrUpdater<ICategory[]>) => {
   fetchFunction('categories', userId)
@@ -67,6 +61,38 @@ export const createDocFunction = async (collectionName: string, userId: string, 
 
   const collectionPath = getCollectionPath(collectionName, userId);
   await FirebaseFirestoreService.createDocument(collectionPath, document);
+};
+
+export const deleteDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+  const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
+  if (deleteConfirmation) {
+    const collectionPath = getCollectionPath(collectionName, userId);
+    if (document.id) {
+      await FirebaseFirestoreService.deleteDocument(collectionPath, document.id);
+    } else {
+      throw new Error('Missing document id');
+    }
+  } else {
+    throw new Error('Document deletion cancelled');
+  }
+};
+
+export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction, docId: string) => {
+  const collectionPath = getCollectionPath(collectionName, userId);
+  if(!docId) {
+    throw new Error ('Missing document id');
+  }
+  if(document.id) {
+    delete document.id;
+  } 
+  try {
+    await FirebaseFirestoreService.updateDocument(collectionPath, document, docId);
+  } catch (error) {
+    if(error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
+  }
 };
 
 // helper functions

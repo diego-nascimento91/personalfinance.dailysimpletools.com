@@ -35,6 +35,7 @@
     .addtransactionform__title {
       font-weight: bold;
       margin-bottom: 1rem;
+      text-align: center;
     }
     .addtransactionform__input{
       height: 2.5rem;
@@ -63,6 +64,14 @@
       color: white;
       height: 3rem;
       width: 100%;
+    }
+  }
+
+  .updatetransactionform__container {
+    background: rgb(255, 238, 196);
+    input, select, textarea {
+      background: rgb(255, 251, 241);
+      border: none
     }
   }
 }

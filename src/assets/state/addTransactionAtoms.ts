@@ -1,4 +1,4 @@
-import { ITransaction } from 'assets/interfaces/interfaces';
+import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { atom } from 'recoil';
 
 export const useShowChooseTypeTransactionPopUpAtom = atom<boolean> ({
@@ -11,7 +11,7 @@ export const useShowAddFormPopUpAtom = atom<boolean> ({
   default: false
 });
 
-export const useChosenTypeAtom = atom<'expense' | 'income'> ({
+export const useChosenTypeAtom = atom<ITransactionType> ({
   key: 'useChosenTypeAtom',
   default: 'expense'
 });

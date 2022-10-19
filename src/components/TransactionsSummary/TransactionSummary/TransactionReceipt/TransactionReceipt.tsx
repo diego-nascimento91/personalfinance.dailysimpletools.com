@@ -1,9 +1,17 @@
-import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { deleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { useCurrentTransaction, useShowAddFormPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
 import styles from './TransactionReceipt.module.scss';
 
 const TransactionReceipt = () => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
   const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
+  const [user] = useUser();
+  const [, setTransactionsAll] = useTransactionsAll();
+  const [, setTransactionsMonth] = useTransactionsMonth();
+  const [month] = useChosenMonth();
+  const [, setShowAddForm] = useShowAddFormPopUp();
 
   const handleCloseButton = () => {
     const body = document.querySelector('body');
@@ -28,11 +36,32 @@ const TransactionReceipt = () => {
     const month = date.toLocaleString('en-GB', { month: 'long' });
     const year = date.getFullYear();
     const hour = date.getHours();
-    console.log('hour', hour);
     const min = date.getMinutes();
     const dateString = `${day < 10 ? '0' + day : day} of ${month.toLocaleLowerCase()} of ${year} at ${hour < 10 ? '0' + hour : hour}:${min < 10 ? '0' + min : min}`;
 
     return dateString;
+  };
+
+  const handleEditButtonClick = () => {
+    setShowReceipt(false);
+    setShowAddForm(true);
+  };
+  
+  const handleDeleteButtonClick = async () => {
+    if (user && currentTransaction){
+      try {
+        await deleteDocFunction('transactions', user.uid, currentTransaction);
+        alert('Transaction successfully deleted!');
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+          throw error;
+        }
+      }
+      handleCloseButton();
+      handleFetchRecentTransactions(user.uid, setTransactionsAll);
+      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
+    }
   };
 
   return (
@@ -78,10 +107,26 @@ const TransactionReceipt = () => {
                     ID {currentTransaction.id}
                   </li>
                 </ul>
+                <div className={styles.receipt__buttons}>
+                  <button
+                    type='button'
+                    className={styles.receipt__button}
+                    onClick={handleEditButtonClick}
+                  >Edit</button>
+                  <button
+                    type='button'
+                    className={styles.receipt__button}
+                    onClick={handleDeleteButtonClick}
+                  >Delete</button>
+                </div>
               </section>
             </div >
           )
-          : null
+          : currentTransaction 
+            ? (
+              <AddTransactionForm/>
+            )
+            : null
       }
     </>
   );

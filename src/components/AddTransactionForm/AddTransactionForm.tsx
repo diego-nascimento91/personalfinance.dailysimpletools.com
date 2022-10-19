@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { createDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
-import { ITransaction } from 'assets/interfaces/interfaces';
-import { useShowAddFormPopUp, useChosenType } from 'assets/state/hooks/addTransactionHooks';
+import { useEffect, useState } from 'react';
+import { createDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/fetchFunctions';
+import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
+import { useShowAddFormPopUp, useChosenType, useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
+import classNames from 'classnames';
 
 
 const AddTransactionForm = () => {
@@ -14,7 +15,8 @@ const AddTransactionForm = () => {
   const [categories,] = useCategories();
   const [accounts,] = useAccounts();
   const [showAddForm, setShowAddForm] = useShowAddFormPopUp();
-  const [transactionType,] = useChosenType();
+  const [transactionType, setTransactionType] = useChosenType();
+  const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
   const [account, setAccount] = useState('');
   const [note, setNote] = useState('');
   const [amount, setAmount] = useState(0);
@@ -22,14 +24,31 @@ const AddTransactionForm = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
 
+  useEffect(() => {
+    if (currentTransaction) {
+      setTransactionType(currentTransaction.type);
+      setDescription(currentTransaction.description);
+      setAmount(currentTransaction.amount);
+      setCategory(currentTransaction.category);
+      setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
+      setAccount(currentTransaction.account);
+      setNote(currentTransaction.note);
+    } 
+  }, [currentTransaction]);
+
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (user) {
       const transaction = getTransactionDoc();
       try {
-        await createDocFunction('transactions', user.uid, transaction);
-        alert('Transactions successfully added');
+        if (currentTransaction) {
+          await handleUpdateDocFunction('transactions', user.uid, transaction, currentTransaction.id as string);
+          alert('Transaction Updated!');
+        } else {
+          await createDocFunction('transactions', user.uid, transaction);
+          alert('Transaction successfully added!');
+        }
       } catch (error) {
         if (error instanceof Error) {
           alert(error.message);
@@ -37,6 +56,7 @@ const AddTransactionForm = () => {
         }
       }
       resetForm();
+      setCurrentTransaction(null);
       handleCloseButton();
       handleFetchRecentTransactions(user.uid, setTransactionsAll);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
@@ -73,6 +93,7 @@ const AddTransactionForm = () => {
       body.style.overflow = 'scroll';
     }
     setShowAddForm(false);
+    setCurrentTransaction(null);
   };
 
   return (
@@ -80,15 +101,52 @@ const AddTransactionForm = () => {
       {
         showAddForm ?
           (
-            <div className={styles.addtransactionform__background}>
-              <section className={styles.addtransactionform__container}>
+            <div className={
+              classNames({
+                [styles.addtransactionform__background]: true,
+                [styles.updatetransactionform__container]: currentTransaction
+              })
+            }>
+              <section className={
+                classNames({
+                  [styles.addtransactionform__container]: true,
+                  [styles.updatetransactionform__container]: currentTransaction
+                })
+              }>
                 <button
                   className={styles.addtransactionform__closebutton}
                   type='button'
                   onClick={handleCloseButton}
                 >+</button>
-                <h2 className={styles.addtransactionform__title}>Add a new {transactionType === 'income' ? 'Income' : 'Expense'}</h2>
+                <h2 className={styles.addtransactionform__title}>
+                  {
+                    currentTransaction
+                      ? 'Update Transaction'
+                      : `Add a new ${transactionType === 'income' ? 'Income' : 'Expense'}`
+                  }
+                </h2>
                 <form onSubmit={handleFormSubmit}>
+                  {
+                    currentTransaction
+                      ? (
+                        <>
+                          <label>
+                            Type:
+                            <select
+                              className={styles.addtransactionform__input}
+                              value={transactionType}
+                              onChange={(e) => setTransactionType(e.target.value as ITransactionType)}
+                              required
+                            >
+                              <option value=""></option>
+                              <option value='income'>Income</option>
+                              <option value='expense'>Expense</option>
+                            </select>
+                          </label>
+                        </>
+                      )
+                      : null
+                  }
                   <label htmlFor='transactiondescription'>Description:</label>
                   <input
                     className={styles.addtransactionform__input}
@@ -111,9 +169,9 @@ const AddTransactionForm = () => {
                   />
                   <label>
                     Category:
-                    <select 
-                      className={styles.addtransactionform__input} 
-                      value={category} 
+                    <select
+                      className={styles.addtransactionform__input}
+                      value={category}
                       onChange={(e) => setCategory(e.target.value)}
                       required
                     >
@@ -149,9 +207,9 @@ const AddTransactionForm = () => {
                   />
                   <label>
                     {transactionType === 'income' ? 'Account' : 'Payment Account'}:
-                    <select 
-                      className={styles.addtransactionform__input} 
-                      value={account} 
+                    <select
+                      className={styles.addtransactionform__input}
+                      value={account}
                       onChange={(e) => setAccount(e.target.value)}
                       required
                     >
@@ -176,9 +234,14 @@ const AddTransactionForm = () => {
                     value={note}
                     placeholder='(optional) take any notes you may find useful about this transaction.'
                   />
-                  <button className={styles.addtransactionform__button} type='submit'>{
-                    transactionType === 'income' ? ('Add Income') : ('Add Expense')
-                  }</button>
+                  <button className={styles.addtransactionform__button} type='submit'>
+                    {
+                      currentTransaction
+                        ? ('Update Transaction')
+                        : transactionType === 'income' ? ('Add Income') : ('Add Expense')
+                    }
+
+                  </button>
                 </form>
               </section>
             </div>

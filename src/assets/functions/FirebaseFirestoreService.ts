@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection, limit, QueryConstraint } from 'firebase/firestore';
+import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection, limit, QueryConstraint } from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
 import { ITransaction, IQuery, ICategory } from 'assets/interfaces/interfaces';
@@ -51,35 +51,26 @@ const readDocument = async (collectionPath: string, docPath: string) => {
 
 const createDocument = async (collectionPath: string, document: ITransaction | ICategory, id?: string) => {
   if (id) {
-    return setDoc(doc(db, collectionPath, id), document);
+    return await setDoc(doc(db, collectionPath, id), document);
   } else {
-    return addDoc(collection(db, collectionPath), document);
+    return await addDoc(collection(db, collectionPath), document);
   }
 };
 
-// it has to be checked if it is working
-const updateTransaction = async (transaction: {
-  paymentMethod: string;
-  place: string;
-  price: number;
-  date: string;
-  category: string;
-  description: string;
-}, id: number) => {
-  try {
-    const dbDoc = doc(db, 'transactions', 'teste02');
-    await setDoc(dbDoc, { ...transaction, id: id }, { merge: true });
+const deleteDocument = async (collectionPath: string, id: string) => {
+  return await deleteDoc(doc(db, collectionPath, id));
+};
 
-  } catch (err) {
-    console.error(err);
-    alert('An error occured while fetching user data');
-  }
+// it has to be checked if it is working
+const updateDocument = async (collectionPath: string, document: ITransaction, id: string) => {
+  return await setDoc(doc(db, collectionPath, id), document, { merge: true });
 };
 
 const FirebaseFirestoreService = {
   createDocument,
   readDocument,
   readAllDocsFromCollection,
-  updateTransaction,
+  updateDocument,
+  deleteDocument,
 };
 export default FirebaseFirestoreService;

@@ -1,3 +1,5 @@
+export type ITransactionType = 'income' | 'expense' | 'other';
+
 export interface ITransaction {
   description: string,
   amount: number
@@ -6,7 +8,7 @@ export interface ITransaction {
   account: string,
   note: string,
   publishDate: Date,
-  type: string;
+  type: ITransactionType;
   id?: string,
 }
 
@@ -20,7 +22,7 @@ export interface IQuery {
 export interface ICategory {
   description: string
   value: string,
-  type: 'income' | 'expense' | 'other',
+  type: ITransactionType,
   icon: string,
   id?: string,
   ordering?: number

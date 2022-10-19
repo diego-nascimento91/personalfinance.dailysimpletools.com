@@ -3,7 +3,7 @@ import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces
 import { SetterOrUpdater } from 'recoil';
 
 // function handleFetchFunction (to be used for any call of fetchFunction)
-export const newFetchFunction =
+export const fetchFunction =
   async (
     collectionName: string,
     userId: string,
@@ -27,7 +27,7 @@ export const newFetchFunction =
   };
 
 export const handleFetchCategories = (userId: string, setCategories: SetterOrUpdater<ICategory[]>) => {
-  newFetchFunction('categories', userId)
+  fetchFunction('categories', userId)
     .then(categoriesDB => { setCategories(categoriesDB as ICategory[]); })
     .catch(error => {
       alert(error.message);
@@ -36,7 +36,7 @@ export const handleFetchCategories = (userId: string, setCategories: SetterOrUpd
 };
 
 export const handleFetchAccounts = (userId: string, setAccounts: SetterOrUpdater<IAccounts[]>) => {
-  newFetchFunction('accounts', userId)
+  fetchFunction('accounts', userId)
     .then(accountsDB => { setAccounts(accountsDB as IAccounts[]); })
     .catch(error => {
       alert(error.message);
@@ -46,7 +46,7 @@ export const handleFetchAccounts = (userId: string, setAccounts: SetterOrUpdater
 
 export const handleFetchRecentTransactions = (userId: string, setTransactionsAll: SetterOrUpdater<ITransaction[]>) => {
   const limitDocs = 4;
-  newFetchFunction('transactions', userId, undefined, limitDocs)
+  fetchFunction('transactions', userId, undefined, limitDocs)
     .then(transactionAll => { setTransactionsAll(transactionAll as ITransaction[]); })
     .catch(error => {
       alert(error.message);
@@ -55,7 +55,7 @@ export const handleFetchRecentTransactions = (userId: string, setTransactionsAll
 };
 
 export const handleFetchTransactionsMonth = (userId: string, setTransactionsMonth: SetterOrUpdater<ITransaction[]>, month: Date) => {
-  newFetchFunction('transactions', userId, month)
+  fetchFunction('transactions', userId, month)
     .then(transactionsMonth => { setTransactionsMonth(transactionsMonth as ITransaction[]); })
     .catch(error => {
       alert(error.message);

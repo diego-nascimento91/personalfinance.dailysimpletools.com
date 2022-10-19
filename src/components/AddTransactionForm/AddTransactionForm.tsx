@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/fetchFunctions';
 import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useShowAddFormPopUp, useChosenType, useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
-import { useAccounts, useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
 import classNames from 'classnames';
 
 
 const AddTransactionForm = () => {
   const [user,] = useUser();
-  const [, setTransactionsAll] = useTransactionsAll();
+  const [, setRecentTransactions] = useRecentTransactions();
   const [, setTransactionsMonth] = useTransactionsMonth();
   const [month] = useChosenMonth();
   const [categories,] = useCategories();
@@ -49,7 +49,7 @@ const AddTransactionForm = () => {
       resetForm();
       setCurrentTransaction(null);
       handleCloseButton();
-      handleFetchRecentTransactions(user.uid, setTransactionsAll);
+      handleFetchRecentTransactions(user.uid, setRecentTransactions);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }
   };

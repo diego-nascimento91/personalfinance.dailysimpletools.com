@@ -11,8 +11,8 @@ export const useTransactionsMonthAtom = atom<ITransaction[]> ({
   default: []
 });
 
-export const useTransactionsAllAtom = atom<ITransaction[]> ({
-  key: 'useTransactionsAllAtom',
+export const useRecentTransactionsAtom = atom<ITransaction[]> ({
+  key: 'useRecentTransactionsAtom',
   default: []
 });
 

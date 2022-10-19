@@ -1,6 +1,6 @@
 import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
 import { useCurrentTransaction, useShowAddFormPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
-import { useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
 import styles from './TransactionReceipt.module.scss';
 
@@ -8,7 +8,7 @@ const TransactionReceipt = () => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
   const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
   const [user] = useUser();
-  const [, setTransactionsAll] = useTransactionsAll();
+  const [, setRecentTransactions] = useRecentTransactions();
   const [, setTransactionsMonth] = useTransactionsMonth();
   const [month] = useChosenMonth();
   const [, setShowAddForm] = useShowAddFormPopUp();
@@ -51,7 +51,7 @@ const TransactionReceipt = () => {
     if (user && currentTransaction) {
       await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
       handleCloseButton();
-      handleFetchRecentTransactions(user.uid, setTransactionsAll);
+      handleFetchRecentTransactions(user.uid, setRecentTransactions);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }
   };

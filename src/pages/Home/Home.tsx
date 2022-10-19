@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAccounts, useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
 import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
 import DatePicker from 'components/DatePicker/DatePicker';
@@ -15,7 +15,7 @@ const Home = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
   const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
-  const [transactionsAll, setTransactionsAll] = useTransactionsAll();
+  const [recentTransactions, setRecentTransactions] = useRecentTransactions();
   const [categories, setCategories] = useCategories();
   const [accounts, setAccounts] = useAccounts();
   const [month,] = useChosenMonth();
@@ -36,8 +36,8 @@ const Home = () => {
       if(!(accounts && accounts.length > 0)){
         handleFetchAccounts(setAccounts);
       }
-      if(!(transactionsAll && transactionsAll.length > 0)) {
-        handleFetchRecentTransactions(user.uid, setTransactionsAll);
+      if(!(recentTransactions && recentTransactions.length > 0)) {
+        handleFetchRecentTransactions(user.uid, setRecentTransactions);
       }
       if(!(transactionsMonth && transactionsMonth.length > 0)){
         handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
@@ -53,7 +53,7 @@ const Home = () => {
         <DatePicker />
         <Overview />
         <ExpensePerCategory transactions={transactionsMonth} />
-        <TransactionsSummary transactions={transactionsAll} />
+        <TransactionsSummary transactions={recentTransactions} />
       </div>
       <AddTransactionButton />
     </div>

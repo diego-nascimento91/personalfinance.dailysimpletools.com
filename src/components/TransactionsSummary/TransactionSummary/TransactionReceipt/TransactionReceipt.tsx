@@ -46,18 +46,10 @@ const TransactionReceipt = () => {
     setShowReceipt(false);
     setShowAddForm(true);
   };
-  
+
   const handleDeleteButtonClick = async () => {
-    if (user && currentTransaction){
-      try {
-        await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
-        alert('Transaction successfully deleted!');
-      } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-          throw error;
-        }
-      }
+    if (user && currentTransaction) {
+      await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
       handleCloseButton();
       handleFetchRecentTransactions(user.uid, setTransactionsAll);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
@@ -122,9 +114,9 @@ const TransactionReceipt = () => {
               </section>
             </div >
           )
-          : currentTransaction 
+          : currentTransaction
             ? (
-              <AddTransactionForm/>
+              <AddTransactionForm />
             )
             : null
       }

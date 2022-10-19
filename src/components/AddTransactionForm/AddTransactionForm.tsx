@@ -42,9 +42,9 @@ const AddTransactionForm = () => {
     if (user) {
       const transaction = getTransactionDoc();
       if (currentTransaction) {
-        await handleUpdateDocFunction('transaction', user.uid, transaction, currentTransaction.id as string);
+        await handleUpdateDocFunction('transactions', user.uid, {...transaction, id: currentTransaction.id});
       } else {
-        await handleCreateDocFunction('transaction', user.uid, transaction);
+        await handleCreateDocFunction('transactions', user.uid, transaction);
       }
       resetForm();
       setCurrentTransaction(null);

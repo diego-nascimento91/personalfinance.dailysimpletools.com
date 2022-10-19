@@ -63,26 +63,26 @@ export const handleCreateDocFunction = async (collectionName: string, userId: st
     await FirebaseFirestoreService.createDocument(collectionPath, document);
     alert('Document added successfully!');
   } catch (error) {
-    if(error instanceof Error) {
+    if (error instanceof Error) {
       alert(error.message);
       throw error;
     }
   }
 };
 
-export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction, docId: string) => {
-  if(document.id) {
-    delete document.id;
-  } 
+export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
   try {
     const collectionPath = getCollectionPath(collectionName, userId);
-    if(!docId) {
-      throw new Error ('Missing document id');
+    if (document.id) {
+      const docId = document.id;
+      delete document.id;
+      await FirebaseFirestoreService.updateDocument(collectionPath, document, docId);
+      alert('Document updated successfully!');
+    } else {
+      throw new Error('Missing document ID');
     }
-    await FirebaseFirestoreService.updateDocument(collectionPath, document, docId);
-    alert('Document updated successfully!');
   } catch (error) {
-    if(error instanceof Error) {
+    if (error instanceof Error) {
       alert(error.message);
       throw error;
     }
@@ -90,16 +90,24 @@ export const handleUpdateDocFunction = async (collectionName: string, userId: st
 };
 
 export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
-  const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
-  if (deleteConfirmation) {
-    const collectionPath = getCollectionPath(collectionName, userId);
-    if (document.id) {
-      await FirebaseFirestoreService.deleteDocument(collectionPath, document.id);
+  try {
+    const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
+    if (deleteConfirmation) {
+      const collectionPath = getCollectionPath(collectionName, userId);
+      if (document.id) {
+        await FirebaseFirestoreService.deleteDocument(collectionPath, document.id);
+        alert('Document deleted successfully!');
+      } else {
+        throw new Error('Missing document ID');
+      }
     } else {
-      throw new Error('Missing document id');
+      throw new Error('Document deletion cancelled');
     }
-  } else {
-    throw new Error('Document deletion cancelled');
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
   }
 };
 

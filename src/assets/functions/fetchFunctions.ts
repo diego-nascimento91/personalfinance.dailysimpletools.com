@@ -1,27 +1,9 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces';
+import { IAccounts, ICategory, IQuery, ITransaction } from 'assets/interfaces/interfaces';
 import { SetterOrUpdater } from 'recoil';
 
-// function handleFetchFunction (to be used for any call of fetchFunction)
-export const fetchFunction = async (collectionName: string, userId: string, month?: Date, limitDocs?: number) => {
-  // get collectionPath
-  const collectionPath = getCollectionPath(collectionName, userId);
-  // get fieldToBeOrdered and orderDirection according to collection name
-  const [fieldToBeOrdered, orderDirection] = getOrderConfig(collectionName);
-  // get queries by first and last day of month
-  let queries;
-  if (month) {
-    const { firstDay, lastDay } = getFormatDate(month);
-    queries = getQueries(firstDay, lastDay);
-  }
-
-  // const response = await fetchFunction(collectionPath, orderByField, orderByDirection, queries);
-  const response = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection, queries, limitDocs);
-  return response;
-};
-
 export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>) => {
-  const collectionPath = 'categories';
+  const collectionPath = getCollectionPath('categories');
   const [fieldToBeOrdered, orderDirection] = ['ordering', 'asc'];
 
   try {
@@ -36,7 +18,7 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
 };
 
 export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts[]>) => {
-  const collectionPath = 'accounts';
+  const collectionPath = getCollectionPath('accounts');
   const [fieldToBeOrdered, orderDirection] = ['value', 'asc'];
 
   try {
@@ -50,23 +32,38 @@ export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts
   }
 };
 
-export const handleFetchRecentTransactions = (userId: string, setTransactionsAll: SetterOrUpdater<ITransaction[]>) => {
+export const handleFetchRecentTransactions = async (userId: string, setRecentTransactions: SetterOrUpdater<ITransaction[]>) => {
+  const collectionPath = getCollectionPath('transactions', userId);
+  const [fieldToBeOrdered, orderDirection] = ['date', 'desc'];
+  const queries: IQuery[] = [];
   const limitDocs = 4;
-  fetchFunction('transactions', userId, undefined, limitDocs)
-    .then(transactionAll => { setTransactionsAll(transactionAll as ITransaction[]); })
-    .catch(error => {
+
+  try {
+    const recentTransactions = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection, queries,limitDocs);
+    setRecentTransactions(recentTransactions as ITransaction[]);
+  } catch (error) {
+    if (error instanceof Error) {
       alert(error.message);
       throw error;
-    });
+    }
+  }
 };
 
-export const handleFetchTransactionsMonth = (userId: string, setTransactionsMonth: SetterOrUpdater<ITransaction[]>, month: Date) => {
-  fetchFunction('transactions', userId, month)
-    .then(transactionsMonth => { setTransactionsMonth(transactionsMonth as ITransaction[]); })
-    .catch(error => {
+export const handleFetchTransactionsMonth = async (userId: string, setTransactionsMonth: SetterOrUpdater<ITransaction[]>, month: Date) => {
+  const collectionPath = getCollectionPath('transactions', userId);
+  const [fieldToBeOrdered, orderDirection] = ['date', 'desc'];
+  const { firstDay, lastDay } = getFormatDate(month);
+  const  queries = getQueries(firstDay, lastDay);
+
+  try {
+    const transactionsMonth = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection, queries);
+    setTransactionsMonth(transactionsMonth as ITransaction[]);
+  } catch (error) {
+    if (error instanceof Error) {
       alert(error.message);
       throw error;
-    });
+    }
+  }
 };
 
 export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
@@ -124,11 +121,11 @@ export const handleDeleteDocFunction = async (collectionName: string, userId: st
 };
 
 // helper functions
-const getCollectionPath = (collectionName: string, userId: string) => {
+const getCollectionPath = (collectionName: string, userId?: string) => {
   let collectionPath;
   if (collectionName === 'categories') {
     collectionPath = 'categories';
-  } else if (collectionName === 'transactions') {
+  } else if (collectionName === 'transactions' && userId) {
     collectionPath = `users/${userId}/transactions`;
   } else if (collectionName === 'accounts') {
     collectionPath = 'accounts';
@@ -146,25 +143,6 @@ const getFormatDate = (date: Date) => {
   const lastDay = new Date(year, month + 1, 0);
 
   return { firstDay, lastDay };
-};
-
-const getOrderConfig = (collectionName: string) => {
-  let fieldToBeOrdered, orderDirection;
-
-  if (collectionName === 'categories') {
-    fieldToBeOrdered = 'ordering';
-    orderDirection = 'asc';
-  } else if (collectionName === 'transactions') {
-    fieldToBeOrdered = 'date';
-    orderDirection = 'desc';
-  } else if (collectionName === 'accounts') {
-    fieldToBeOrdered = 'value';
-    orderDirection = 'asc';
-  } else {
-    throw Error('Missing/wrong collection name');
-  }
-
-  return [fieldToBeOrdered, orderDirection];
 };
 
 const getQueries = (firstDay: Date, lastDay: Date) => {

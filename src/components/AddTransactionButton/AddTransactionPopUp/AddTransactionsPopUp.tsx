@@ -1,4 +1,5 @@
 import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useChosenType } from 'assets/state/hooks/addTransactionHooks';
+import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
 import styles from './AddTransactionPopUp.module.scss';
 
 
@@ -21,7 +22,7 @@ const AddTransactionPopUp = () => {
   };
   const setOverflowHidden = () => {
     const body = document.querySelector('body');
-    if(body){
+    if (body) {
       body.style.overflow = 'hidden';
     }
   };
@@ -45,7 +46,7 @@ const AddTransactionPopUp = () => {
               >Expense</button>
             </div >
           )
-          : null
+          : <AddTransactionForm />
       }
     </>
   );

@@ -31,13 +31,13 @@ const AddTransactionButton = () => {
   return (
     <section ref={ref} className={classNames({
       [styles.addtransaction__container]: true,
-      [styles['addtransaction__container-position']]: showAddForm || showReceiptPopUp
     })}>
       <button
         type="button"
         className={classNames({
           [styles.addtransaction__button]: true,
           [styles['addtransaction__button-x']]: showPopUp,
+          [styles['addtransaction__button-position']]: showAddForm || showReceiptPopUp
         })} title='Add a new transaction'
         onClick={handlePlusButtonClick}
       >+</button>

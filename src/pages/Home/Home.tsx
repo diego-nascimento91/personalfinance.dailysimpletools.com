@@ -10,7 +10,6 @@ import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import Welcome from '../../components/Welcome/Welcome';
 import styles from './Home.module.scss';
-import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
 
 const Home = () => {
   const nav = useNavigate();
@@ -57,7 +56,6 @@ const Home = () => {
         <TransactionsSummary transactions={transactionsAll} />
       </div>
       <AddTransactionButton />
-      <AddTransactionForm />
     </div>
   );
 };

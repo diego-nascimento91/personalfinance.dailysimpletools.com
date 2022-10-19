@@ -1,4 +1,4 @@
-import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useCurrentTransaction, useShowAddFormPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';

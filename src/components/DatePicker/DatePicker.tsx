@@ -1,4 +1,4 @@
-import { handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { useEffect } from 'react';
 import DatePickerReact from 'react-datepicker';

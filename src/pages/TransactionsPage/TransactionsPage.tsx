@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';

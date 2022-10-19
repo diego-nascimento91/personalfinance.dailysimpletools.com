@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/fetchFunctions';
+import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useShowAddFormPopUp, useChosenType, useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';

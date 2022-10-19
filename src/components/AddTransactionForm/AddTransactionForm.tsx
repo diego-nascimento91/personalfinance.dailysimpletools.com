@@ -104,11 +104,11 @@ const AddTransactionForm = () => {
                   [styles.updatetransactionform__container]: currentTransaction
                 })
               }>
-                <button
+                <div
                   className={styles.addtransactionform__closebutton}
-                  type='button'
+                  role='button'
                   onClick={handleCloseButton}
-                >+</button>
+                >+</div>
                 <h2 className={styles.addtransactionform__title}>
                   {
                     currentTransaction
@@ -121,7 +121,7 @@ const AddTransactionForm = () => {
                     currentTransaction
                       ? (
                         <>
-                          <label>
+                          <label className={styles.addtransactionform__label}>
                             Type:
                             <select
                               className={styles.addtransactionform__input}
@@ -138,7 +138,7 @@ const AddTransactionForm = () => {
                       )
                       : null
                   }
-                  <label htmlFor='transactiondescription'>Description:</label>
+                  <label htmlFor='transactiondescription' className={styles.addtransactionform__label}>Description:</label>
                   <input
                     className={styles.addtransactionform__input}
                     id='transactiondescription'
@@ -148,7 +148,7 @@ const AddTransactionForm = () => {
                     onChange={(event) => setDescription(event.target.value)}
                     value={description}
                   />
-                  <label htmlFor='transactionamount'>{transactionType === 'income' ? 'Amount ($)' : 'Price ($)'}:</label>
+                  <label htmlFor='transactionamount' className={styles.addtransactionform__label}>{transactionType === 'income' ? 'Amount ($)' : 'Price ($)'}:</label>
                   <input
                     className={styles.addtransactionform__input}
                     id='transactionamount'
@@ -158,7 +158,7 @@ const AddTransactionForm = () => {
                     onChange={(event) => setAmount(+event.target.value)}
                     value={amount}
                   />
-                  <label>
+                  <label className={styles.addtransactionform__label}>
                     Category:
                     <select
                       className={styles.addtransactionform__input}
@@ -186,7 +186,7 @@ const AddTransactionForm = () => {
                       }
                     </select>
                   </label>
-                  <label htmlFor='transactiondate'>Date:</label>
+                  <label htmlFor='transactiondate' className={styles.addtransactionform__label}>Date:</label>
                   <input
                     className={styles.addtransactionform__input}
                     id='transactiondate'
@@ -196,7 +196,7 @@ const AddTransactionForm = () => {
                     onChange={(event) => setTransactionDate(event.target.value)}
                     value={transactionDate}
                   />
-                  <label>
+                  <label className={styles.addtransactionform__label}>
                     {transactionType === 'income' ? 'Account' : 'Payment Account'}:
                     <select
                       className={styles.addtransactionform__input}
@@ -216,7 +216,7 @@ const AddTransactionForm = () => {
                       }
                     </select>
                   </label>
-                  <label htmlFor='transactionnote'>Notes:</label>
+                  <label htmlFor='transactionnote' className={styles.addtransactionform__label}>Notes:</label>
                   <textarea
                     className={styles.addtransactionform__note}
                     id='transactionnote'

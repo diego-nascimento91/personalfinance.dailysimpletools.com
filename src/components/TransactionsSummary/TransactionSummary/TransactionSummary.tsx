@@ -1,5 +1,5 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useCurrentTransaction, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 import TransactionReceipt from './TransactionReceipt/TransactionReceipt';
 import styles from './TransactionSummary.module.scss';
@@ -7,8 +7,9 @@ import styles from './TransactionSummary.module.scss';
 
 const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
-  const [,setCurrentTransaction] = useCurrentTransaction();
-  
+  const [, setCurrentTransaction] = useCurrentTransaction();
+  const [showChooseTypeTransactionPopUp] = useShowChooseTypeTransactionPopUp();
+
   const formatDate = (date: Date) => {
     const day = date.getUTCDate();
     const month = date.toLocaleString('en-GB', { month: 'short' });
@@ -18,12 +19,14 @@ const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
   };
 
   const handleTransactionClick = () => {
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.overflow = 'hidden';
+    if (!showChooseTypeTransactionPopUp) {
+      const body = document.querySelector('body');
+      if (body) {
+        body.style.overflow = 'hidden';
+      }
+      setCurrentTransaction(transaction);
+      setShowReceipt(true);
     }
-    setCurrentTransaction(transaction);
-    setShowReceipt(true);
   };
 
   return (
@@ -46,11 +49,11 @@ const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
         <p className={styles.transaction__date}>{formatDate(transaction.date)}</p>
       </div>
       {
-        showReceipt 
-          ? <TransactionReceipt/>
+        showReceipt
+          ? <TransactionReceipt />
           : null
       }
-      
+
     </>
 
   );

@@ -21,8 +21,8 @@ export const useShowReceiptPopUpAtom = atom<boolean> ({
   default: false
 });
 
-export const useCurrentReceiptAtom = atom<ITransaction | null> ({
-  key: 'useCurrentReceiptAtom',
+export const useCurrentTransactionAtom = atom<ITransaction | null> ({
+  key: 'useCurrentTransactionAtom',
   default: null
 });
 

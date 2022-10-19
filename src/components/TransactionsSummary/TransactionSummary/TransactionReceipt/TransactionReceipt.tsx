@@ -1,9 +1,9 @@
-import { useCurrentReceipt, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import styles from './TransactionReceipt.module.scss';
 
 const TransactionReceipt = () => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
-  const [currentTransaction, setCurrentTransaction] = useCurrentReceipt();
+  const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
 
   const handleCloseButton = () => {
     const body = document.querySelector('body');

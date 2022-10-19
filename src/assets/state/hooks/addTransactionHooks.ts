@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { useShowAddFormPopUpAtom, useShowChooseTypeTransactionPopUpAtom, useChosenTypeAtom, useShowReceiptPopUpAtom, useCurrentReceiptAtom } from '../addTransactionAtoms';
+import { useShowAddFormPopUpAtom, useShowChooseTypeTransactionPopUpAtom, useChosenTypeAtom, useShowReceiptPopUpAtom, useCurrentTransactionAtom } from '../addTransactionAtoms';
 
 
 export const useShowChooseTypeTransactionPopUp = () => {
@@ -18,6 +18,6 @@ export const useShowReceiptPopUp = () => {
   return useRecoilState(useShowReceiptPopUpAtom);
 };
 
-export const useCurrentReceipt = () => {
-  return useRecoilState(useCurrentReceiptAtom);
+export const useCurrentTransaction = () => {
+  return useRecoilState(useCurrentTransactionAtom);
 };

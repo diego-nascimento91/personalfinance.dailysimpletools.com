@@ -1,5 +1,5 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useCurrentReceipt, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 import TransactionReceipt from './TransactionReceipt/TransactionReceipt';
 import styles from './TransactionSummary.module.scss';
@@ -7,7 +7,7 @@ import styles from './TransactionSummary.module.scss';
 
 const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
-  const [,setCurrentTransaction] = useCurrentReceipt();
+  const [,setCurrentTransaction] = useCurrentTransaction();
   
   const formatDate = (date: Date) => {
     const day = date.getUTCDate();

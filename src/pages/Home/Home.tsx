@@ -34,7 +34,7 @@ const Home = () => {
         handleFetchCategories(setCategories);
       }
       if(!(accounts && accounts.length > 0)){
-        handleFetchAccounts(user.uid, setAccounts);
+        handleFetchAccounts(setAccounts);
       }
       if(!(transactionsAll && transactionsAll.length > 0)) {
         handleFetchRecentTransactions(user.uid, setTransactionsAll);

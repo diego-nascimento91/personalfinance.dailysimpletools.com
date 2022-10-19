@@ -24,24 +24,30 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
   const collectionPath = 'categories';
   const [fieldToBeOrdered, orderDirection] = ['ordering', 'asc'];
 
-  const categoriesDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection);
-  setCategories(categoriesDB as ICategory[]);
-
-  // fetchFunction('categories', userId)
-  //   .then(categoriesDB => { setCategories(categoriesDB as ICategory[]); })
-  //   .catch(error => {
-  //     alert(error.message);
-  //     throw error;
-  //   });
-};
-
-export const handleFetchAccounts = (userId: string, setAccounts: SetterOrUpdater<IAccounts[]>) => {
-  fetchFunction('accounts', userId)
-    .then(accountsDB => { setAccounts(accountsDB as IAccounts[]); })
-    .catch(error => {
+  try {
+    const categoriesDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection);
+    setCategories(categoriesDB as ICategory[]);
+  } catch (error) {
+    if (error instanceof Error) {
       alert(error.message);
       throw error;
-    });
+    }
+  }
+};
+
+export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts[]>) => {
+  const collectionPath = 'accounts';
+  const [fieldToBeOrdered, orderDirection] = ['value', 'asc'];
+
+  try {
+    const accountsDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, fieldToBeOrdered, orderDirection);
+    setAccounts(accountsDB as IAccounts[]);
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
+  }
 };
 
 export const handleFetchRecentTransactions = (userId: string, setTransactionsAll: SetterOrUpdater<ITransaction[]>) => {

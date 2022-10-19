@@ -2,9 +2,8 @@
 
 .addtransaction__container {
   bottom: 1rem;
-  display: flex;
-  height: 5rem;
-  justify-content: flex-end;
+  // display: flex;
+  // justify-content: flex-end;
   position:-webkit-sticky;
   position: sticky;
 
@@ -12,15 +11,27 @@
   height: 6rem;
   margin-right: 1.5rem; 
   margin-top: -7rem;
+  width: 6rem;
   @media (max-width: $smallmob) { 
     height: 3.5rem;
-    margin-right: 1rem; 
+    margin-left: calc(100vw - 4.5rem - 2 * $hpadding-smallmob);
     margin-top: -4.75rem;
+    width: 3.5rem;
   }
   @media (min-width: $smallmob) and (max-width: $mobile) { 
     height: 5rem;
-    margin-right: 1rem; 
+    margin-left: calc(100vw - 6rem - 2 * $hpadding-mobile);
     margin-top: -6rem;
+    width: 5rem;
+  }
+  @media (min-width: $mobile) and (max-width: $desktop_sm) { 
+    margin-left: calc(100vw - 7.5rem - 2 * $hpadding-desksm);
+  }
+  @media (min-width: $desktop_sm) and (max-width: $desktop_md) { 
+    margin-left: calc(100vw - 7.5rem - 2 * $hpadding-deskmd);
+  }
+  @media (min-width: $desktop_md) { 
+    margin-left: calc(100vw - 7.5rem - 2 * $hpadding-deskbg);
   }
 
   .addtransaction__button {

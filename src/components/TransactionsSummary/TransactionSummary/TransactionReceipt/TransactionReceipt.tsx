@@ -1,4 +1,4 @@
-import { deleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
+import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/fetchFunctions';
 import { useCurrentTransaction, useShowAddFormPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
@@ -50,7 +50,7 @@ const TransactionReceipt = () => {
   const handleDeleteButtonClick = async () => {
     if (user && currentTransaction){
       try {
-        await deleteDocFunction('transactions', user.uid, currentTransaction);
+        await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
         alert('Transaction successfully deleted!');
       } catch (error) {
         if (error instanceof Error) {

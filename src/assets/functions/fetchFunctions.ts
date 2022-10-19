@@ -57,13 +57,13 @@ export const handleFetchTransactionsMonth = (userId: string, setTransactionsMont
     });
 };
 
-export const createDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
 
   const collectionPath = getCollectionPath(collectionName, userId);
   await FirebaseFirestoreService.createDocument(collectionPath, document);
 };
 
-export const deleteDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
   const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
   if (deleteConfirmation) {
     const collectionPath = getCollectionPath(collectionName, userId);

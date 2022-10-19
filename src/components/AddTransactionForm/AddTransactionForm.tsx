@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/fetchFunctions';
+import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/fetchFunctions';
 import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useShowAddFormPopUp, useChosenType, useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsAll, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
@@ -46,7 +46,7 @@ const AddTransactionForm = () => {
           await handleUpdateDocFunction('transactions', user.uid, transaction, currentTransaction.id as string);
           alert('Transaction Updated!');
         } else {
-          await createDocFunction('transactions', user.uid, transaction);
+          await handleCreateDocFunction('transactions', user.uid, transaction);
           alert('Transaction successfully added!');
         }
       } catch (error) {

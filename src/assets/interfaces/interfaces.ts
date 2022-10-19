@@ -1,3 +1,5 @@
+import { OrderByDirection } from 'firebase/firestore';
+
 export type ITransactionType = 'income' | 'expense' | 'other';
 
 export interface ITransaction {
@@ -12,13 +14,6 @@ export interface ITransaction {
   id?: string,
 }
 
-export interface IQuery {
-  field: string,
-  condition: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any
-}
-
 export interface ICategory {
   description: string
   value: string,
@@ -31,4 +26,16 @@ export interface ICategory {
 export interface IAccounts {
   value: string,
   id?: string,
+}
+
+export interface IQuery {
+  field: string,
+  condition: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any
+}
+
+export interface IOrderConfig {
+  fieldName: string,
+  orderDirection: OrderByDirection
 }

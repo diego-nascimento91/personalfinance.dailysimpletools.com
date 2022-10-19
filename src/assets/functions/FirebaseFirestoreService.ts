@@ -1,19 +1,21 @@
-import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, OrderByDirection, limit, QueryConstraint } from 'firebase/firestore';
+import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, limit, QueryConstraint } from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
-import { ITransaction, IQuery, ICategory } from 'assets/interfaces/interfaces';
+import { ITransaction, IQuery, ICategory, IOrderConfig } from 'assets/interfaces/interfaces';
 
-const readAllDocsFromCollection = async (collectionPath: string, orderByField?: string, orderByDirection?: string, queries?: IQuery[], limitDocs?: number) => {
+const readAllDocsFromCollection = async (collectionPath: string, orderConfigs: IOrderConfig[], queries?: IQuery[], limitDocs?: number) => {
   // get constraints array
   const queriesConfig: QueryConstraint[] = [];
   if (queries && queries.length > 0) {
-    queries.forEach(querie => {
-      queriesConfig.push(where(querie.field, querie.condition as WhereFilterOp, querie.value));
+    queries.forEach(item => {
+      queriesConfig.push(where(item.field, item.condition as WhereFilterOp, item.value));
     });
   }
 
-  if (orderByField && orderByDirection) {
-    queriesConfig.push(orderBy(orderByField, orderByDirection as OrderByDirection));
+  if (orderConfigs && orderConfigs.length > 0) {
+    orderConfigs.forEach(item => {
+      queriesConfig.push(orderBy(item.fieldName, item.orderDirection));
+    });
   }
 
   if (limitDocs) {
@@ -61,7 +63,6 @@ const deleteDocument = async (collectionPath: string, id: string) => {
   return await deleteDoc(doc(db, collectionPath, id));
 };
 
-// it has to be checked if it is working
 const updateDocument = async (collectionPath: string, document: ITransaction, id: string) => {
   return await setDoc(doc(db, collectionPath, id), document, { merge: true });
 };

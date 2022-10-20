@@ -49,11 +49,9 @@ const ExpensePerCategory = (props: Props) => {
         {
           totalsCategories && totalsCategories.length > 0
             ? (
-              totalsCategories.map(totalCategory => {
-                return (
-                  <li key={totalCategory[0]}>{totalCategory[0]}: R$ {(totalCategory[1] as number).toFixed(2)}</li>
-                );
-              })
+              totalsCategories.map(totalCategory => (
+                <li key={totalCategory[0]}>{totalCategory[0]}: R$ {(totalCategory[1] as number).toFixed(2)}</li>
+              ))
             )
             : <span>No transactions added yet</span>
         }

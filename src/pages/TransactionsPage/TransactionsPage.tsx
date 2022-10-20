@@ -4,10 +4,9 @@ import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMont
 import { useAccounts, useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
-import NavBar from 'components/NavBar/NavBar';
-import DatePicker from 'components/DatePicker/DatePicker';
 import styles from './TransactionsPage.module.scss';
 import AddTransactionButton from 'components/AddTransactionButton/AddTransactionButton';
+import UserHeader from 'components/UserHeader/UserHeader';
 
 const TransactionsPage = () => {
   const nav = useNavigate();
@@ -40,10 +39,9 @@ const TransactionsPage = () => {
   };
 
   return (
-    <div className={`theme__padding ${styles.transactionspage}`}>
+    <div className={`theme__padding theme__page ${styles.transactionspage}`}>
       <div>
-        <NavBar />
-        <DatePicker />
+        <UserHeader/>
         <ExpensePerCategory transactions={transactionsMonth} />
         <TransactionsSummary transactions={transactionsMonth} allTransactions={true} />
       </div>

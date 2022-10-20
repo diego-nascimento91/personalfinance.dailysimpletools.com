@@ -8,7 +8,7 @@ const Welcome = () => {
   const [user,] = useUser();
 
   return (
-    <section>
+    <div>
       {
         user
           ? (
@@ -18,7 +18,7 @@ const Welcome = () => {
           )
           : null
       }
-    </section>
+    </div>
   );
 };
 

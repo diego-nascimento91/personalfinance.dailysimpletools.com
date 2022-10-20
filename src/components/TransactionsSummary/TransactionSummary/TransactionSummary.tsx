@@ -36,12 +36,12 @@ const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
           <p className={styles['transaction__category--icon']}>{transaction.category[0]}</p>
         </div>
         <div className={styles.transaction__body}>
-          <p className={styles.transaction__place}>{transaction.description}</p>
+          <p className={styles.transaction__description}>{transaction.description}</p>
           <p className={
             classNames({
-              [styles.transaction__price]: true,
-              [styles.transaction__price__positive]: transaction.type === 'income',
-              [styles.transaction__price__negative]: transaction.type === 'expense'
+              [styles.transaction__amount]: true,
+              [styles.transaction__amount__positive]: transaction.type === 'income',
+              [styles.transaction__amount__negative]: transaction.type === 'expense'
             })}>
             {transaction.type === 'expense' ? '- ' : '+ '} R$ {(+transaction.amount).toFixed(2)}
           </p>

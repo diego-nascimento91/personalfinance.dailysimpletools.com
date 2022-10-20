@@ -1,0 +1,33 @@
+@import 'assets/styles/variables.scss';
+
+.datepicker__container{
+  align-items: center;
+  display: flex;
+
+  .datepicker__label {
+    height: 2rem;
+    line-height: 1.7rem;
+    margin-right: 0.5rem;
+
+    @media (max-width: 360px) {
+      display: none;
+    }
+  }
+  .datepicker__input {
+    align-items: center;
+    display: flex;
+    height: 2rem;
+
+    .datepicker__component--container{
+      width: 7rem;
+
+      .datepicker__component {
+        background: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+        width: 9rem;
+      }
+    }
+  }
+}

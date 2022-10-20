@@ -12,7 +12,7 @@ const TransactionsSummary = ({ transactions, allTransactions = false } : Props) 
   return (
     <section className={`${styles.transactions__container} theme__homesections`}>
       {!allTransactions && <Link to="/transactions" className={styles.transactions__seeall}>see all</Link>}
-      <h2 className={styles.transactions__title}>{ allTransactions ? 'Transactions' : 'Recent Transactions' }</h2>
+      <h2 className={`theme__title ${styles.transactions__title}`}>{ allTransactions ? 'Transactions' : 'Recent Transactions' }</h2>
       {
         transactions && transactions.length > 0 && transactions[0].id !== ''
           ? (

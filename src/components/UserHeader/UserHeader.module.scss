@@ -1,0 +1,12 @@
+.userheader__container {
+  background: none;
+  border: none;
+  padding: 0 1rem;
+  padding-top: 2rem;
+
+  .userheader__nav {
+    align-items: bottom;
+    display: flex;
+    justify-content: space-between;
+  }
+}

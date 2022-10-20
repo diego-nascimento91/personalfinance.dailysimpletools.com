@@ -1,3 +1,4 @@
+import { AiFillCloseCircle } from 'react-icons/ai';
 import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useCurrentTransaction, useShowAddFormPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
@@ -63,11 +64,11 @@ const TransactionReceipt = () => {
           ? (
             <div className={styles.receipt__background} >
               <section className={styles.receipt__container}>
-                <button
+                <AiFillCloseCircle 
+                  role='button'
                   className={styles.receipt__closebutton}
-                  type='button'
                   onClick={handleCloseButton}
-                >+</button>
+                />
                 <h2 className={styles.receipt__title}>Transaction Receipt</h2>
                 <ul className={styles.receipt__list}>
                   <li className={styles.receipt__type}>

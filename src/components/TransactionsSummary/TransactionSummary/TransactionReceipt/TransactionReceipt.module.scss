@@ -14,6 +14,7 @@
   .receipt__container {
     background: rgb(255, 239, 200);
     border-radius: 0.5rem;
+    color: black;
     max-width: 90%;
     padding: 2.5rem 1.5rem;
     padding-bottom: 1rem;
@@ -21,16 +22,10 @@
     width: 30rem;
 
     .receipt__closebutton {
-      background: $menuColor;
-      border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 150%;
       height: 2.5rem;
       position: absolute;
       right: 1rem;
       top: 1rem;
-      transform: rotate(45deg);
       width: 2.5rem;
     }
 

@@ -7,19 +7,21 @@
   min-width: 20rem;
   padding: 2rem;
   position: absolute;
-  right: 5rem;
-  bottom: 5rem;
+  right: 5.5rem;
+  bottom: 5.5rem;
 
   @media (max-width: $smallmob) { 
-    right: 3rem;
-    bottom: 3rem;
+    right: 3.25rem;
+    bottom: 3.25rem;
   }
   @media (min-width: $smallmob) and (max-width: $mobile) { 
-    right: 4rem;
-    bottom: 4rem;
+    right: 4.5rem;
+    bottom: 4.5rem;
   }
 
   .popup__title{
+    font-weight: 600;
+    font-size: 110%;
     margin-bottom: 2rem;
   }
 

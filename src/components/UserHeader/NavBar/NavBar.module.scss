@@ -1,0 +1,20 @@
+.navbar__menu {
+  display: flex;
+
+  .navbar__item {
+    border-bottom: 1px solid rgb(255, 255, 255);
+    border-right: 1px solid rgb(255, 255, 255);
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+
+    @media (max-width: 360px) {
+      margin-right: 0.5rem;
+    }
+
+    a {
+      color: white;
+    }
+  }
+}

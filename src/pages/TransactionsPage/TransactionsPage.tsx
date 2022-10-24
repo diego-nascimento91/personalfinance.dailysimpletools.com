@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
-import ExpensePerCategory from 'components/ExpensePerCategory/ExpensePerCategory';
+import ExpensePerCategory from 'components/TotalsPerCategory/TotalsPerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import styles from './TransactionsPage.module.scss';
 import AddTransactionButton from 'components/AddTransactionButton/AddTransactionButton';

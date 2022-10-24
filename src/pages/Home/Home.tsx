@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
-import ExpensePerCategory from '../../components/ExpensePerCategory/ExpensePerCategory';
+import ExpensePerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import styles from './Home.module.scss';

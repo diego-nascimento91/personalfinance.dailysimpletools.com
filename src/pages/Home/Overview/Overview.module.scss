@@ -1,16 +1,36 @@
 @import 'assets/styles/variables.scss';
 
 .overview__sum {
+  align-items: center;
   display: flex;
-  justify-content: space-between;
-
   &:first-child {
     margin-bottom: 1rem;
   }
-
   &:hover {
-    border-bottom: 1px solid black;
+    border-bottom: 0.1rem solid black;
     cursor: pointer;
+  }
+
+  .overview__type {
+    width: 11rem;
+  }
+
+  .overview__chart__container {
+    width:  100%;
+
+    .overview__chart {
+      background: rgb(34, 34, 34);
+      border: 0.1rem solid black;
+      border-radius: 0.5rem;
+      display: flex;
+      height: 3rem;
+      justify-content: flex-end;
+      line-height: 3rem;
+      min-width: min-content;
+      padding: 0 1rem;
+      transition: 200ms;
+      white-space: nowrap;
+    }
   }
 
   .overview__price__positive {

@@ -1,11 +1,11 @@
 .userheader__container {
-  background: none;
-  border: none;
-  padding: 0 1rem;
-  padding-top: 2rem;
+  background: none !important;
+  border: none !important;
+  padding: 0 1rem !important;
+  padding-top: 2rem !important;
 
   .userheader__nav {
-    align-items: bottom;
+    align-items: flex-end;
     display: flex;
     justify-content: space-between;
   }

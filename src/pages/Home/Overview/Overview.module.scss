@@ -23,9 +23,9 @@
       border: 0.1rem solid black;
       border-radius: 0.5rem;
       display: flex;
-      height: 3rem;
+      height: $barwidth;
       justify-content: flex-end;
-      line-height: 3rem;
+      line-height: $barwidth;
       min-width: min-content;
       padding: 0 1rem;
       transition: 200ms;

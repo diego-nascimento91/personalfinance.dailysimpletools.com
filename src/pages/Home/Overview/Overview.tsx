@@ -28,16 +28,10 @@ const Overview = () => {
       setExpenseWidth('100%');
       const calcWidth = (100*sumIncome/sumExpense).toString() + '%';
       setIncomeWidth(calcWidth);
-      console.log('sumIncome', sumIncome);
-      console.log('sumExpense', sumExpense);
-      console.log('calcWidth', calcWidth);
     } else {
       setIncomeWidth('100%');
       const calcWidth = (100*sumExpense/sumIncome).toString() + '%';
       setExpenseWidth(calcWidth);
-      console.log('sumIncome', sumIncome);
-      console.log('sumExpense', sumExpense);
-      console.log('calcWidth', calcWidth);
     }
   };
 

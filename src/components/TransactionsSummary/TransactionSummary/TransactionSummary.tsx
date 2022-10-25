@@ -1,14 +1,25 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { useCurrentTransaction, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
 import TransactionReceipt from './TransactionReceipt/TransactionReceipt';
 import styles from './TransactionSummary.module.scss';
 
 
-const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
+const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
   const [, setCurrentTransaction] = useCurrentTransaction();
   const [showChooseTypeTransactionPopUp] = useShowChooseTypeTransactionPopUp();
+  const [categories] = useCategories();
+  const [user] = useUser();
+  const [imageURL, setImageURL] = useState('');
+
+  useEffect(() => {
+    if(user) {
+      getCategoryURL();
+    }
+  }, [categories, user]);
 
   const formatDate = (date: Date) => {
     const day = date.getUTCDate();
@@ -29,11 +40,24 @@ const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
     }
   };
 
+  const getCategoryURL = () => {
+    const category = categories.find(item => {
+      const found = item.value === transaction.category;
+      return found;
+    });
+
+    if(category) {
+      setImageURL(category.icon);
+      return;
+    } 
+    setImageURL('');
+  };
+
   return (
     <>
       <div className={styles.transaction__container} onClick={handleTransactionClick}>
         <div className={styles.transaction__category}>
-          <p className={styles['transaction__category--icon']}>{transaction.category[0]}</p>
+          <img className={styles['transaction__category--icon']} src={imageURL} />
         </div>
         <div className={styles.transaction__body}>
           <p className={styles.transaction__description}>{transaction.description}</p>

@@ -1,0 +1,19 @@
+@import 'assets/styles/variables.scss';
+
+.totalsPerCategory__chart {
+  display: flex;
+  gap: 0 1.5rem;
+  padding-top: 5rem;
+  overflow-x: auto;
+  padding: 2.5rem 0 2rem 2rem;
+
+  &::-webkit-scrollbar {
+    background-color: $mainsections-background;
+    width: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $page-background;
+    border-radius: 0.1rem;
+  }
+}

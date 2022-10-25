@@ -39,3 +39,9 @@ export interface IOrderConfig {
   fieldName: string,
   orderDirection: OrderByDirection
 }
+
+export interface ITotalsCategories {
+  name: string,
+  total: number,
+  icon: string,
+}

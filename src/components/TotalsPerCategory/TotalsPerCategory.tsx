@@ -68,7 +68,7 @@ const TotalsPerCategory = (props: Props) => {
           <option value="expense">Expense</option>
         </select>
       </label>
-      <h2 className="theme__title">Expense per Category</h2>
+      <h2 className="theme__title">{typeTransaction === 'income' ? 'Income' : 'Expense'} per Category</h2>
       {
         totalsCategories && totalsCategories.length > 0
           ? (

@@ -1,6 +1,7 @@
 @import 'assets/styles/variables.scss';
 
   .totalsPerCategory__container {
+    padding-right: 3.2rem !important;
   position: relative;
 
   .totalsPerCategory__typeTransactionLabel {
@@ -21,7 +22,7 @@
     gap: 0 1.5rem;
     padding-top: 5rem;
     overflow-x: auto;
-    padding: 2.5rem 0 2rem 2rem;
+    padding: 2.5rem 0 2rem 1.2rem;
   
     &::-webkit-scrollbar {
       background-color: $mainsections-background;

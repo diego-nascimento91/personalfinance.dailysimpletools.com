@@ -60,6 +60,7 @@
     .barChart__categoryName--text {
       margin-left: - calc(1.5 * $barwidth);
       overflow: hidden;
+      text-align: center;
       text-overflow: ellipsis;
       transform: rotate(290deg);
       white-space: nowrap;

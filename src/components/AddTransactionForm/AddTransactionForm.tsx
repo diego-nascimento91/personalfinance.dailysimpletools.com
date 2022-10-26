@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
-import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
+import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useShowAddFormPopUp, useChosenType, useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
@@ -23,6 +23,7 @@ const AddTransactionForm = () => {
   const [amount, setAmount] = useState(0);
   const [transactionDate, setTransactionDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
+  const [categoryDescription, setCategoryDescription] = useState('');
   const [description, setDescription] = useState('');
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const AddTransactionForm = () => {
     const transaction: ITransaction = {
       description: description,
       amount: amount,
-      category: category,
+      category: JSON.parse(category).value,
       date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
       account: account,
       note: note,
@@ -72,6 +73,7 @@ const AddTransactionForm = () => {
 
   const resetForm = () => {
     setDescription('');
+    setCategoryDescription('');
     setAmount(0);
     setCategory('');
     setTransactionDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
@@ -86,6 +88,17 @@ const AddTransactionForm = () => {
     }
     setShowAddForm(false);
     setCurrentTransaction(null);
+  };
+
+  const handleSelectingCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setCategory(value);
+    if (value && value.length > 0) {
+      const item: ICategory = JSON.parse(e.target.value);
+      setCategoryDescription(item.description);
+    } else {
+      setCategoryDescription('');
+    }
   };
 
   return (
@@ -105,7 +118,7 @@ const AddTransactionForm = () => {
                   [styles.updatetransactionform__container]: currentTransaction
                 })
               }>
-                <AiFillCloseCircle 
+                <AiFillCloseCircle
                   className={styles.addtransactionform__closebutton}
                   role='button'
                   onClick={handleCloseButton}
@@ -165,7 +178,7 @@ const AddTransactionForm = () => {
                     <select
                       className={styles.addtransactionform__input}
                       value={category}
-                      onChange={(e) => setCategory(e.target.value)}
+                      onChange={handleSelectingCategory}
                       required
                     >
                       <option value=""></option>
@@ -175,11 +188,11 @@ const AddTransactionForm = () => {
                             categories.map(item => (
                               item.type === transactionType
                                 ? (
-                                  <option value={item.value} key={item.id}>{item.ordering} - {item.value}</option>
+                                  <option value={JSON.stringify(item)} key={item.id}>{item.ordering} - {item.value}</option>
                                 )
                                 : item.type === 'other'
                                   ? (
-                                    <option value={item.value} key={item.id}> {item.value}</option>
+                                    <option value={JSON.stringify(item)} key={item.id}> {item.value}</option>
                                   )
                                   : null
                             ))
@@ -188,6 +201,13 @@ const AddTransactionForm = () => {
                       }
                     </select>
                   </label>
+                  {
+                    categoryDescription && categoryDescription.length > 0
+                      ? (
+                        <p className={styles.addtransactionform__categoryDescription}>{categoryDescription}</p>
+                      )
+                      : null
+                  }
                   <label htmlFor='transactiondate' className={styles.addtransactionform__label}>Date:</label>
                   <input
                     className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}

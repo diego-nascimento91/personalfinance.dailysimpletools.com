@@ -14,10 +14,11 @@ const TotalsPerCategory = (props: Props) => {
   const [categories,] = useCategories();
   const [totalsCategories, setTotalsCategories] = useState<ITotalsCategories[]>([]);
   const [higherTotal, setHigherTotal] = useState(1);
+  const [typeTransaction, setTypeTransaction] = useState('expense');
 
   useEffect(() => {
     if (user) handleGetTotalPerCategory();
-  }, [user, categories, transactions]);
+  }, [user, categories, transactions, typeTransaction]);
 
   const handleGetTotalPerCategory = () => {
     const totalOfEachCategory = getTotalPerCategory();
@@ -35,7 +36,7 @@ const TotalsPerCategory = (props: Props) => {
     if (categories && categories.length > 0 && transactions.length > 0) {
       categories.forEach(category => {
         const transactionsCategory = transactions.filter(transaction => {
-          return transaction.category === category.value && transaction.type !== 'income';
+          return transaction.category === category.value && transaction.type === typeTransaction;
         });
         const pricesTransactionsCategory = transactionsCategory.map(transaction => {
           return +transaction.amount;
@@ -56,7 +57,17 @@ const TotalsPerCategory = (props: Props) => {
 
 
   return (
-    <section className="theme__homesections">
+    <section className={`theme__homesections ${styles.totalsPerCategory__container}`}>
+      <label className={styles.totalsPerCategory__typeTransactionLabel}>
+        <select 
+          value={typeTransaction} 
+          className={styles.totalsPerCategory__typeTransactionSelect}
+          onChange={e => setTypeTransaction(e.target.value)}
+        >
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+      </label>
       <h2 className="theme__title">Expense per Category</h2>
       {
         totalsCategories && totalsCategories.length > 0

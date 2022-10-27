@@ -50,6 +50,16 @@
         padding: 0.5rem;
         width: $barwidth;
       }
+
+      .barChart__bar--iconText {
+        align-items: center;
+        display: flex;
+        font-weight: bold;
+        height: $barwidth;
+        justify-content: center;
+        padding: 0.5rem;
+        width: $barwidth;
+      }
     }
     .barChart__bar--containerRelativeSizeCursor {
       cursor: pointer;

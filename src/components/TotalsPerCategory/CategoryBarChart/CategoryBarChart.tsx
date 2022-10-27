@@ -61,7 +61,16 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
               [styles['barChart__bar--amountMoney--moneyText100k']]: totalCategory.total >= 100000
             })}>{getNumberVisual()}</span>
           </p>
-          <img className={styles['barChart__bar--icon']} src={totalCategory.icon} alt={`Icon of category ${totalCategory.name}`} />
+          {
+            totalCategory.icon && totalCategory.icon.length > 0 
+              ? (
+                <img className={styles['barChart__bar--icon']} src={totalCategory.icon} />
+              )
+              : (
+                <span className={styles['barChart__bar--iconText']}>{totalCategory.name[0]}</span>
+              )
+          }
+          
         </div>
       </div>
       <div className={styles['barChart__categoryName--container']}>

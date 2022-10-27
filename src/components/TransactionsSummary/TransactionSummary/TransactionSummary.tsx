@@ -57,7 +57,15 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
     <>
       <div className={styles.transaction__container} onClick={handleTransactionClick}>
         <div className={styles.transaction__category}>
-          <img className={styles['transaction__category--icon']} src={imageURL} />
+          {
+            imageURL && imageURL.length > 0 
+              ? (
+                <img className={styles['transaction__category--icon']} src={imageURL} />
+              )
+              : (
+                <span className={styles['transaction__category--iconText']} >{transaction.category[0]}</span>
+              )
+          }
         </div>
         <div className={styles.transaction__body}>
           <p className={styles.transaction__description}>{transaction.description}</p>

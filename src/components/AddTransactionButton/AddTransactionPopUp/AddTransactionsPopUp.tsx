@@ -1,30 +1,23 @@
-import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useChosenType } from 'assets/state/hooks/addTransactionHooks';
-import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { useCurrentTransaction, useShowChooseTypeTransactionPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useNavigate } from 'react-router-dom';
 import styles from './AddTransactionPopUp.module.scss';
 
 
 const AddTransactionPopUp = () => {
+  const nav = useNavigate();
   const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
-  const [, setChosenType] = useChosenType();
-  const [, setShowAddForm] = useShowAddFormPopUp();
+  const [,setCurrentTransaction] = useCurrentTransaction();
 
-  const handleIncomeClick = () => {
-    setOverflowHidden();
+  const handleNewTransactionButtonClick = () => {
     setShowPopUp(false);
-    setChosenType('income');
-    setShowAddForm(true);
+    setCurrentTransaction(null);
+    nav('/newtransaction');
   };
-  const handleExpenseClick = () => {
-    setOverflowHidden();
+
+  const handleNewCategoryButtonClick = () => {
     setShowPopUp(false);
-    setChosenType('expense');
-    setShowAddForm(true);
-  };
-  const setOverflowHidden = () => {
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.overflow = 'hidden';
-    }
+    nav('/newcategory');
   };
 
   return (
@@ -33,20 +26,17 @@ const AddTransactionPopUp = () => {
         showPopUp
           ? (
             <div className={styles.popup__container} >
-              <h2 className={`theme__title ${styles.popup__title}`}>Type of transaction</h2>
-              <button
-                type='button'
-                className={styles.popup__option}
-                onClick={handleIncomeClick}
-              >Income</button>
-              <button
-                type='button'
-                className={styles.popup__option}
-                onClick={handleExpenseClick}
-              >Expense</button>
+              <div role='button' onClick={() => handleNewTransactionButtonClick()} className={styles.popup__option}>
+                <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
+                <span className={styles['popup__option--text']}>New transaction</span>
+              </div>
+              <div role='button' onClick={() => handleNewCategoryButtonClick()} className={styles.popup__option}>
+                <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
+                <span className={styles['popup__option--text']}>New category</span>
+              </div>
             </div >
           )
-          : <AddTransactionForm />
+          : null
       }
     </>
   );

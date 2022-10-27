@@ -1,16 +1,15 @@
-import styles from './AddTransactionButton.module.scss';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
-import AddTransactionPopUp from './AddTransactionPopUp/AddTransactionsPopUp';
 import { useEffect, useRef } from 'react';
-import { useShowAddFormPopUp, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
+import styles from './AddTransactionButton.module.scss';
+import AddTransactionPopUp from './AddTransactionPopUp/AddTransactionsPopUp';
 
 
 const AddTransactionButton = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
   const [showReceiptPopUp] = useShowReceiptPopUp();
-  const [showAddForm] = useShowAddFormPopUp();
 
   useEffect(() => {
     document.addEventListener('click', (event) => handleClickOutside(event));
@@ -38,7 +37,7 @@ const AddTransactionButton = () => {
         className={classNames({
           [styles.addtransaction__button]: true,
           [styles['addtransaction__button-x']]: showPopUp,
-          [styles['addtransaction__button-position']]: showAddForm || showReceiptPopUp
+          [styles['addtransaction__button-position']]: showReceiptPopUp
         })} title='Add a new transaction'
         onClick={handlePlusButtonClick}
       />

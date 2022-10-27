@@ -56,6 +56,10 @@
         span {
           font-weight: bold;
         }
+        .receipt__categorySpan {
+          font-weight: normal !important;
+          text-align: end;
+        }
       }
       .receipt__notes {
         span{

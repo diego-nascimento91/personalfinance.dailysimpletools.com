@@ -1,15 +1,18 @@
 @import 'assets/styles/variables.scss';
 
 .popup__container{
-  background: rgb(233, 233, 233);
-  border: 0.2rem solid $menuColor;
+  background: rgb(52, 52, 52);
+  border: 0.3rem solid black;
   border-radius: 0.5rem;
-  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   padding: 2rem;
   position: absolute;
+
+  // position according to + button
   right: 5.5rem;
   bottom: 5.5rem;
-
   @media (max-width: $smallmob) { 
     right: 3.25rem;
     bottom: 3.25rem;
@@ -19,21 +22,16 @@
     bottom: 4.5rem;
   }
 
-  .popup__title{
-    font-weight: 600;
-    font-size: 110%;
-    margin-bottom: 2rem;
-  }
-
   .popup__option {
-    background: $menuColor;
-    border: none;
-    border-radius: 0.5rem;
+    align-items: center;
     color: white;
-    display: block;
-    height: 3rem;
-    margin: 1rem auto;
-    padding: 0.5rem;
-    width: 90%;
+    display: flex;
+    white-space: nowrap;
+
+    .popup__option--icon {
+      height: 2rem;
+      margin-right: 0.5rem;
+      width: 2rem;
+    }
   }
 }

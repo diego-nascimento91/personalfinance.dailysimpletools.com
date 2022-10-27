@@ -1,9 +1,9 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
-import { useCurrentTransaction, useShowAddFormPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
+import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
-import AddTransactionForm from 'components/AddTransactionForm/AddTransactionForm';
 import styles from './TransactionReceipt.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const TransactionReceipt = () => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
@@ -12,15 +12,33 @@ const TransactionReceipt = () => {
   const [, setRecentTransactions] = useRecentTransactions();
   const [, setTransactionsMonth] = useTransactionsMonth();
   const [month] = useChosenMonth();
-  const [, setShowAddForm] = useShowAddFormPopUp();
+  const nav = useNavigate();
 
-  const handleCloseButton = () => {
+  const closeReceiptPopUp = () => {
     const body = document.querySelector('body');
     if (body) {
       body.style.overflow = 'visible';
     }
-    setCurrentTransaction(null);
     setShowReceipt(false);
+  };
+
+  const handleCloseButton = () => {
+    setCurrentTransaction(null);
+    closeReceiptPopUp();
+  };
+
+  const handleEditButtonClick = () => {
+    closeReceiptPopUp();
+    nav('/newtransaction');
+  };
+
+  const handleDeleteButtonClick = async () => {
+    if (user && currentTransaction) {
+      await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
+      handleCloseButton();
+      handleFetchRecentTransactions(user.uid, setRecentTransactions);
+      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
+    }
   };
 
   const formatDateShort = (date: Date) => {
@@ -41,20 +59,6 @@ const TransactionReceipt = () => {
     const dateString = `${day < 10 ? '0' + day : day} of ${month.toLocaleLowerCase()} of ${year} at ${hour < 10 ? '0' + hour : hour}:${min < 10 ? '0' + min : min}`;
 
     return dateString;
-  };
-
-  const handleEditButtonClick = () => {
-    setShowReceipt(false);
-    setShowAddForm(true);
-  };
-
-  const handleDeleteButtonClick = async () => {
-    if (user && currentTransaction) {
-      await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
-      handleCloseButton();
-      handleFetchRecentTransactions(user.uid, setRecentTransactions);
-      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
-    }
   };
 
   return (
@@ -83,7 +87,8 @@ const TransactionReceipt = () => {
                   </li>
                   <li className={styles.receipt__category}>
                     <span>Category: </span>
-                    {currentTransaction.category}</li>
+                    <span className={styles.receipt__categorySpan}>{currentTransaction.category}</span>
+                  </li>
                   <li className={styles.receipt__date}>
                     <span>Transaction&apos;s date: </span>
                     {formatDateShort(currentTransaction.date)}</li>
@@ -115,11 +120,7 @@ const TransactionReceipt = () => {
               </section>
             </div >
           )
-          : currentTransaction
-            ? (
-              <AddTransactionForm />
-            )
-            : null
+          : null
       }
     </>
   );

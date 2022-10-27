@@ -174,8 +174,7 @@ const AddTransactionForm = () => {
             value={amount}
           />
 
-          <label className={styles.addtransactionform__label}>
-            Which category?
+          <label className={styles.addtransactionform__label}> Which category?
             <select
               className={styles.addtransactionform__input}
               value={category}
@@ -202,7 +201,6 @@ const AddTransactionForm = () => {
               }
             </select>
           </label>
-
           <p className={styles.addtransactionform__categoryDescription}>
             {
               categoryDescription && categoryDescription.length > 0
@@ -213,8 +211,7 @@ const AddTransactionForm = () => {
             }
           </p>
 
-          <label className={styles.addtransactionform__label}>
-            Which date?
+          <label className={styles.addtransactionform__label}> Which date?
             <input
               className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}
               required
@@ -224,8 +221,7 @@ const AddTransactionForm = () => {
             />
           </label>
 
-          <label className={styles.addtransactionform__label}>
-            Which account?
+          <label className={styles.addtransactionform__label}> Which account?
             <select
               className={styles.addtransactionform__input}
               value={account}
@@ -245,8 +241,7 @@ const AddTransactionForm = () => {
             </select>
           </label>
 
-          <label className={styles.addtransactionform__label}>
-            Notes:
+          <label className={styles.addtransactionform__label}> Notes:
             <textarea
               className={styles.addtransactionform__note}
               onChange={(event) => setNote(event.target.value)}

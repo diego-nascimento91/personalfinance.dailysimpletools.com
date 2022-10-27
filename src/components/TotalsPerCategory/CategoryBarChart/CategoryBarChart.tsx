@@ -1,13 +1,21 @@
 import { ITotalsCategories } from 'assets/interfaces/interfaces';
+import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
 import classNames from 'classnames';
+import { useEffect } from 'react';
 import styles from './CategoryBarChart.module.scss';
 
 interface Props {
   barHeight: number,
-  totalCategory: ITotalsCategories
+  totalCategory: ITotalsCategories,
+  allTransactions: boolean,
 }
-const CategoryBarChart = ({ barHeight, totalCategory }: Props) => {
+const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) => {
+  const [filteredCategory, setFilteredCategory] = useFilteredCategory();
 
+  useEffect(() => {
+    setFilteredCategory(null);
+  },[]);
+  
   const getHeightPercentage = () => {
     const heightPercentage = (barHeight * 100).toString() + '%';
     return heightPercentage;
@@ -27,10 +35,26 @@ const CategoryBarChart = ({ barHeight, totalCategory }: Props) => {
     return numberVisual;
   };
 
+  const handleSetFilteredCategory = () => {
+    if (totalCategory.name === filteredCategory) {
+      setFilteredCategory(null);
+      return;
+    }
+    setFilteredCategory(totalCategory.name);
+  };
+
   return (
     <div className={styles.barChart__container}>
       <div className={styles['barChart__bar--containerMaxSize']}>
-        <div className={styles['barChart__bar--containerRelativeSize']} style={{ height: getHeightPercentage() }}>
+        <div
+          style={{ height: getHeightPercentage() }}
+          className={classNames({
+            [styles['barChart__bar--containerRelativeSize']]: true,
+            [styles['barChart__bar--containerRelativeSizeCursor']]: allTransactions,
+            [styles['barChart__bar--containerRelativeSizeNotSelected']]: allTransactions && filteredCategory && totalCategory.name !== filteredCategory,
+          })}
+          onClick={() => {if(allTransactions) handleSetFilteredCategory();}}
+        >
           <p className={styles['barChart__bar--amountMoney']}>
             <span className={styles['barChart__bar--amountMoney--moneySign']}>R$ </span>
             <span className={classNames({

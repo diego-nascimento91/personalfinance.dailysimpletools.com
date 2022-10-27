@@ -1,5 +1,6 @@
-import { ITransaction } from 'assets/interfaces/interfaces';
 import { Link } from 'react-router-dom';
+import { ITransaction } from 'assets/interfaces/interfaces';
+import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
 import styles from './TransactionsSummary.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 
@@ -7,24 +8,28 @@ interface Props {
   transactions: ITransaction[],
   allTransactions?: boolean
 }
-const TransactionsSummary = ({ transactions, allTransactions = false } : Props) => {
+const TransactionsSummary = (props: Props) => {
+  const { transactions, allTransactions = false } = props;
+
+  const [filteredCategory] = useFilteredCategory();
 
   return (
     <section className={`${styles.transactions__container} theme__homesections`}>
       {!allTransactions && <Link to="/transactions" className={styles.transactions__seeall}>see all</Link>}
-      <h2 className={`theme__title ${styles.transactions__title}`}>{ allTransactions ? 'Transactions' : 'Recent Transactions' }</h2>
+      <h2 className={`theme__title ${styles.transactions__title}`}>{allTransactions ? 'Transactions' : 'Recent Transactions'}</h2>
       {
         transactions && transactions.length > 0 && transactions[0].id !== ''
           ? (
             transactions.map((transaction, index) => {
-              if (!allTransactions && index < 4) {
-                return (
-                  <TransactionSummary transaction={transaction} key={transaction.id} />
-                );
-              } else if(allTransactions) {
-                return (
-                  <TransactionSummary transaction={transaction} key={transaction.id} />
-                );
+              if (!allTransactions) {
+                if (index < 4)
+                  return (<TransactionSummary transaction={transaction} key={transaction.id} />);
+              }
+              else {
+                if (!filteredCategory)
+                  return (<TransactionSummary transaction={transaction} key={transaction.id} />);
+                else if (filteredCategory && filteredCategory === transaction.category)
+                  return (<TransactionSummary transaction={transaction} key={transaction.id} />);
               }
             })
           )

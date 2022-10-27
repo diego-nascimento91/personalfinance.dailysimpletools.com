@@ -5,10 +5,11 @@ import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
 
 interface Props {
-  transactions: ITransaction[]
+  transactions: ITransaction[],
+  allTransactions?: boolean,
 }
 const TotalsPerCategory = (props: Props) => {
-  const { transactions } = props;
+  const { transactions, allTransactions = false } = props;
 
   const [user,] = useUser();
   const [categories,] = useCategories();
@@ -75,9 +76,9 @@ const TotalsPerCategory = (props: Props) => {
             <div className={styles.totalsPerCategory__chart}>
               {totalsCategories.map((totalCategory, index) => {
                 if (index === 0) {
-                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={1} />;
+                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={1} allTransactions={allTransactions}/>;
                 } else {
-                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={(totalCategory.total / higherTotal)} />;
+                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={(totalCategory.total / higherTotal)}  allTransactions={allTransactions}/>;
                 }
               })}
             </div>

@@ -3,7 +3,7 @@ import { IAccounts, ICategory, IOrderConfig, IQuery, ITransaction } from 'assets
 import { SetterOrUpdater } from 'recoil';
 
 export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>) => {
-  const collectionPath = getCollectionPath('categories');
+  const collectionPath = 'categories';
   const orderConfig: IOrderConfig[] = [{fieldName: 'ordering', orderDirection: 'asc'}];
 
   try {
@@ -18,7 +18,7 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
 };
 
 export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts[]>) => {
-  const collectionPath = getCollectionPath('accounts');
+  const collectionPath = 'accounts';
   const orderConfig: IOrderConfig[] = [{fieldName: 'value', orderDirection: 'asc'}];
 
   try {
@@ -33,7 +33,7 @@ export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts
 };
 
 export const handleFetchRecentTransactions = async (userId: string, setRecentTransactions: SetterOrUpdater<ITransaction[]>) => {
-  const collectionPath = getCollectionPath('transactions', userId);
+  const collectionPath = `users/${userId}/transactions`;
   const orderConfig: IOrderConfig[] = [
     {
       fieldName: 'date', 
@@ -59,7 +59,7 @@ export const handleFetchRecentTransactions = async (userId: string, setRecentTra
 };
 
 export const handleFetchTransactionsMonth = async (userId: string, setTransactionsMonth: SetterOrUpdater<ITransaction[]>, month: Date) => {
-  const collectionPath = getCollectionPath('transactions', userId);
+  const collectionPath = `users/${userId}/transactions`;
   const orderConfig: IOrderConfig[] = [
     {
       fieldName: 'date', 
@@ -84,9 +84,9 @@ export const handleFetchTransactionsMonth = async (userId: string, setTransactio
   }
 };
 
-export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory) => {
   try {
-    const collectionPath = getCollectionPath(collectionName, userId);
+    const collectionPath = `users/${userId}/${collectionName}`;
     await FirebaseFirestoreService.createDocument(collectionPath, document);
     alert('Document added successfully!');
   } catch (error) {
@@ -99,7 +99,7 @@ export const handleCreateDocFunction = async (collectionName: string, userId: st
 
 export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
   try {
-    const collectionPath = getCollectionPath(collectionName, userId);
+    const collectionPath = `users/${userId}/${collectionName}`;
     if (document.id) {
       const docId = document.id;
       delete document.id;
@@ -120,7 +120,7 @@ export const handleDeleteDocFunction = async (collectionName: string, userId: st
   try {
     const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
     if (deleteConfirmation) {
-      const collectionPath = getCollectionPath(collectionName, userId);
+      const collectionPath = `users/${userId}/${collectionName}`;
       if (document.id) {
         await FirebaseFirestoreService.deleteDocument(collectionPath, document.id);
         alert('Document deleted successfully!');
@@ -136,22 +136,6 @@ export const handleDeleteDocFunction = async (collectionName: string, userId: st
       throw error;
     }
   }
-};
-
-// helper functions
-const getCollectionPath = (collectionName: string, userId?: string) => {
-  let collectionPath;
-  if (collectionName === 'categories') {
-    collectionPath = 'categories';
-  } else if (collectionName === 'transactions' && userId) {
-    collectionPath = `users/${userId}/transactions`;
-  } else if (collectionName === 'accounts') {
-    collectionPath = 'accounts';
-  } else {
-    throw Error('Missing/wrong collection name');
-  }
-
-  return collectionPath;
 };
 
 const getFormatDate = (date: Date) => {

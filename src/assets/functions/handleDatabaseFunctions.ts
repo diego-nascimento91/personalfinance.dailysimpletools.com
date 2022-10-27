@@ -3,7 +3,6 @@ import { IAccounts, ICategory, IOrderConfig, IQuery, ITransaction } from 'assets
 import { SetterOrUpdater } from 'recoil';
 
 export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>, userId: string) => {
-
   try {
     // default categories
     const collectionPathDefault = 'categories';
@@ -15,7 +14,7 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
     const orderConfigUser: IOrderConfig[] = [{fieldName: 'value', orderDirection: 'asc'}];
     const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
 
-    const categoriesDB = [...categoriesDefault, ...categoriesUser];
+    const categoriesDB = [...categoriesUser, ...categoriesDefault];
     setCategories(categoriesDB as ICategory[]);
   } catch (error) {
     if (error instanceof Error) {

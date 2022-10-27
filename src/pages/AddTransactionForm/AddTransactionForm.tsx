@@ -188,7 +188,7 @@ const AddTransactionForm = () => {
                     categories.map(item => (
                       item.type === transactionType
                         ? (
-                          <option value={JSON.stringify(item)} key={item.id}>{item.ordering} - {item.value}</option>
+                          <option value={JSON.stringify(item)} key={item.id}>{item.ordering ? `${item.ordering} - ` : null }{item.value}</option>
                         )
                         : item.type === 'other'
                           ? (

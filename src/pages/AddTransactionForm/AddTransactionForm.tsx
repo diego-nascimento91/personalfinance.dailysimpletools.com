@@ -145,35 +145,34 @@ const AddTransactionForm = () => {
             />
           </label>
 
-          <label className={styles.addtransactionform__label}>
-            How much was it?
-            <div role='select' className={styles.addtransactionform__typeOptions}>
-              <div
-                role='option'
-                className={classNames({
-                  [styles.addtransactionform__typeOption]: true,
-                  [styles.addtransactionform__typeOptionSelected]: transactionType === 'income'
-                })}
-                onClick={() => handleTypeTransactionOptionClick('income')}
-              >+ $</div>
-              <div
-                role='option'
-                className={classNames({
-                  [styles.addtransactionform__typeOption]: true,
-                  [styles.addtransactionform__typeOptionSelected]: transactionType === 'expense'
-                })}
-                onClick={() => handleTypeTransactionOptionClick('expense')}
-              >- $</div>
-            </div>
-            <input
-              className={styles.addtransactionform__input}
-              required
-              type="number"
-              min='0'
-              onChange={(event) => setAmount(+event.target.value)}
-              value={amount}
-            />
-          </label>
+          <label htmlFor='transactionamount' className={styles.addtransactionform__label}> How much was it? </label>
+          <div role='select' className={styles.addtransactionform__typeOptions}>
+            <div
+              role='option'
+              className={classNames({
+                [styles.addtransactionform__typeOption]: true,
+                [styles.addtransactionform__typeOptionSelected]: transactionType === 'income'
+              })}
+              onClick={() => handleTypeTransactionOptionClick('income')}
+            >+ $</div>
+            <div
+              role='option'
+              className={classNames({
+                [styles.addtransactionform__typeOption]: true,
+                [styles.addtransactionform__typeOptionSelected]: transactionType === 'expense'
+              })}
+              onClick={() => handleTypeTransactionOptionClick('expense')}
+            >- $</div>
+          </div>
+          <input
+            id='transactionamount'
+            className={styles.addtransactionform__input}
+            required
+            type="number"
+            min='0'
+            onChange={(event) => setAmount(+event.target.value)}
+            value={amount}
+          />
 
           <label className={styles.addtransactionform__label}>
             Which category?

@@ -12,7 +12,7 @@ const DatePicker = () => {
 
   useEffect(() => {
     if (user) {
-      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
+      if(month) handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }
   }, [month]);
 

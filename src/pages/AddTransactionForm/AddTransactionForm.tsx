@@ -44,7 +44,7 @@ const AddTransactionForm = () => {
 
       setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
       setAccount(currentTransaction.account);
-      setNote(currentTransaction.note); 
+      setNote(currentTransaction.note);
     }
   };
 
@@ -93,7 +93,11 @@ const AddTransactionForm = () => {
 
   const handleReturnButton = () => {
     setCurrentTransaction(null);
-    nav('/home');
+    if (window.history.state && window.history.state.idx > 0) {
+      nav(-1);
+    } else {
+      nav('/', { replace: true }); // return to home if there is no back page history
+    }
   };
 
   const handleSelectingCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -260,7 +264,7 @@ const AddTransactionForm = () => {
                   : transactionType === 'expense' ? 'Add Expense' : 'Add Transaction'
             }
           </button>
-          
+
         </form>
       </section>
     </div>

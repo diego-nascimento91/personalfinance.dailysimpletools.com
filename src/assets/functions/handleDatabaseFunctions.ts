@@ -2,12 +2,20 @@ import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService'
 import { IAccounts, ICategory, IOrderConfig, IQuery, ITransaction } from 'assets/interfaces/interfaces';
 import { SetterOrUpdater } from 'recoil';
 
-export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>) => {
-  const collectionPath = 'categories';
-  const orderConfig: IOrderConfig[] = [{fieldName: 'ordering', orderDirection: 'asc'}];
+export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>, userId: string) => {
 
   try {
-    const categoriesDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderConfig);
+    // default categories
+    const collectionPathDefault = 'categories';
+    const orderConfigDefault: IOrderConfig[] = [{fieldName: 'ordering', orderDirection: 'asc'}];
+    const categoriesDefault = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathDefault, orderConfigDefault);
+    
+    // user categories
+    const collectionPathUser = `users/${userId}/categories`;
+    const orderConfigUser: IOrderConfig[] = [{fieldName: 'value', orderDirection: 'asc'}];
+    const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
+
+    const categoriesDB = [...categoriesDefault, ...categoriesUser];
     setCategories(categoriesDB as ICategory[]);
   } catch (error) {
     if (error instanceof Error) {

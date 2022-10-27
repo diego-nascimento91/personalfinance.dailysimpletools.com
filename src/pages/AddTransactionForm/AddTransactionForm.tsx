@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
-import { handleCreateDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
+import { handleCreateDocFunction, handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router-dom';
 
 const AddTransactionForm = () => {
   const nav = useNavigate();
-  const [user,] = useUser();
+  const [user, loading] = useUser();
   const [, setRecentTransactions] = useRecentTransactions();
   const [, setTransactionsMonth] = useTransactionsMonth();
   const [month] = useChosenMonth();
-  const [categories,] = useCategories();
-  const [accounts,] = useAccounts();
+  const [categories, setCategories] = useCategories();
+  const [accounts, setAccounts] = useAccounts();
   const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
   const [transactionType, setTransactionType] = useState<ITransactionType | null>(null);
   const [account, setAccount] = useState('');
@@ -28,10 +28,26 @@ const AddTransactionForm = () => {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    if (currentTransaction) {
-      handleCurrentTransactionFormLoad();
+    if (loading) return;
+    if (!user) nav('/');
+    if(user) {
+      if (currentTransaction) {
+        handleCurrentTransactionFormLoad();
+      }
+      handleUpdateDBs();
     }
-  }, [currentTransaction]);
+  }, [currentTransaction, user]);
+
+  const handleUpdateDBs = () => {
+    if(user) {
+      if (!(categories && categories.length > 0)) {
+        handleFetchCategories(setCategories, user.uid);
+      }
+      if (!(accounts && accounts.length > 0)) {
+        handleFetchAccounts(setAccounts);
+      }
+    }
+  };
 
   const handleCurrentTransactionFormLoad = () => {
     if (currentTransaction) {

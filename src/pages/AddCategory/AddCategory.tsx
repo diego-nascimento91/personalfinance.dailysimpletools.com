@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
 import styles from './AddCategory.module.scss';
 import { BsArrowLeft } from 'react-icons/bs';
@@ -9,12 +9,17 @@ import { handleCreateDocFunction, handleFetchCategories } from 'assets/functions
 const AddCategory = () => {
 
   const nav = useNavigate();
-  const [user] = useUser();
+  const [user, loading] = useUser();
   const [,setCategories] = useCategories();
   const [name, setName] = useState('');
   const [type, setType] = useState<ITransactionType>();
   const [description, setDescription] = useState('');
   const [icon, setIcon] = useState('');
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) nav('/');
+  }, [user]);
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

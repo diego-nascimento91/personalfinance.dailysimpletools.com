@@ -36,7 +36,12 @@ main {
 .theme__page {
   background: $page-background;
   color: white;
+  display: flex;
+  flex-direction: column;
   font-weight: 300;
+  justify-content: space-between;
+  min-height: calc(100vh - 10rem);
+  padding-bottom: 1rem;
 
   .theme__homesections {
     border-radius: 5px;

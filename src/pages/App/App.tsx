@@ -9,7 +9,7 @@ import ResetPassword from 'pages/ResetPassword/ResetPassword';
 import PasswordReseted from 'pages/ResetPassword/PasswordReseted/PasswordReseted';
 import Home from 'pages/Home/Home';
 import TransactionsPage from 'pages/TransactionsPage/TransactionsPage';
-import AddTransactionForm from 'pages/AddTransactionForm/AddTransactionForm';
+import AddTransactionForm from 'pages/AddTransaction/AddTransaction';
 import AddCategory from 'pages/AddCategory/AddCategory';
 
 function App() {

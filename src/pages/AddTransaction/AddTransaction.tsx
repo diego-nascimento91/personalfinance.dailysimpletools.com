@@ -4,12 +4,12 @@ import { handleCreateDocFunction, handleFetchAccounts, handleFetchCategories, ha
 import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
-import styles from './AddTransactionForm.module.scss';
+import styles from './AddTransaction.module.scss';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 
 
-const AddTransactionForm = () => {
+const AddTransaction = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
   const [, setRecentTransactions] = useRecentTransactions();
@@ -281,4 +281,4 @@ const AddTransactionForm = () => {
   );
 };
 
-export default AddTransactionForm;
+export default AddTransaction;

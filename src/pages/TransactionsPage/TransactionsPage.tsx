@@ -4,7 +4,6 @@ import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMont
 import { useAccounts, useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import ExpensePerCategory from 'components/TotalsPerCategory/TotalsPerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
-import styles from './TransactionsPage.module.scss';
 import AddTransactionButton from 'components/AddTransactionButton/AddTransactionButton';
 import UserHeader from 'components/UserHeader/UserHeader';
 
@@ -39,7 +38,7 @@ const TransactionsPage = () => {
   };
 
   return (
-    <div className={`theme__padding theme__page ${styles.transactionspage}`}>
+    <div className='theme__padding theme__page'>
       <div>
         <UserHeader/>
         <ExpensePerCategory transactions={transactionsMonth} />

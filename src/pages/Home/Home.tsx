@@ -6,7 +6,6 @@ import AddTransactionButton from '../../components/AddTransactionButton/AddTrans
 import ExpensePerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
-import styles from './Home.module.scss';
 import UserHeader from 'components/UserHeader/UserHeader';
 
 const Home = () => {
@@ -44,7 +43,7 @@ const Home = () => {
   };
 
   return (
-    <div className={`theme__padding theme__page ${styles.homepage}`}>
+    <div className='theme__padding theme__page'>
       <div>
         <UserHeader />
         <Overview />

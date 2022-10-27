@@ -18,23 +18,32 @@
     .addCategoryForm__labels{
       display: block;
       width: 100%;
+    }
 
-      .addCategoryForm__inputs, .addCategoryForm__textareas, .addCategoryForm__selects{
-        background: rgb(180, 180, 180);
-        border: none;
-        border-radius: 0.5rem;
-        color: black;
-        height: 2.5rem;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        margin-top: 0.5rem;
-        width: 100%;
-      }
+    .addCategoryForm__inputs, .addCategoryForm__textareas, .addCategoryForm__selects{
+      background: rgb(180, 180, 180);
+      border: none;
+      border-radius: 0.5rem;
+      color: black;
+      height: 2.5rem;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
 
-      .addCategoryForm__textareas{
-        height: 7rem;
-        resize: none;
-      }
+    .addCategoryForm__textareas{
+      height: 7rem;
+      resize: none;
+    }
+
+    .addCategoryForm__iconPreview {
+      border: .2rem solid white;
+      border-radius: 50%;
+      display: block;
+      height: 5rem;
+      margin-bottom: 1rem;
+      width: 5rem;
     }
   
     .addCategoryForm__button {

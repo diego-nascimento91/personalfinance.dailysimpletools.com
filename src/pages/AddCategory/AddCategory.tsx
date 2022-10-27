@@ -10,7 +10,7 @@ const AddCategory = () => {
 
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [,setCategories] = useCategories();
+  const [, setCategories] = useCategories();
   const [name, setName] = useState('');
   const [type, setType] = useState<ITransactionType>();
   const [description, setDescription] = useState('');
@@ -27,7 +27,7 @@ const AddCategory = () => {
     if (user) {
       const category = getCategoryObj();
       await handleCreateDocFunction('categories', user.uid, category);
-      
+
       handleFetchCategories(setCategories, user.uid);
       resetForm();
       handleReturnButton();
@@ -96,7 +96,7 @@ const AddCategory = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder='(optional) write down examples of transactions to be used with this category.'
-              style={{'width':'100%'}}
+              style={{ 'width': '100%' }}
             />
           </label>
           <label className={styles.addCategoryForm__labels}>
@@ -109,6 +109,13 @@ const AddCategory = () => {
               placeholder='(optional) paste a link of an icon you would like to use.'
             />
           </label>
+          {
+            icon && icon.length > 0
+              ? (
+                <img className={styles.addCategoryForm__iconPreview} src={icon} alt="icon" />
+              )
+              : null
+          }
 
           <button className={styles.addCategoryForm__button} type='submit'>Add Category</button>
         </form>

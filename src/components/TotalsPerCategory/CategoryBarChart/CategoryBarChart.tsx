@@ -1,7 +1,6 @@
 import { ITotalsCategories } from 'assets/interfaces/interfaces';
 import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
 import classNames from 'classnames';
-import { useEffect } from 'react';
 import styles from './CategoryBarChart.module.scss';
 
 interface Props {
@@ -11,10 +10,6 @@ interface Props {
 }
 const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) => {
   const [filteredCategory, setFilteredCategory] = useFilteredCategory();
-
-  useEffect(() => {
-    setFilteredCategory(null);
-  },[]);
   
   const getHeightPercentage = () => {
     const heightPercentage = (barHeight * 100).toString() + '%';
@@ -36,11 +31,11 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
   };
 
   const handleSetFilteredCategory = () => {
-    if (totalCategory.name === filteredCategory) {
+    if (totalCategory.id === filteredCategory?.id) {
       setFilteredCategory(null);
       return;
     }
-    setFilteredCategory(totalCategory.name);
+    setFilteredCategory(totalCategory);
   };
 
   return (
@@ -51,7 +46,7 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
           className={classNames({
             [styles['barChart__bar--containerRelativeSize']]: true,
             [styles['barChart__bar--containerRelativeSizeCursor']]: allTransactions,
-            [styles['barChart__bar--containerRelativeSizeNotSelected']]: allTransactions && filteredCategory && totalCategory.name !== filteredCategory,
+            [styles['barChart__bar--containerRelativeSizeNotSelected']]: allTransactions && filteredCategory && totalCategory.id !== filteredCategory.id,
           })}
           onClick={() => {if(allTransactions) handleSetFilteredCategory();}}
         >

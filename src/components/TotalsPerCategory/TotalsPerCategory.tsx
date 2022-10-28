@@ -3,6 +3,7 @@ import { ITotalsCategories, ITransaction } from 'assets/interfaces/interfaces';
 import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
+import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
 
 interface Props {
   transactions: ITransaction[],
@@ -16,10 +17,15 @@ const TotalsPerCategory = (props: Props) => {
   const [totalsCategories, setTotalsCategories] = useState<ITotalsCategories[]>([]);
   const [higherTotal, setHigherTotal] = useState(1);
   const [typeTransaction, setTypeTransaction] = useState('expense');
+  const [, setFilteredCategory] = useFilteredCategory();
 
   useEffect(() => {
     if (user) handleGetTotalPerCategory();
   }, [user, categories, transactions, typeTransaction]);
+
+  useEffect(() => {
+    setFilteredCategory(null);
+  },[]);
 
   const handleGetTotalPerCategory = () => {
     const totalOfEachCategory = getTotalPerCategory();
@@ -47,7 +53,8 @@ const TotalsPerCategory = (props: Props) => {
           totalOfCategories.push({
             name: category.value,
             total: totalCategory,
-            icon: category.icon
+            icon: category.icon,
+            id: category.id as string
           }
           );
         }
@@ -76,9 +83,9 @@ const TotalsPerCategory = (props: Props) => {
             <div className={styles.totalsPerCategory__chart}>
               {totalsCategories.map((totalCategory, index) => {
                 if (index === 0) {
-                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={1} allTransactions={allTransactions}/>;
+                  return <CategoryBarChart key={totalCategory.id} totalCategory={totalCategory} barHeight={1} allTransactions={allTransactions}/>;
                 } else {
-                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={(totalCategory.total / higherTotal)}  allTransactions={allTransactions}/>;
+                  return <CategoryBarChart key={totalCategory.id} totalCategory={totalCategory} barHeight={(totalCategory.total / higherTotal)}  allTransactions={allTransactions}/>;
                 }
               })}
             </div>

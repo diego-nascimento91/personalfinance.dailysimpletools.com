@@ -18,7 +18,7 @@ const TransactionsSummary = (props: Props) => {
       {!allTransactions && <Link to="/transactions" className={styles.transactions__seeall}>see all</Link>}
       <h2 className={`theme__title ${styles.transactions__title}`}>{allTransactions ? 'Transactions' : 'Recent Transactions'}</h2>
       {
-        transactions && transactions.length > 0 && transactions[0].id !== ''
+        transactions && transactions.length > 0
           ? (
             transactions.map((transaction, index) => {
               if (!allTransactions) {
@@ -28,7 +28,7 @@ const TransactionsSummary = (props: Props) => {
               else {
                 if (!filteredCategory)
                   return (<TransactionSummary transaction={transaction} key={transaction.id} />);
-                else if (filteredCategory && filteredCategory === transaction.category)
+                else if (filteredCategory && filteredCategory.name === transaction.category)
                   return (<TransactionSummary transaction={transaction} key={transaction.id} />);
               }
             })

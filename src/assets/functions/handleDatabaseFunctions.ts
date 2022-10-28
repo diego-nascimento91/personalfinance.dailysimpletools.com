@@ -24,6 +24,24 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
   }
 };
 
+export const handleFetchOnlyUserCategories = async (setCategories: SetterOrUpdater<ICategory[]>, userId: string) => {
+  try {   
+    // user categories
+    const collectionPathUser = `users/${userId}/categories`;
+    const orderConfigUser: IOrderConfig[] = [
+      {fieldName: 'value', orderDirection: 'asc'},
+      {fieldName: 'type', orderDirection: 'desc'}];
+    const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
+
+    setCategories(categoriesUser as ICategory[]);
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
+  }
+};
+
 export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts[]>) => {
   const collectionPath = 'accounts';
   const orderConfig: IOrderConfig[] = [{fieldName: 'value', orderDirection: 'asc'}];
@@ -104,7 +122,7 @@ export const handleCreateDocFunction = async (collectionName: string, userId: st
   }
 };
 
-export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory) => {
   try {
     const collectionPath = `users/${userId}/${collectionName}`;
     if (document.id) {
@@ -123,7 +141,7 @@ export const handleUpdateDocFunction = async (collectionName: string, userId: st
   }
 };
 
-export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction) => {
+export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory) => {
   try {
     const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
     if (deleteConfirmation) {

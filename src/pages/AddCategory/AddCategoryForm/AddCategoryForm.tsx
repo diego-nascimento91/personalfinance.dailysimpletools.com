@@ -1,32 +1,54 @@
-import { handleCreateDocFunction, handleFetchCategories } from 'assets/functions/handleDatabaseFunctions';
+import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
+import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import styles from './AddCategoryForm.module.scss';
 
+
 const AddCategoryForm = () => {
   const nav = useNavigate();
   const [user] = useUser();
-  const [,setCategories] = useCategories();
+  const [, setCategories] = useCategories();
+  const [, setUserCategories] = useUserCategories();
+  const [selectedCategory, setSelectedCategory] = useSelectedCategory();
+
   // 👇 useState forms
   const [name, setName] = useState('');
-  const [type, setType] = useState<ITransactionType>();
+  const [type, setType] = useState<ITransactionType | ''>('');
   const [description, setDescription] = useState('');
   const [icon, setIcon] = useState('');
   // ☝️ useState forms
+
+  useEffect(() => {
+    if (selectedCategory) handleSelectedCategoryFormLoad();
+  }, [selectedCategory]);
+
+  const handleSelectedCategoryFormLoad = () => {
+    if (selectedCategory) {
+      setName(selectedCategory.value);
+      setType(selectedCategory.type);
+      setDescription(selectedCategory.description);
+      setIcon(selectedCategory.icon);
+    }
+  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (user) {
       const category = getCategoryObj();
-      await handleCreateDocFunction('categories', user.uid, category);
+      if(selectedCategory) {
+        alert('transaction uptade call');
+      } else {
+        await handleCreateDocFunction('categories', user.uid, category);
+      }
 
       handleFetchCategories(setCategories, user.uid);
+      handleFetchOnlyUserCategories(setUserCategories, user.uid);
       resetForm();
-      handleReturnButton();
     }
   };
 
@@ -43,12 +65,14 @@ const AddCategoryForm = () => {
 
   const resetForm = () => {
     setName('');
-    setType(undefined);
+    setType('');
     setDescription('');
     setIcon('');
+    setSelectedCategory(null);
   };
 
   const handleReturnButton = () => {
+    setSelectedCategory(null);
     if (window.history.state && window.history.state.idx > 0) {
       nav(-1);
     } else {
@@ -59,7 +83,21 @@ const AddCategoryForm = () => {
   return (
     <section className={`theme__homesections ${styles.addCategoryForm__container}`}>
       <BsArrowLeft className={styles.addCategoryForm__returnPage} role='button' onClick={handleReturnButton} />
-      <h2>Add a new Category</h2>
+      <>
+        {
+          selectedCategory
+            ? (
+              <>
+                <h2>Update Category</h2>
+                <button className={styles.addCategoryForm__cancelUpdate} onClick={resetForm}>Cancel Update Transaction</button>
+              </>
+            )
+            : (
+              <h2>Add a new Category</h2>
+            )
+        }
+      </>
+
       <form onSubmit={handleFormSubmit}>
         <label className={styles.addCategoryForm__labels}>
           How would like to call this Category?
@@ -113,7 +151,13 @@ const AddCategoryForm = () => {
               : null
           }
         </>
-        <button className={styles.addCategoryForm__button} type='submit'>Add Category</button>
+        <button className={styles.addCategoryForm__button} type='submit'>
+          {
+            selectedCategory
+              ? 'Update Category'
+              : 'Add Category'
+          }
+        </button>
       </form>
     </section>
   );

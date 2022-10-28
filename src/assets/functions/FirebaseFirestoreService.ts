@@ -63,7 +63,7 @@ const deleteDocument = async (collectionPath: string, id: string) => {
   return await deleteDoc(doc(db, collectionPath, id));
 };
 
-const updateDocument = async (collectionPath: string, document: ITransaction, id: string) => {
+const updateDocument = async (collectionPath: string, document: ITransaction | ICategory, id: string) => {
   return await setDoc(doc(db, collectionPath, id), document, { merge: true });
 };
 

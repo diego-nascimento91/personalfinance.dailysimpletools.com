@@ -3,19 +3,38 @@ import styles from './AddCategory.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
 import AddCategoryForm from './AddCategoryForm/AddCategoryForm';
+import UserCategories from './UserCategories/UserCategories';
+import { handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
+import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 
 const AddCategory = () => {
   const nav = useNavigate();
   const [user, loading] = useUser();
+  const [, setUserCategories] = useUserCategories();
+  const [, setSelectedCategory] = useSelectedCategory();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
+    if(user) handleUpdateDBs();
   }, [user]);
+
+  useEffect(() => {
+    if(user) setSelectedCategory(null);
+  },[]);
+
+  const handleUpdateDBs = () => {
+    if(user) {
+      handleFetchOnlyUserCategories(setUserCategories, user.uid);
+    }
+  };
 
   return (
     <div className={`theme__page theme__padding ${styles.addCategoryPage__container}`}>
-      <AddCategoryForm />
+      <div>
+        <AddCategoryForm />
+        <UserCategories />
+      </div>
     </div>
   );
 };

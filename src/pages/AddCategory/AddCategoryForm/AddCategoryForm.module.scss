@@ -12,6 +12,16 @@
     top: 1rem;
     width: 2.5rem;
   }
+
+  .addCategoryForm__cancelUpdate {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    padding: 0;
+    text-decoration: underline;
+  }
   
   .addCategoryForm__labels{
     display: block;

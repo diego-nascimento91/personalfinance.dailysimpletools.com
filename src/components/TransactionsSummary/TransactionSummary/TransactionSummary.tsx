@@ -75,7 +75,7 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
               [styles.transaction__amount__positive]: transaction.type === 'income',
               [styles.transaction__amount__negative]: transaction.type === 'expense'
             })}>
-            {transaction.type === 'expense' ? '- ' : '+ '} R$ {(+transaction.amount).toFixed(2)}
+            {transaction.type === 'expense' ? '- ' : '+ '} $ {(+transaction.amount).toFixed(2)}
           </p>
         </div>
         <p className={styles.transaction__date}>{formatDate(transaction.date)}</p>

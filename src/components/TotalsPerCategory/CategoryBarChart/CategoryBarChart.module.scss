@@ -27,19 +27,19 @@
 
       .barChart__bar--amountMoney {
         position: absolute;
-        top: -2.5rem;
+        top: -1.5rem;
         font-size: 85%;
-        .barChart__bar--amountMoney--moneySign{
-          display: block;
-        }
+        
         .barChart__bar--amountMoney--moneyText100k{
           display: block;
-          overflow: hidden;
+          height: 3rem;
+          overflow-x: hidden;
           text-overflow: ellipsis;
           width: $barwidth;
 
           &:hover {
-            overflow: auto;
+            height: 2rem;
+            overflow-x: auto;
             width: auto;
           }
         }

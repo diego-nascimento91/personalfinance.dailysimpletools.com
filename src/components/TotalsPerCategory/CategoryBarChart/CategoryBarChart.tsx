@@ -56,10 +56,9 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
           onClick={() => {if(allTransactions) handleSetFilteredCategory();}}
         >
           <p className={styles['barChart__bar--amountMoney']}>
-            <span className={styles['barChart__bar--amountMoney--moneySign']}>R$ </span>
             <span className={classNames({
               [styles['barChart__bar--amountMoney--moneyText100k']]: totalCategory.total >= 100000
-            })}>{getNumberVisual()}</span>
+            })}>${getNumberVisual()}</span>
           </p>
           {
             totalCategory.icon && totalCategory.icon.length > 0 

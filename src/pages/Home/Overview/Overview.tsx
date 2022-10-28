@@ -66,7 +66,7 @@ const Overview = () => {
               className={styles.overview__chart}
               style={{ width: incomeWidth }}
             >
-              <p className={styles.overview__price__positive}>+ R$ {sumIncome.toFixed(2)}</p>
+              <p className={styles.overview__price__positive}>+ $ {sumIncome.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ const Overview = () => {
               className={styles.overview__chart}
               style={{ width: expenseWidth }}
             >
-              <p className={styles.overview__price__negative}>- R$ {sumExpense.toFixed(2)}</p>
+              <p className={styles.overview__price__negative}>- $ {sumExpense.toFixed(2)}</p>
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ import styles from './AddCategoryForm.module.scss';
 const AddCategoryForm = () => {
   const nav = useNavigate();
   const [user] = useUser();
-  const [, setCategories] = useCategories();
+  const [categories, setCategories] = useCategories();
   const [, setUserCategories] = useUserCategories();
   const [selectedCategory, setSelectedCategory] = useSelectedCategory();
 
@@ -22,9 +22,15 @@ const AddCategoryForm = () => {
   const [icon, setIcon] = useState('');
   // ☝️ useState forms
 
+  const [categoryError, setCategoryError] = useState(false);
+
   useEffect(() => {
     if (selectedCategory) handleSelectedCategoryFormLoad();
   }, [selectedCategory]);
+
+  useEffect(() => {
+    handleCategoryNameValidation();
+  }, [name, type]);
 
   const handleSelectedCategoryFormLoad = () => {
     if (selectedCategory) {
@@ -38,9 +44,14 @@ const AddCategoryForm = () => {
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if(categoryError) {
+      alert('Please check the category name and/or type of category!');
+      return;
+    }
+
     if (user) {
       const category = getCategoryObj();
-      if(selectedCategory) {
+      if (selectedCategory) {
         alert('transaction uptade call');
       } else {
         await handleCreateDocFunction('categories', user.uid, category);
@@ -80,6 +91,27 @@ const AddCategoryForm = () => {
     }
   };
 
+  const isEqual = (a: string, b: string) => {
+    const aPure = a.replace(/\s+/g, '');
+    const bPure = b.replace(/\s+/g, '');
+    return aPure.localeCompare(bPure, undefined, { sensitivity: 'accent' }) === 0;
+  };  
+
+  const handleCategoryNameValidation = () => {
+    if (name === '' || type === '') return;
+    const categoriesOfType = categories.filter(category => {
+      return category.type === type;
+    });
+    const nameExists = categoriesOfType.some(category => {
+      return isEqual(category.value, name);
+    });
+    if (nameExists) {
+      setCategoryError(true);
+    } else {
+      setCategoryError(false);
+    }
+  };
+
   return (
     <section className={`theme__homesections ${styles.addCategoryForm__container}`}>
       <BsArrowLeft className={styles.addCategoryForm__returnPage} role='button' onClick={handleReturnButton} />
@@ -109,6 +141,7 @@ const AddCategoryForm = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </label>
+        {categoryError && <span className={styles.addCategoryForm__categoryErrorMsg} role='alert'>This category&apos;s name already exists for the type chosen. Please choose another name.</span>}
         <label className={styles.addCategoryForm__labels}>
           Type:
           <select
@@ -151,7 +184,7 @@ const AddCategoryForm = () => {
               : null
           }
         </>
-        <button className={styles.addCategoryForm__button} type='submit'>
+        <button className={styles.addCategoryForm__button} type='submit' disabled={categoryError}>
           {
             selectedCategory
               ? 'Update Category'

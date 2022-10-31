@@ -40,6 +40,15 @@
     width: 100%;
   }
 
+  .addCategoryForm__categoryErrorMsg {
+    color: red;
+    font-weight: 400;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
+  }
+
   .addCategoryForm__textareas{
     height: 7rem;
     resize: none;
@@ -61,5 +70,9 @@
     color: white;
     height: 3rem;
     width: 100%;
+
+    &:hover:disabled {
+      cursor: not-allowed;
+    }
   }
 }

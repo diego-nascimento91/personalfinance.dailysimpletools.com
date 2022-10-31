@@ -28,11 +28,11 @@ const AddTransactionPopUp = () => {
             <div className={styles.popup__container} >
               <div role='button' onClick={() => handleNewTransactionButtonClick()} className={styles.popup__option}>
                 <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
-                <span className={styles['popup__option--text']}>New transaction</span>
+                <span className={styles['popup__option--text']}>Add a new transaction</span>
               </div>
               <div role='button' onClick={() => handleNewCategoryButtonClick()} className={styles.popup__option}>
                 <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
-                <span className={styles['popup__option--text']}>New category</span>
+                <span className={styles['popup__option--text']}>Add/Edit a category</span>
               </div>
             </div >
           )

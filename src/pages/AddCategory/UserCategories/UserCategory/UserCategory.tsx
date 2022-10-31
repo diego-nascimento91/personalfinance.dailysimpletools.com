@@ -42,10 +42,10 @@ const UserCategory = (props: Props) => {
             )
         }
       </div>
-      <p className={styles['userCategory__nameAndType--container']}>
-        <span className={styles['userCategory__nameAndType--name']}>{category.value}</span>
-        <span className={styles['userCategory__nameAndType--type']}>{category.type[0].toUpperCase() + category.type.substring(1)} category</span>
-      </p>
+      <div className={styles['userCategory__nameAndType--container']}>
+        <p className={styles['userCategory__nameAndType--name']}>{category.value}</p>
+        <p className={styles['userCategory__nameAndType--type']}>{category.type[0].toUpperCase() + category.type.substring(1)} category</p>
+      </div>
       <div className={styles.userCategory__buttons}>
         <button className={styles.userCategory__button} role='button' onClick={handleEditButtonClick}>edit</button>
         <button className={styles.userCategory__button} role='button' onClick={handleDeleteButtonClick}>delete</button>

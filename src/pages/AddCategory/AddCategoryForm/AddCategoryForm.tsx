@@ -22,6 +22,7 @@ const AddCategoryForm = () => {
   const [icon, setIcon] = useState('');
   // ☝️ useState forms
 
+  const [imgError, setImgError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const AddCategoryForm = () => {
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if(categoryError) {
+    if (categoryError) {
       alert('Please check the category name and/or type of category!');
       return;
     }
@@ -95,7 +96,7 @@ const AddCategoryForm = () => {
     const aPure = a.replace(/\s+/g, '');
     const bPure = b.replace(/\s+/g, '');
     return aPure.localeCompare(bPure, undefined, { sensitivity: 'accent' }) === 0;
-  };  
+  };
 
   const handleCategoryNameValidation = () => {
     if (name === '' || type === '') return;
@@ -179,9 +180,26 @@ const AddCategoryForm = () => {
           {
             icon && icon.length > 0
               ? (
-                <img className={styles.addCategoryForm__iconPreview} src={icon} alt="icon" />
+                <>
+                  <img className={styles.addCategoryForm__iconPreview} src={icon} alt="icon"
+                    onError={({ currentTarget }) => {
+                      currentTarget.src = '';
+                      currentTarget.className = 'imgError';
+                      setImgError(true);
+                    }}
+                  />
+                  {
+                    imgError
+                      ? name && name.length > 0 
+                        ? <span className={styles['addCategoryForm__iconPreview--iconText']}>{name[0]}</span>
+                        : <span className={`${styles['addCategoryForm__iconPreview--iconText']} ${styles.error}`}>error</span>
+                      : null
+                  }
+                </>
               )
-              : null
+              : name && name.length > 0
+                ? <span className={styles['addCategoryForm__iconPreview--iconText']}>{name[0]}</span>
+                : null
           }
         </>
         <button className={styles.addCategoryForm__button} type='submit' disabled={categoryError}>

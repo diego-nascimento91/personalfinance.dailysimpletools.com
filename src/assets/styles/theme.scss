@@ -59,6 +59,10 @@ main {
   }
 }
 
+.imgError {
+  display: none !important;
+}
+
 //to use in the components
 @media (max-width: $smallmob) {}
 

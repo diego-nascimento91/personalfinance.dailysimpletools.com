@@ -14,6 +14,7 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
   const [categories] = useCategories();
   const [user] = useUser();
   const [imageURL, setImageURL] = useState('');
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     if(user) {
@@ -60,7 +61,16 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
           {
             imageURL && imageURL.length > 0 
               ? (
-                <img className={styles['transaction__category--icon']} src={imageURL} />
+                <>
+                  <img className={styles['transaction__category--icon']} src={imageURL} alt="icon"
+                    onError={({ currentTarget }) => {
+                      currentTarget.src = '';
+                      currentTarget.className = 'imgError';
+                      setImageError(true);
+                    }}
+                  />
+                  {imageError && <span className={styles['transaction__category--iconText']} >{transaction.category[0]}</span>}
+                </>
               )
               : (
                 <span className={styles['transaction__category--iconText']} >{transaction.category[0]}</span>

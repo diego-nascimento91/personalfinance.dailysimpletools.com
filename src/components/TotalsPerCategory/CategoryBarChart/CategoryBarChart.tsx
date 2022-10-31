@@ -64,7 +64,7 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
                   <img className={styles['barChart__bar--icon']} src={totalCategory.icon}
                     onError={({ currentTarget }) => {
                       currentTarget.src = '';
-                      currentTarget.className = `${styles['barChart__bar--icon']} ${styles['imgError']}`;
+                      currentTarget.className = 'imgError';
                       setImgError(true);
                     }}
                   />

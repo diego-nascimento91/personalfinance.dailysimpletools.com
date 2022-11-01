@@ -1,25 +1,49 @@
 import { useUserMenuStatus } from 'assets/state/hooks/menuHooks';
-import classNames from 'classnames';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './UserMenuOptions.module.scss';
 
 const UserMenuOptions = () => {
   const [userMenuStatus, setUserMenuStatus] = useUserMenuStatus();
 
+  const handleSightOutClick = () => {
+    setUserMenuStatus(false);
+    FirebaseAuthService.signOutofAccount();
+  };
+
+  const handleDeleteUserClick = () => {
+    try {
+      const deleteConfirmation = window.confirm('Are you sure you want to delete your account?\nThis action will erase all your data and it cannot be undone.\n Ok for Yes. Cancel for No.');
+      if (deleteConfirmation) {
+        setUserMenuStatus(false);
+        FirebaseAuthService.deleteAccount();
+      } else {
+        throw new Error('User deletion cancelled.');
+      }
+    } catch (error) {
+      if(error instanceof Error){
+        alert(error.message);
+        throw error;
+      }
+    }
+  };
+
   return (
-    <div
-      className={classNames({
-        [styles.usermenuoptions]: true,
-        [styles.usermenuoptions__statusmenu]: userMenuStatus
-      })}
-    >
-      <div role='option' className={styles.usermenuoption}>
-        <p className={styles.usermenuoptions__text} onClick={() => {setUserMenuStatus(false); FirebaseAuthService.signOutofAccount();}}>SignOut</p>
-      </div>
-      <div role='option' className={styles.usermenuoption}>
-        <p className={styles.usermenuoptions__text} onClick={() => {setUserMenuStatus(false); FirebaseAuthService.deleteAccount();}}>Delete Account</p>
-      </div>
-    </div>
+    <>
+      {
+        userMenuStatus
+          ? (
+            <div className={styles.usermenuoptions}>
+              <div role='option' className={styles.usermenuoption}>
+                <p className={styles.usermenuoptions__text} onClick={handleSightOutClick}>SignOut</p>
+              </div>
+              <div role='option' className={styles.usermenuoption}>
+                <p className={styles.usermenuoptions__text} onClick={handleDeleteUserClick}>Delete Account</p>
+              </div>
+            </div>
+          )
+          : null
+      }
+    </>
   );
 };
 

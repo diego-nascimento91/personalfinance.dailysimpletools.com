@@ -1,7 +1,8 @@
 import { ITotalsCategories } from 'assets/interfaces/interfaces';
 import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
+import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './CategoryBarChart.module.scss';
 
 interface Props {
@@ -10,8 +11,17 @@ interface Props {
   allTransactions: boolean,
 }
 const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) => {
+  const [user] = useUser();
   const [filteredCategory, setFilteredCategory] = useFilteredCategory();
+  const [categories] = useCategories();
   const [imgError, setImgError] = useState(false);
+  const [imageURL, setImageURL] = useState('');
+
+  useEffect(() => {
+    if(user) {
+      getCategoryURL();
+    }
+  }, [categories, user]);
 
   const getHeightPercentage = () => {
     const heightPercentage = (barHeight * 100).toString() + '%';
@@ -33,11 +43,23 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
   };
 
   const handleSetFilteredCategory = () => {
-    if (totalCategory.id === filteredCategory?.id) {
+    if (totalCategory.name === filteredCategory?.name) {
       setFilteredCategory(null);
       return;
     }
     setFilteredCategory(totalCategory);
+  };
+
+  const getCategoryURL = () => {
+    const category = categories.find(item => {
+      return item.value === totalCategory.name;
+    });
+
+    if(category) {
+      setImageURL(category.icon);
+      return;
+    } 
+    setImageURL('');
   };
 
   return (
@@ -48,7 +70,7 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
           className={classNames({
             [styles['barChart__bar--containerRelativeSize']]: true,
             [styles['barChart__bar--containerRelativeSizeCursor']]: allTransactions,
-            [styles['barChart__bar--containerRelativeSizeNotSelected']]: allTransactions && filteredCategory && totalCategory.id !== filteredCategory.id,
+            [styles['barChart__bar--containerRelativeSizeNotSelected']]: allTransactions && filteredCategory && totalCategory.name !== filteredCategory.name,
           })}
           onClick={() => { if (allTransactions) handleSetFilteredCategory(); }}
         >
@@ -58,10 +80,10 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
             })}>${getNumberVisual()}</span>
           </p>
           {
-            totalCategory.icon && totalCategory.icon.length > 0
+            imageURL && imageURL.length > 0
               ? (
                 <>
-                  <img className={styles['barChart__bar--icon']} src={totalCategory.icon}
+                  <img className={styles['barChart__bar--icon']} src={imageURL}
                     onError={({ currentTarget }) => {
                       currentTarget.src = '';
                       currentTarget.className = 'imgError';

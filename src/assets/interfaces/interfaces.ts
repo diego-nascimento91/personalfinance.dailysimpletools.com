@@ -43,6 +43,4 @@ export interface IOrderConfig {
 export interface ITotalsCategories {
   name: string,
   total: number,
-  icon: string,
-  id: string
 }

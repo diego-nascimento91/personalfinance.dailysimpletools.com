@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ITotalsCategories, ITransaction } from 'assets/interfaces/interfaces';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/firebaseHooks';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
 import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
@@ -13,7 +13,6 @@ const TotalsPerCategory = (props: Props) => {
   const { transactions, allTransactions = false } = props;
 
   const [user,] = useUser();
-  const [categories,] = useCategories();
   const [totalsCategories, setTotalsCategories] = useState<ITotalsCategories[]>([]);
   const [higherTotal, setHigherTotal] = useState(1);
   const [typeTransaction, setTypeTransaction] = useState('expense');
@@ -21,7 +20,7 @@ const TotalsPerCategory = (props: Props) => {
 
   useEffect(() => {
     if (user) handleGetTotalPerCategory();
-  }, [user, categories, transactions, typeTransaction]);
+  }, [user, transactions, typeTransaction]);
 
   useEffect(() => {
     setFilteredCategory(null);
@@ -39,11 +38,20 @@ const TotalsPerCategory = (props: Props) => {
   };
 
   const getTotalPerCategory = () => {
+    // get unique values of the categories in the transactions
+    const allCategories = transactions.map(transaction => {
+      return transaction.category;
+    });
+    //removing duplicates
+    const uniqueCategories = allCategories.filter((value, index, array) => {
+      return array.indexOf(value) === index;
+    });
+    
     const totalOfCategories: ITotalsCategories[] = [];
-    if (categories && categories.length > 0 && transactions.length > 0) {
-      categories.forEach(category => {
+    if (uniqueCategories.length > 0 && transactions.length > 0) {
+      uniqueCategories.forEach(category => {
         const transactionsCategory = transactions.filter(transaction => {
-          return transaction.category === category.value && transaction.type === typeTransaction;
+          return transaction.category === category && transaction.type === typeTransaction;
         });
         const pricesTransactionsCategory = transactionsCategory.map(transaction => {
           return +transaction.amount;
@@ -51,12 +59,9 @@ const TotalsPerCategory = (props: Props) => {
         const totalCategory = pricesTransactionsCategory.reduce((previousValue, currentValue) => (previousValue + currentValue), 0);
         if (totalCategory) {
           totalOfCategories.push({
-            name: category.value,
+            name: category,
             total: totalCategory,
-            icon: category.icon,
-            id: category.id as string
-          }
-          );
+          });
         }
       });
     }
@@ -83,9 +88,9 @@ const TotalsPerCategory = (props: Props) => {
             <div className={styles.totalsPerCategory__chart}>
               {totalsCategories.map((totalCategory, index) => {
                 if (index === 0) {
-                  return <CategoryBarChart key={totalCategory.id} totalCategory={totalCategory} barHeight={1} allTransactions={allTransactions}/>;
+                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={1} allTransactions={allTransactions}/>;
                 } else {
-                  return <CategoryBarChart key={totalCategory.id} totalCategory={totalCategory} barHeight={(totalCategory.total / higherTotal)}  allTransactions={allTransactions}/>;
+                  return <CategoryBarChart key={totalCategory.name} totalCategory={totalCategory} barHeight={(totalCategory.total / higherTotal)}  allTransactions={allTransactions}/>;
                 }
               })}
             </div>

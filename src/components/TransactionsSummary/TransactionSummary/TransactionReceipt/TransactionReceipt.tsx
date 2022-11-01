@@ -92,9 +92,6 @@ const TransactionReceipt = () => {
                   <li className={styles.receipt__date}>
                     <span>Transaction&apos;s date: </span>
                     {formatDateShort(currentTransaction.date)}</li>
-                  <li className={styles.receipt__account}>
-                    <span>Account: </span>
-                    {currentTransaction.account}</li>
                   <li className={styles.receipt__notes}>
                     <span>Notes: </span>
                     {currentTransaction.note}</li>

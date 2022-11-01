@@ -11,22 +11,23 @@ const UserCategories = () => {
       <h2>Categories Added</h2>
       <div className={styles.userCategories__userCategoryComponents}>
         {
-          userCategories && userCategories.length > 0 
+          userCategories && userCategories.length > 0
             ? (
-              userCategories.map(category => (
-                category.type === 'income' && <UserCategory key={category.id} category = { category }/>
-              ))
+              <>
+                {
+                  userCategories.map(category => (
+                    category.type === 'income' && <UserCategory key={category.id} category={category} />
+                  ))
+                }
+                {
+                  userCategories.map(category => (
+                    category.type === 'expense' && <UserCategory key={category.id} category={category} />
+                  ))
+                }
+              </>
+
             )
-            : null
-        }
-        {
-          userCategories && userCategories.length > 0 
-            ? (
-              userCategories.map(category => (
-                category.type === 'expense' && <UserCategory key={category.id} category = { category }/>
-              ))
-            )
-            : null
+            : 'No categories added yet.'
         }
       </div>
     </section>

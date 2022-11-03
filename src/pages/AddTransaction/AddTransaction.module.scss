@@ -31,10 +31,18 @@
       margin-top: 0.5rem;
       width: 100%;
     }
+
+    .addtransactionform__currencyInput {
+      &::placeholder {
+        color: black;
+      }
+    }
+
     .addtransactionform__labelDateText {
       display: block;
       width: 100%;
     }
+
     .addtransactionform__inputdate {
       min-width: calc(100% - 1rem);
     }

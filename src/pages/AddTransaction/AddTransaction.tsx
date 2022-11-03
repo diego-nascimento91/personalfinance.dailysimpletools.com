@@ -180,10 +180,10 @@ const AddTransaction = () => {
           </div>
           <CurrencyInput
             id='transactionamount'
-            className={styles.addtransactionform__input}
+            className={`${styles.addtransactionform__input} ${styles.addtransactionform__currencyInput}`}
             required
-            type="text"
-            onChange={(original: number, masked: number) => {setAmount(masked); console.log(masked);}}
+            type="number"
+            onChange={(original: number, masked: number) => setAmount(masked)}
             value={amount}
             placeholder='0.00'
           />

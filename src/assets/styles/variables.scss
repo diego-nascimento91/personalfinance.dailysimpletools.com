@@ -1,9 +1,16 @@
-// container padding
-$hpadding-smallmob: 1.5rem;
+// page padding
+$hpadding-smallmob: 1rem;
 $hpadding-mobile: 1.5rem;
 $hpadding-desksm: 10rem;
 $hpadding-deskmd: 20rem;
 $hpadding-deskbg: 25rem;
+
+// component padding
+$compPadding-smallmob: 1rem;
+$compPadding-mobile: 2rem;
+$compPadding-desksm: 2rem;
+$compPadding-deskmd: 2rem;
+$compPadding-deskbg: 2rem;
 
 // theme_componentsections
 $positiveMoney: rgb(0, 255, 0);

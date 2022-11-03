@@ -44,12 +44,16 @@ main {
   padding-bottom: 1rem;
 
   .theme__homesections {
+    background: $mainsections-background;
     border-radius: 5px;
     margin: 1.5rem auto;
-    padding: 2rem;
     width: 100%;
-    background: $mainsections-background;
-    padding: 2rem;
+    
+    @media (max-width: $smallmob) { padding: $compPadding-smallmob; }
+    @media (min-width: $smallmob) and (max-width: $mobile) { padding: $compPadding-mobile; }
+    @media (min-width: $mobile) and (max-width: $desktop_sm) { padding: $compPadding-desksm; }
+    @media (min-width: $desktop_sm) and (max-width: $desktop_md) { padding: $compPadding-deskmd; }
+    @media (min-width: $desktop_md) { padding: $compPadding-deskbg; }
 
     h2 {
       font-weight: 500;
@@ -64,6 +68,7 @@ main {
 }
 
 //to use in the components
+@import 'assets/styles/variables.scss';
 @media (max-width: $smallmob) {}
 
 @media (min-width: $smallmob) and (max-width: $mobile) {}

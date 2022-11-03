@@ -1,4 +1,5 @@
 @import '../assets/menuVars.scss';
+@import 'assets/styles/variables.scss';
 
 .stlogo {
   align-items: center;
@@ -8,6 +9,10 @@
 .stlogo__img{
   margin-right: 0.5rem;
   height: $image-size;
+
+  @media (max-width: 330px) {
+    display: none;
+  }
 }
 
 .stlogo__txt {

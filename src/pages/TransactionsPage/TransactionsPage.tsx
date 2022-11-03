@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useAccounts, useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import styles from './TransactionsPage.module.scss';
 import TotalsPerCategory from 'components/TotalsPerCategory/TotalsPerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import AddTransactionButton from 'components/AddTransactionButton/AddTransactionButton';
@@ -39,10 +40,10 @@ const TransactionsPage = () => {
 
   return (
     <div className='theme__padding theme__page'>
-      <div>
-        <UserHeader/>
-        <TotalsPerCategory transactions={transactionsMonth} allTransactions={true}/>
-        <TransactionsSummary transactions={transactionsMonth} allTransactions={true} />
+      <div className={styles.transactionsPage__components}>
+        <div className={styles.transactionsPage__userHeader}><UserHeader/></div>
+        <div className={styles.transactionsPage__totalsPerCategory}><TotalsPerCategory transactions={transactionsMonth} allTransactions={true}/></div>
+        <div className={styles.transactionsPage__transactionsSummary}><TransactionsSummary transactions={transactionsMonth} allTransactions={true} /></div>
       </div>
       <AddTransactionButton />
     </div>

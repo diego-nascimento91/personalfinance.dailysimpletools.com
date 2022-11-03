@@ -46,11 +46,11 @@ main {
   .theme__homesections {
     background: $mainsections-background;
     border-radius: 5px;
-    margin: 1.5rem auto;
+    height: 100%;
     width: 100%;
     
-    @media (max-width: $smallmob) { padding: $compPadding-smallmob; }
-    @media (min-width: $smallmob) and (max-width: $mobile) { padding: $compPadding-mobile; }
+    @media (max-width: $smallmob) { padding: $compPadding-smallmob; margin: 1.5rem auto;}
+    @media (min-width: $smallmob) and (max-width: $mobile) { padding: $compPadding-mobile; margin: 1.5rem auto;}
     @media (min-width: $mobile) and (max-width: $desktop_sm) { padding: $compPadding-desksm; }
     @media (min-width: $desktop_sm) and (max-width: $desktop_md) { padding: $compPadding-deskmd; }
     @media (min-width: $desktop_md) { padding: $compPadding-deskbg; }
@@ -70,11 +70,7 @@ main {
 //to use in the components
 @import 'assets/styles/variables.scss';
 @media (max-width: $smallmob) {}
-
 @media (min-width: $smallmob) and (max-width: $mobile) {}
-
 @media (min-width: $mobile) and (max-width: $desktop_sm) {}
-
 @media (min-width: $desktop_sm) and (max-width: $desktop_md) {}
-
 @media (min-width: $desktop_md) {}

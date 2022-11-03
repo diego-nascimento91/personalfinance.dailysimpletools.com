@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
+import styles from './Home.module.scss';
 import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
-import ExpensePerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
+import TotalsPerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import UserHeader from 'components/UserHeader/UserHeader';
@@ -44,11 +45,11 @@ const Home = () => {
 
   return (
     <div className='theme__padding theme__page'>
-      <div>
-        <UserHeader />
-        <Overview />
-        <ExpensePerCategory transactions={transactionsMonth} />
-        <TransactionsSummary transactions={recentTransactions} />
+      <div className={styles.home__components}>
+        <div className={styles.home__userHeader}><UserHeader /></div>
+        <div className={styles.home__overview}><Overview /></div>
+        <div className={styles.home__totalsPerCategory}><TotalsPerCategory transactions={transactionsMonth} /></div>
+        <div className={styles.home__transactionsSummary}><TransactionsSummary transactions={recentTransactions} /></div>
       </div>
       <AddTransactionButton />
     </div>

@@ -31,7 +31,7 @@ const AddTransaction = () => {
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
-    if(user) {
+    if (user) {
       if (currentTransaction) {
         handleCurrentTransactionFormLoad();
       }
@@ -40,7 +40,7 @@ const AddTransaction = () => {
   }, [currentTransaction, user]);
 
   const handleUpdateDBs = () => {
-    if(user) {
+    if (user) {
       if (!(categories && categories.length > 0)) {
         handleFetchCategories(setCategories, user.uid);
       }
@@ -181,7 +181,6 @@ const AddTransaction = () => {
             className={styles.addtransactionform__input}
             required
             type="number"
-            min='0'
             onChange={(event) => setAmount(+event.target.value)}
             value={amount}
           />
@@ -200,7 +199,7 @@ const AddTransaction = () => {
                     categories.map(item => (
                       item.type === transactionType
                         ? (
-                          <option value={JSON.stringify(item)} key={item.id}>{item.ordering ? `${item.ordering} - ` : null }{item.value}</option>
+                          <option value={JSON.stringify(item)} key={item.id}>{item.ordering ? `${item.ordering} - ` : null}{item.value}</option>
                         )
                         : item.type === 'other'
                           ? (
@@ -223,7 +222,8 @@ const AddTransaction = () => {
             }
           </p>
 
-          <label className={styles.addtransactionform__label}> Which date?
+          <label className={styles.addtransactionform__label}> 
+            <span className={styles.addtransactionform__labelDateText}>Which date?</span>
             <input
               className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}
               required

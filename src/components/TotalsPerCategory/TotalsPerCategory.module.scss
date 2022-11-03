@@ -7,6 +7,10 @@
   .totalsPerCategory__typeTransactionLabel {
     position: absolute;
     right: 1.5rem;
+    @media (max-width: $smallmob) {
+      right: 0.5rem;
+      top: 1.0rem;
+    }
 
     .totalsPerCategory__typeTransactionSelect {
       background: $mainsections-background;
@@ -15,6 +19,7 @@
       cursor: pointer;
       color: white;
       padding: 0.5rem;
+      @media (max-width: $smallmob) {padding: 0;}
     }
   }
   

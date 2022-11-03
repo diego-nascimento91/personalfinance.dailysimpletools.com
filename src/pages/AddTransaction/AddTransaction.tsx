@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
 import { handleCreateDocFunction, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
@@ -6,7 +7,8 @@ import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransaction.module.scss';
 import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const CurrencyInput = require('react-currency-masked-input');
 
 
 const AddTransaction = () => {
@@ -176,13 +178,14 @@ const AddTransaction = () => {
               onClick={() => handleTypeTransactionOptionClick('expense')}
             >- $</div>
           </div>
-          <input
+          <CurrencyInput
             id='transactionamount'
             className={styles.addtransactionform__input}
             required
-            type="number"
-            onChange={(event) => setAmount(+event.target.value)}
+            type="text"
+            onChange={(original: number, masked: number) => {setAmount(masked); console.log(masked);}}
             value={amount}
+            placeholder='0.00'
           />
 
           <label className={styles.addtransactionform__label}> Which category?

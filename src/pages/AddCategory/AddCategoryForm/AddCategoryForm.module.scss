@@ -52,6 +52,10 @@
   .addCategoryForm__textareas{
     height: 7rem;
     resize: none;
+
+    &::placeholder {
+      color: rgb(54, 54, 54);
+    }
   }
 
   .addCategoryForm__iconPreview {

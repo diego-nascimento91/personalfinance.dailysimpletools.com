@@ -169,7 +169,7 @@ const AddCategoryForm = () => {
         <label className={styles.addCategoryForm__labels}>
           Icon:
           <input
-            className={styles.addCategoryForm__inputs}
+            className={`${styles.addCategoryForm__inputs} ${styles.addCategoryForm__inputIcon}`}
             type="text"
             value={icon}
             onChange={(e) => setIcon(e.target.value)}

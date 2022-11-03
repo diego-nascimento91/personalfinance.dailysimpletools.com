@@ -49,6 +49,17 @@
     margin-top: -0.5rem;
   }
 
+  .addCategoryForm__inputIcon {
+    @media (max-width: 375px) {
+      height: 4rem;
+      &::placeholder {
+        position: relative;
+        top: -0.7rem;
+        white-space: pre-line;
+      }
+    }
+  }
+
   .addCategoryForm__textareas{
     height: 7rem;
     resize: none;

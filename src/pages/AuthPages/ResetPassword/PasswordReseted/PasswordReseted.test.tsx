@@ -3,18 +3,19 @@ import { BrowserRouter, Router } from 'react-router-dom';
 import PasswordReseted from './PasswordReseted';
 import { createMemoryHistory } from 'history';
 
-describe('Password Reseted behavior', () => {
-  test('should contain alert of email sent', () => {
+describe('Password Reseted', () => {
+  it('should contain alert of email sent', () => {
     render(
       <BrowserRouter>
         <PasswordReseted />
       </BrowserRouter>
     );
     const alert = screen.getByRole('alert');
+
     expect(alert.textContent).toContain('sent to your email');
   });
 
-  test('should render page Login when clicked in the link', () => {
+  it('should render page Login when link clicked', () => {
     const history = createMemoryHistory({initialEntries: ['/resetpassword/emailsent']});
     render(
       <Router navigator={history} location={history.location}>
@@ -22,7 +23,9 @@ describe('Password Reseted behavior', () => {
       </Router>
     );
     const linkLogin = screen.getByText('Click here');
+
     fireEvent.click(linkLogin);
+
     expect(history.location.pathname).toBe('/');
   });
 });

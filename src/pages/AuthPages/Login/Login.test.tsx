@@ -1,16 +1,25 @@
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Router } from 'react-router-dom';
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import Login from './Login';
 
-jest.mock('assets/state/hooks/useUser', () => {
+// mock of useUser to set to true (user loggedin) or false (user not loggedin)
+jest.mock('assets/state/hooks/firebaseHooks', () => {
   return {
     useUser: jest.fn()
   };
 });
-
+// mock of the FirebaseAuthService to check if it was called and to return error
+jest.mock('assets/functions/FirebaseAuthService', () => {
+  return {
+    logInWithEmailAndPassword: jest.fn(),
+    signInWithGoogle: jest.fn(),
+  };
+});
+// mock of the useNavigate to check change of page
 const mockedNavegacao = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
@@ -20,236 +29,183 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-describe('The behavior of the Login form with email and password', () => {
-  beforeEach(() => {
-    (useUser as jest.Mock).mockReturnValue([false, false]);
-  });
-  test('An alert should be provided in case of email input empty', () => {
-    // Arrange
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    const passwordInput = screen.getByPlaceholderText('password');
-    const submitButton = screen.getByText('Login');
-    // Act
-    expect(emailInput).toBeInTheDocument();
-    fireEvent.change(passwordInput, {
-      target: {
-        value: 'password123'
-      }
+// global variables
+const validEmail = 'email@example.com';
+const invalidEmail = 'invalid..email@[ 123.123.123.123 ]';
+const validPassword = 'password123';
+const invalidPassword = '123';
+
+describe('Login', () => {
+  describe('Successful login (with Email and Password or with Google', () => {
+    beforeEach(() => {
+      (useUser as jest.Mock).mockReturnValue([true, false]);
     });
-    fireEvent.click(submitButton);
-    // Assert
-    const emailAlert = screen.getByRole('alert');
-    expect(emailAlert.textContent).toBe('Input required! Please enter your email.');
+
+    it('should navigate to /home', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      
+      expect(mockedNavegacao).toBeCalled();
+      expect(mockedNavegacao).toBeCalledWith('/home');
+    });
   });
 
-  test('An alert should be provided in case of password input empty', () => {
-    // Arrange
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    const passwordInput = screen.getByPlaceholderText('password');
-    const submitButton = screen.getByText('Login');
+  describe('Login with Email and Password Form', () => {
+    beforeEach(() => {
+      (useUser as jest.Mock).mockReturnValue([true, false]);
+    });
 
-    // Act
-    act(() => {
-      expect(passwordInput).toBeInTheDocument();
-      fireEvent.change(emailInput, {
-        target: {
-          value: 'myemail@domain.com'
-        }
-      });
+    it('should call logInWithEmailAndPassword for valid email and password', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+      const passwordInput = screen.getByPlaceholderText('password');
+      const submitButton = screen.getByText('Login');
+
+      fireEvent.change(emailInput, { target: { value: validEmail } });
+      fireEvent.change(passwordInput, { target: { value: validPassword } });
       fireEvent.click(submitButton);
+
+      expect(FirebaseAuthService.logInWithEmailAndPassword).toBeCalled();
+      expect(FirebaseAuthService.logInWithEmailAndPassword).toBeCalledWith(validEmail, validPassword);
     });
 
-    // Assert
-    const alerts = screen.getByRole('alert');
-    expect(alerts.textContent).toBe('Input required! Please choose a password.');
-    // await act(async () => {
-    //   Promise.resolve();
-    // });
-  });
+    it('should show an alert for email input empty', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const passwordInput = screen.getByPlaceholderText('password');
+      const submitButton = screen.getByText('Login');
 
-  test('An alert should be povided with invalid emails', () => {
-    // Arrange
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    const passwordInput = screen.getByPlaceholderText('password');
-    const submitButton = screen.getByText('Login');
-
-    // Act
-    act(() => {
-      fireEvent.change(passwordInput, {
-        target: {
-          value: 'validpassword123'
-        }
-      });
-      fireEvent.change(emailInput, {
-        target: {
-          value: 'invalid..email@[123.123.123.123]'
-        }
-      });
+      fireEvent.change(passwordInput, { target: { value: validPassword } });
       fireEvent.click(submitButton);
+
+      const emailAlert = screen.getByRole('alert');
+      expect(emailAlert.textContent).toBe('Input required! Please enter your email.');
     });
 
-    // Assert
-    const emailAlert = screen.queryAllByRole('alert');
-    expect(emailAlert.length).toBe(1);
-    expect(emailAlert[0].textContent).toBe('Email not valid. Please enter an email in the format personal_info@domain.com.');
-    // await act(async () => {
-    //   Promise.resolve();
-    // });
-  });
+    it('should show an alert for invalid email', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+      const passwordInput = screen.getByPlaceholderText('password');
+      const submitButton = screen.getByText('Login');
 
-  test('An alert should be provided for passwords with less than 6 characteres', () => {
-    // Arrange
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    const passwordInput = screen.getByPlaceholderText('password');
-    const submitButton = screen.getByText('Login');
-
-    // Act
-    act(() => {
-      fireEvent.change(emailInput, {
-        target: {
-          value: 'validemail@domain.com'
-        }
-      });
-      fireEvent.change(passwordInput, {
-        target: {
-          value: '123'
-        }
-      });
+      fireEvent.change(passwordInput, { target: { value: validPassword } });
+      fireEvent.change(emailInput, { target: { value: invalidEmail } });
       fireEvent.click(submitButton);
+
+      const emailAlert = screen.getByRole('alert');
+      expect(emailAlert.textContent).toBe('Email not valid. Please enter an email in the format personal_info@domain.com.');
     });
 
-    // Assert
-    const alert = screen.getByRole('alert');
-    expect(alert.textContent).toBe('Password not valid. Your password should contain at least 6 chacteres e may contain letters, numbers and the characters @ # $ % & *');
-    // await act(async () => {
-    //   Promise.resolve();
-    // });
+    it('should show an alert for password input empty', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+      const submitButton = screen.getByText('Login');
+
+      fireEvent.change(emailInput, { target: { value: 'myemail@domain.com' } });
+      fireEvent.click(submitButton);
+
+      const alert = screen.getByRole('alert');
+      expect(alert.textContent).toBe('Input required! Please choose a password.');
+    });
+
+    it('should show an alert for invalid password', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+      const passwordInput = screen.getByPlaceholderText('password');
+      const submitButton = screen.getByText('Login');
+
+      fireEvent.change(emailInput, { target: { value: validEmail } });
+      fireEvent.change(passwordInput, { target: { value: invalidPassword } });
+      fireEvent.click(submitButton);
+
+      const alert = screen.getByRole('alert');
+      expect(alert.textContent).toContain('Password not valid');
+    });
+
+    it('should show an alert for incorrect email or password (failed login)', async () => {
+      (FirebaseAuthService.logInWithEmailAndPassword as jest.Mock).mockReturnValueOnce(new Error);
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const userEmail = screen.getByPlaceholderText('youremail@domain.com');
+      const userPassword = screen.getByPlaceholderText('password');
+      const loginButton = screen.getByText('Login');
+
+      fireEvent.change(userEmail, { target: { value: validEmail } });
+      fireEvent.change(userPassword, { target: { value: validPassword } });
+      fireEvent.click(loginButton);
+
+      const alert = await screen.findByRole('alert');
+      expect(alert.textContent).toBe('Email/ password incorrect. Check your information and try again.');
+    });
   });
 
-  test('No invalid alert should be provided with valid emails or passwords', async () => {
-    // Arrange
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    const passwordInput = screen.getByPlaceholderText('password');
-    const submitButton = screen.getByText('Login');
-
-    // Act
-    fireEvent.change(emailInput, {
-      target: {
-        value: 'email@example.com'
-      }
-    });
-    fireEvent.change(passwordInput, {
-      target: {
-        value: 'validpassword123!@#$%&*'
-      }
-    });
-    fireEvent.click(submitButton);
-    await act(async () => {
-      Promise.resolve();
+  describe('Login with Google', () => {
+    beforeEach(() => {
+      (useUser as jest.Mock).mockReturnValue([true, false]);
     });
 
-    // Assert
-    const alert = await screen.findByRole('alert');
+    it('should call signInWithGoogle when button clicked', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+      const googleButton = screen.getByText('Login with Google');
 
-    expect(alert.textContent).not.toContain('Input Required');
-    expect(alert.textContent).not.toContain('Email not valid');
-    expect(alert.textContent).not.toContain('Password not valid');
+      fireEvent.click(googleButton);
 
-  });
-
-  test('An alert should be provided for incorrect email or password (failed login)', async () => {
-    // Arrange
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    const userEmail = screen.getByPlaceholderText('youremail@domain.com');
-    const userPassword = screen.getByPlaceholderText('password');
-    const loginButton = screen.getByText('Login');
-
-    //Act
-    fireEvent.change(userEmail, {
-      target: {
-        value: 'emailvalidbutnotregisterd@anyemail.domain'
-      }
-    });
-    fireEvent.change(userPassword, {
-      target: {
-        value: 'password123'
-      }
-    });
-    fireEvent.click(loginButton);
-
-    const alert = await screen.findByRole('alert');
-    expect(alert.textContent).toBe('Email/ password incorrect. Check your information and try again.');
-    await act(async () => {
-      Promise.resolve();
+      expect(FirebaseAuthService.signInWithGoogle).toBeCalled();
     });
   });
 });
 
-describe('successful login', () => {
-  beforeEach(() => {
-    (useUser as jest.Mock).mockReturnValue([true, false]);
-  });
-  test('If loggin is succesfull,"/home" should be called', async () => {
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </RecoilRoot>
-    );
-    expect(mockedNavegacao).toBeCalled();
-    expect(mockedNavegacao).toBeCalledWith('/home');
-  });
-});
-
-describe('The behavior of the links to reset password and to register', () => {
+describe('Links to Register and Reset Password', () => {
   beforeEach(() => {
     (useUser as jest.Mock).mockReturnValue([false, false]);
   });
 
-  test('page ResetPassword should be rendered when link is clicked', () => {
-    // Arrange
+  it('should render ResetPassword when link is clicked', () => {
     const history = createMemoryHistory({ initialEntries: ['/'] });
     render(
       <Router location={history.location} navigator={history}>
@@ -258,15 +214,14 @@ describe('The behavior of the links to reset password and to register', () => {
         </RecoilRoot>
       </Router>
     );
-    // Act
     const forgotLink = screen.getByText('Forgot password');
+
     fireEvent.click(forgotLink);
-    // Assert
+
     expect(history.location.pathname).toBe('/resetpassword');
   });
 
-  test('page Register should be rendered when link is clicked', () => {
-    // Arrange
+  it('should render Register when link is clicked', () => {
     const history = createMemoryHistory({ initialEntries: ['/'] });
     render(
       <Router location={history.location} navigator={history}>
@@ -275,10 +230,10 @@ describe('The behavior of the links to reset password and to register', () => {
         </RecoilRoot>
       </Router>
     );
-    // Act
     const linkRegister = screen.getByText('Register now');
+
     fireEvent.click(linkRegister);
-    // Assert
+
     expect(history.location.pathname).toBe('/register');
   });
 });

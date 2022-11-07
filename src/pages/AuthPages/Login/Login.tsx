@@ -17,34 +17,41 @@ const Login = () => {
 
   const nav = useNavigate();
   useEffect(() => {
-    if (loading) {
-      return;
-    }
+    if (loading) return;
     if (user) nav('/home');
   }, [user, loading]);
 
-  const handleLoginWithEmailCall = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { isValid_email, alertMessage_email } = validateEmail(email);
-    setEmailIsValid(isValid_email);
-    setSpanMessageEmail(alertMessage_email);
-
-    const { isValid_password, alertMessage_password } = validatePassword(password);
-    setPasswordIsValid(isValid_password);
-    setSpanMessagePassword(alertMessage_password);
-
-    if (isValid_email && isValid_password) {
-      const err = await FirebaseAuthService.logInWithEmailAndPassword(email, password);
-      if (err instanceof Error) {
-        setPasswordIsValid(false);
-        setSpanMessagePassword('Email/ password incorrect. Check your information and try again.');
-      }
+    if (handleEmailCheck() && handlePasswordCheck()) {
+      handleLoginWithEmailAndPassword();
     }
   };
 
-  const handleLoginWithGoogleCall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const handleEmailCheck = () => {
+    const { isValid_email, alertMessage_email } = validateEmail(email);
+    setEmailIsValid(isValid_email);
+    setSpanMessageEmail(alertMessage_email);
+    return isValid_email;
+  };
+
+  const handlePasswordCheck = () => {
+    const { isValid_password, alertMessage_password } = validatePassword(password);
+    setPasswordIsValid(isValid_password);
+    setSpanMessagePassword(alertMessage_password);
+    return isValid_password;
+  };
+
+  const handleLoginWithEmailAndPassword = async () => {
+    const err = await FirebaseAuthService.logInWithEmailAndPassword(email, password);
+    if (err instanceof Error) {
+      setPasswordIsValid(false);
+      setSpanMessagePassword('Email/ password incorrect. Check your information and try again.');
+    }
+  };
+
+  const handleLoginWithGoogle = () => {
     FirebaseAuthService.signInWithGoogle();
   };
 
@@ -54,7 +61,7 @@ const Login = () => {
         <h1 className={styles.login__pagetitle}>Personal Finance Tool</h1>
         <div className={styles.login__block}>
           <p className={styles.login__text}>Sign-in</p>
-          <form onSubmit={handleLoginWithEmailCall} noValidate>
+          <form onSubmit={handleLoginFormSubmit} noValidate>
             <label htmlFor='useremail' className={`${styles.login__label} ${styles.login__labelemail}`}>E-mail</label>
             <input
               type="email"
@@ -86,8 +93,8 @@ const Login = () => {
           </form>
 
           <button
-            onClick={handleLoginWithGoogleCall}
-            type='submit'
+            onClick={handleLoginWithGoogle}
+            type='button'
             className={`${styles.login__button} ${styles.login__buttongoogle}`}
           >Login with Google</button>
           <div>

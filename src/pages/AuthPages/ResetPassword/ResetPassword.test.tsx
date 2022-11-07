@@ -4,6 +4,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
 import ResetPassword from './ResetPassword';
+import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 
 const mockedNav = jest.fn();
 jest.mock('react-router-dom', () => {
@@ -13,23 +14,29 @@ jest.mock('react-router-dom', () => {
     useNavigate: () => mockedNav
   };
 });
-jest.mock('assets/state/hooks/useUser', () => {
+
+jest.mock('assets/state/hooks/firebaseHooks', () => {
   return {
     useUser: jest.fn()
   };
 });
-jest.mock('assets/functions/firebase/sendPasswordReset', () => {
+
+jest.mock('assets/functions/FirebaseAuthService', () => {
   return {
     sendPasswordReset: jest.fn()
   };
 });
 
-describe('Render page with user already loggedin', () => {
+//global variables
+const validEmail = 'email@example.com';
+const invalidEmail = 'invalid..email@[ 123.123.123.123 ]';
+
+describe('User already Loggedin', () => {
   beforeEach(() => {
     (useUser as jest.Mock).mockReturnValue([true, false]);
   });
-  test('home should render with user already loggedin', () => {
-    // Arrange
+
+  it('should render /home', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
@@ -37,60 +44,18 @@ describe('Render page with user already loggedin', () => {
         </BrowserRouter>
       </RecoilRoot>
     );
-    // Act
-    // Assert
+
     expect(mockedNav).toBeCalled();
     expect(mockedNav).toBeCalledWith('/home');
   });
 });
 
-describe('Reset form behavior', () => {
+describe('Reset Form', () => {
   beforeEach(() => {
     (useUser as jest.Mock).mockReturnValue([false, false]);
-    // (sendPasswordReset as jest.Mock).mockReturnValue(true);
   });
-
-  test('An alert should be rendered for empty email', () => {
-    //Arrange
-    render(
-      <BrowserRouter>
-        <ResetPassword />
-      </BrowserRouter>
-    );
-    //Act
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    const buttonSubmit = screen.getByText('Submit');
-    fireEvent.click(buttonSubmit);
-    const alert = screen.getByRole('alert');
-    //Assert
-    expect(emailInput).toBeInTheDocument();
-    expect(alert.textContent).toBe('Input required! Please enter your email.');
-  });
-
-  test('An alert should be rendered for invalid email', () => {
-    //Arrange
-    render(
-      <BrowserRouter>
-        <ResetPassword />
-      </BrowserRouter>
-    );
-    //Act
-    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    fireEvent.change(emailInput, {
-      target: {
-        value: 'novalidemail'
-      }
-    });
-    const buttonSubmit = screen.getByText('Submit');
-    fireEvent.click(buttonSubmit);
-    const alert = screen.getByRole('alert');
-    //Assert
-    expect(emailInput).toBeInTheDocument();
-    expect(alert.textContent).toBe('Email not valid. Please enter an email in the format personal_info@domain.com.');
-  });
-
-  test('/Emailsent should be rendered for valid email', async () => {
-    //Arrange
+  
+  it('should call sendPasswordReset() for valid email', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
@@ -98,33 +63,74 @@ describe('Reset form behavior', () => {
         </BrowserRouter>
       </RecoilRoot>
     );
-    //Act
     const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-    fireEvent.change(emailInput, {
-      target: {
-        value: 'validemail@domain.com'
-      }
-    });
     const buttonSubmit = screen.getByRole('submit');
-    expect(buttonSubmit).toBeInTheDocument();
+
+    fireEvent.change(emailInput, { target: { value: validEmail } });
+    fireEvent.click(buttonSubmit);
+
+    expect(FirebaseAuthService.sendPasswordReset).toBeCalled();
+    expect(FirebaseAuthService.sendPasswordReset).toBeCalledWith(validEmail);
+  });
+
+  it('should render /Emailsent for valid email', async () => {
+    render(
+      <RecoilRoot>
+        <BrowserRouter>
+          <ResetPassword />
+        </BrowserRouter>
+      </RecoilRoot>
+    );
+    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+    const buttonSubmit = screen.getByRole('submit');
+
+    fireEvent.change(emailInput, { target: { value: validEmail } });
     fireEvent.click(buttonSubmit);
     await act(async () => {
       Promise.resolve();
     });
 
-    //Assert
     expect(mockedNav).toBeCalled();
     expect(mockedNav).toBeCalledWith('/resetpassword/emailsent');
   });
+
+  it('should show alert for empty email', () => {
+    render(
+      <BrowserRouter>
+        <ResetPassword />
+      </BrowserRouter>
+    );
+    const buttonSubmit = screen.getByText('Submit');
+
+    fireEvent.click(buttonSubmit);
+
+    const alert = screen.getByRole('alert');
+    expect(alert.textContent).toBe('Input required! Please enter your email.');
+  });
+
+  it('should show alert for invalid email', () => {
+    render(
+      <BrowserRouter>
+        <ResetPassword />
+      </BrowserRouter>
+    );
+    const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+    const buttonSubmit = screen.getByText('Submit');
+
+    fireEvent.change(emailInput, { target: { value: invalidEmail } });
+    fireEvent.click(buttonSubmit);
+
+    const alert = screen.getByRole('alert');
+    expect(alert.textContent).toContain('Email not valid');
+  });
 });
 
-describe('The behavior of the links to reset password and to register', () => {
+describe('Links to Login and Register Page', () => {
   beforeEach(() => {
     (useUser as jest.Mock).mockReturnValue([false, false]);
   });
 
-  test('page Login should be rendered when link is clicked', () => {
-    // Arrange
+  it('should render Login when link is clicked', () => {
     const history = createMemoryHistory({ initialEntries: ['/resetpassword'] });
     render(
       <Router location={history.location} navigator={history}>
@@ -133,15 +139,14 @@ describe('The behavior of the links to reset password and to register', () => {
         </RecoilRoot>
       </Router>
     );
-    // Act
     const linkLogin = screen.getByText('Click here to Login');
+
     fireEvent.click(linkLogin);
-    // Assert
+
     expect(history.location.pathname).toBe('/');
   });
 
-  test('page Register should be rendered when link is clicked', () => {
-    // Arrange
+  it('should render Register when link is clicked', () => {
     const history = createMemoryHistory({ initialEntries: ['/resetpassword'] });
     render(
       <Router location={history.location} navigator={history}>
@@ -150,10 +155,10 @@ describe('The behavior of the links to reset password and to register', () => {
         </RecoilRoot>
       </Router>
     );
-    // Act
     const linkRegister = screen.getByText('Register now');
+
     fireEvent.click(linkRegister);
-    // Assert
+    
     expect(history.location.pathname).toBe('/register');
   });
 });

@@ -13,23 +13,28 @@ const ResetPassword = () => {
 
   const nav = useNavigate();
   useEffect(() => {
-    if (loading) {
-      return;
-    }
+    if (loading) return;
     if (user) nav('/home');
   }, [user, loading]);
 
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (handleEmailCheck()) {
+      handleSendPasswordReset();
+    }
+  };
+
+  const handleSendPasswordReset = async () => {
+    await FirebaseAuthService.sendPasswordReset(email);
+    nav('/resetpassword/emailsent');
+  };
+
+  const handleEmailCheck = () => {
     const { isValid_email, alertMessage_email } = validateEmail(email);
     setEmailIsValid(isValid_email);
     setSpanMessageEmail(alertMessage_email);
-
-    if (isValid_email) {
-      await FirebaseAuthService.sendPasswordReset(email);
-      nav('/resetpassword/emailsent');
-    }
+    return isValid_email;
   };
 
   return (

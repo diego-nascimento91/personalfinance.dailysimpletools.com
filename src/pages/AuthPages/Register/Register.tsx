@@ -22,38 +22,50 @@ const Register = () => {
 
   const nav = useNavigate();
   useEffect(() => {
-    if (loading) {
-      return;
-    }
+    if (loading) return;
     if (user) nav('/home');
   }, [user, loading]);
 
   const handleRegisterCall = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setValidName(!(name === null || name === ''));
+    if (handleEmailCheck() && handlePasswordCheck() && handleNameCheck()) {
+      handleRegisterNewUser();
+    }
+  };
 
+  const handleRegisterNewUser = async () => {
+    const err = await FirebaseAuthService.createNewUserWithEmailAndPassword(name, email, password);
+    if (err instanceof Error) {
+      setPasswordIsValid(false);
+      if ( (err.message).includes('email-already-in-use') ) {
+        setSpanMessagePassword('Email already in use. Return to Login page or check your information and try again.');
+      } else {
+        setSpanMessagePassword('Signup failed. Please try again later.');
+      }
+      return;
+    }
+    alert('You have signedup!');
+  };
+
+  const handleNameCheck = () => {
+    const nameValidity = !(name === null || name === '');
+    setValidName(nameValidity);
+    return nameValidity;
+  };
+
+  const handleEmailCheck = () => {
     const { isValid_email, alertMessage_email } = validateEmail(email);
     setEmailIsValid(isValid_email);
     setSpanMessageEmail(alertMessage_email);
+    return isValid_email;
+  };
 
+  const handlePasswordCheck = () => {
     const { isValid_password, alertMessage_password } = validatePassword(password);
     setPasswordIsValid(isValid_password);
     setSpanMessagePassword(alertMessage_password);
-
-    if (isValid_email && isValid_password && !(name === null || name === '')) {
-      const msgErr = await FirebaseAuthService.createNewUserWithEmailAndPassword(name, email, password);
-      if(msgErr != '' && msgErr != null) {
-        setPasswordIsValid(false);
-        if (msgErr.includes('email-already-in-use')) {
-          setSpanMessagePassword('Email already in use. Return to Login page or check your information and try again.');
-          return;
-        }
-        setSpanMessagePassword('Signup failed. Please try again later.');
-        return;
-      }
-      alert('You have signedup!');
-    }
+    return isValid_password;
   };
 
   return (

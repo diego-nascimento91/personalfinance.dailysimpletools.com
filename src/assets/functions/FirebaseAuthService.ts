@@ -54,16 +54,9 @@ const sendPasswordReset = async (email: string) => {
 const createNewUserWithEmailAndPassword = async (name: string, email: string, password: string) => {
   try {
     await createUserWithEmailAndPassword(authenticated, email, password);
-    // const user = res.user;
-    // await addDoc(collection(db, 'users'), {
-    //   uid: user.uid,
-    //   name,
-    //   authProvider: 'local',
-    //   email,
-    // });
   } catch (err) {
     if(err instanceof Error){
-      return err.message;
+      return err;
     }
   }
 };

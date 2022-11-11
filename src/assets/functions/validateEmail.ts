@@ -3,7 +3,7 @@ export const validateEmail = (email: string) => {
   const isValid_email = emailRegex.test(email);
   let alertMessage_email = '';
 
-  if (email === null || email === '') {
+  if (email === '') {
     alertMessage_email = 'Input required! Please enter your email.';
   } else if (isValid_email) {
     alertMessage_email = 'Email valid';

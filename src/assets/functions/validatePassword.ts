@@ -3,7 +3,7 @@ export const validatePassword = (password: string) => {
   const isValid_password = passwordRegex.test(password);
   let alertMessage_password = '';
 
-  if (password === null || password === '') {
+  if (password === '') {
     alertMessage_password = 'Input required! Please choose a password.';
   } else if (isValid_password) {
     alertMessage_password = 'Password valid';

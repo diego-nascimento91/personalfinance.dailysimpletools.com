@@ -7,27 +7,17 @@ import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import Login from './Login';
 
 // mock of useUser to set to true (user loggedin) or false (user not loggedin)
-jest.mock('assets/state/hooks/firebaseHooks', () => {
-  return {
-    useUser: jest.fn()
-  };
-});
+jest.mock('assets/state/hooks/firebaseHooks');
+
 // mock of the FirebaseAuthService to check if it was called and to return error
-jest.mock('assets/functions/FirebaseAuthService', () => {
-  return {
-    logInWithEmailAndPassword: jest.fn(),
-    signInWithGoogle: jest.fn(),
-  };
-});
+jest.mock('assets/functions/FirebaseAuthService');
+
 // mock of the useNavigate to check change of page
 const mockedNavegacao = jest.fn();
-jest.mock('react-router-dom', () => {
-  return {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...jest.requireActual('react-router-dom') as any,
-    useNavigate: () => mockedNavegacao,
-  };
-});
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavegacao,
+}));
 
 // global variables
 const validEmail = 'email@example.com';
@@ -36,7 +26,25 @@ const validPassword = 'password123';
 const invalidPassword = '123';
 
 describe('Login', () => {
-  describe('Successful login (with Email and Password or with Google', () => {
+  describe('Not LoggedIn', () => {
+    beforeEach(() => {
+      (useUser as jest.Mock).mockReturnValue([false, false]);
+    });
+
+    it('should continue in /login', () => {
+      render(
+        <RecoilRoot>
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
+        </RecoilRoot>
+      );
+
+      expect(mockedNavegacao).not.toBeCalled();
+    });
+  });
+
+  describe('Successful login (with Email and Password or with Google)', () => {
     beforeEach(() => {
       (useUser as jest.Mock).mockReturnValue([true, false]);
     });
@@ -49,7 +57,7 @@ describe('Login', () => {
           </BrowserRouter>
         </RecoilRoot>
       );
-      
+
       expect(mockedNavegacao).toBeCalled();
       expect(mockedNavegacao).toBeCalledWith('/home');
     });
@@ -57,7 +65,7 @@ describe('Login', () => {
 
   describe('Login with Email and Password Form', () => {
     beforeEach(() => {
-      (useUser as jest.Mock).mockReturnValue([true, false]);
+      (useUser as jest.Mock).mockReturnValue([false, false]);
     });
 
     it('should call logInWithEmailAndPassword for valid email and password', () => {
@@ -68,6 +76,7 @@ describe('Login', () => {
           </BrowserRouter>
         </RecoilRoot>
       );
+
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
       const passwordInput = screen.getByPlaceholderText('password');
       const submitButton = screen.getByText('Login');
@@ -180,7 +189,7 @@ describe('Login', () => {
 
   describe('Login with Google', () => {
     beforeEach(() => {
-      (useUser as jest.Mock).mockReturnValue([true, false]);
+      (useUser as jest.Mock).mockReturnValue([false, false]);
     });
 
     it('should call signInWithGoogle when button clicked', () => {

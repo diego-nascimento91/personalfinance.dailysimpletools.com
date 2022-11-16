@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import styles from './AddCategory.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
-import AddCategoryForm from './AddCategoryForm/AddCategoryForm';
-import UserCategories from './UserCategories/UserCategories';
 import { handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
 import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
+import styles from './AddCategory.module.scss';
+import AddCategoryForm from './AddCategoryForm/AddCategoryForm';
+import UserCategories from './UserCategories/UserCategories';
 
 const AddCategory = () => {
   const nav = useNavigate();

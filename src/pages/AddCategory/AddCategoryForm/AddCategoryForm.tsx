@@ -28,7 +28,6 @@ const AddCategoryForm = () => {
   const [categoryError, setCategoryError] = useState(false);
 
   useEffect(() => {
-    console.log('selectedCategory changed', selectedCategory);
     if (selectedCategory) handleSelectedCategoryFormLoad();
   }, [selectedCategory]);
 

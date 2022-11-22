@@ -17,7 +17,7 @@ const UserCategory = (props: Props) => {
 
   const handleEditButtonClick = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
-    setSelectedCategory(category);
+    setSelectedCategory({...category});
   };
 
   const handleDeleteButtonClick = async () => {

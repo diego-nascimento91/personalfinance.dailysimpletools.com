@@ -28,19 +28,52 @@ const AddCategoryForm = () => {
   const [categoryError, setCategoryError] = useState(false);
 
   useEffect(() => {
+    console.log('selectedCategory changed', selectedCategory);
     if (selectedCategory) handleSelectedCategoryFormLoad();
   }, [selectedCategory]);
 
   useEffect(() => {
-    if(name !== '' ||  type !== '') handleCategoryNameValidation();
+    handleCategoryNameValidation();
   }, [name, type]);
 
   const handleSelectedCategoryFormLoad = () => {
     if (selectedCategory) {
-      if(selectedCategory.value) setName(selectedCategory.value);
-      if(selectedCategory.type) setType(selectedCategory.type);
-      if(selectedCategory.description) setDescription(selectedCategory.description);
-      if(selectedCategory.icon) setIcon(selectedCategory.icon);
+      const editValue = selectedCategory.value;
+      const editType = selectedCategory.type;
+      const editDescription = selectedCategory.description;
+      const editIcon = selectedCategory.icon;
+      setName(editValue);
+      setType(editType);
+      setDescription(editDescription);
+      setIcon(editIcon);
+    }
+  };
+
+  const handleCategoryNameValidation = () => {
+    // if name or type is empty there is no error
+    if (name === '' || type === '') {
+      setCategoryError(false);
+      return;
+    }
+
+    // get all categories of the type chosen by user
+    const categoriesOfType = categories.filter(category => {
+      return category.type === type;
+    });
+
+    // find if there is any name that is equal to the input name
+    const nameExists = categoriesOfType.some(category => {
+      // if user is editing a current category
+      if(selectedCategory) {
+        return isEqual(category.value, name) && category.id !== selectedCategory.id;
+      }
+      return isEqual(category.value, name);
+    });
+
+    if (nameExists) {
+      setCategoryError(true);
+    } else {
+      setCategoryError(false);
     }
   };
 
@@ -100,20 +133,6 @@ const AddCategoryForm = () => {
     return aPure.localeCompare(bPure, undefined, { sensitivity: 'accent' }) === 0;
   };
 
-  const handleCategoryNameValidation = () => {
-    if (name === '' || type === '') return;
-    const categoriesOfType = categories.filter(category => {
-      return category.type === type;
-    });
-    const nameExists = categoriesOfType.some(category => {
-      return isEqual(category.value, name);
-    });
-    if (nameExists) {
-      setCategoryError(true);
-    } else {
-      setCategoryError(false);
-    }
-  };
 
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addCategoryForm__container}`}>

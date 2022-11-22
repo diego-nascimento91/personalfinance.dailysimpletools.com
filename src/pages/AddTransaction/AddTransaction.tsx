@@ -160,118 +160,120 @@ const AddTransaction = () => {
 
   return (
     <div className={`${stylesPadding.padding} ${stylesPages.pages} ${styles.newTransactionPage__container}`}>
-      <section className={`${stylesComponents.pageComponents} ${styles.addtransactionform__container}`}>
-        <BsArrowLeft className={styles.addtransactionform__returnPage} role='button' onClick={handleReturnButton} />
-        <h2 className={styles.addtransactionform__title}>{getFormTitle()}</h2>
-        <form onSubmit={handleFormSubmit}>
-          <label className={styles.addtransactionform__label}>
-            How would you like to call this transaction?
+      <div>
+        <section className={`${stylesComponents.pageComponents} ${styles.addtransactionform__container}`}>
+          <BsArrowLeft className={styles.addtransactionform__returnPage} role='button' onClick={handleReturnButton} />
+          <h2 className={styles.addtransactionform__title}>{getFormTitle()}</h2>
+          <form onSubmit={handleFormSubmit}>
+            <label className={styles.addtransactionform__label}>
+              How would you like to call this transaction?
+              <input
+                className={styles.addtransactionform__input}
+                required
+                type="text"
+                onChange={(event) => setDescription(event.target.value)}
+                value={description}
+              />
+            </label>
+
+            <label htmlFor='transactionamount' className={styles.addtransactionform__label}> How much was it? </label>
+            <div role='select' className={styles.addtransactionform__typeOptions}>
+              <div
+                role='option'
+                className={classNames({
+                  [styles.addtransactionform__typeOption]: true,
+                  [styles.addtransactionform__typeOptionSelected]: transactionType === 'income'
+                })}
+                onClick={() => handleTypeTransactionOptionClick('income')}
+              >+ $</div>
+              <div
+                role='option'
+                className={classNames({
+                  [styles.addtransactionform__typeOption]: true,
+                  [styles.addtransactionform__typeOptionSelected]: transactionType === 'expense'
+                })}
+                onClick={() => handleTypeTransactionOptionClick('expense')}
+              >- $</div>
+            </div>
             <input
-              className={styles.addtransactionform__input}
+              id='transactionamount'
+              className={`${styles.addtransactionform__input} ${styles.addtransactionform__currencyInput}`}
               required
               type="text"
-              onChange={(event) => setDescription(event.target.value)}
-              value={description}
+              onChange={(e) => setAmount(unmaskCurrencyNumber(e.target.value))}
+              value={maskCurrencyNumber(amount)}
+              placeholder='0.00'
             />
-          </label>
 
-          <label htmlFor='transactionamount' className={styles.addtransactionform__label}> How much was it? </label>
-          <div role='select' className={styles.addtransactionform__typeOptions}>
-            <div
-              role='option'
-              className={classNames({
-                [styles.addtransactionform__typeOption]: true,
-                [styles.addtransactionform__typeOptionSelected]: transactionType === 'income'
-              })}
-              onClick={() => handleTypeTransactionOptionClick('income')}
-            >+ $</div>
-            <div
-              role='option'
-              className={classNames({
-                [styles.addtransactionform__typeOption]: true,
-                [styles.addtransactionform__typeOptionSelected]: transactionType === 'expense'
-              })}
-              onClick={() => handleTypeTransactionOptionClick('expense')}
-            >- $</div>
-          </div>
-          <input
-            id='transactionamount'
-            className={`${styles.addtransactionform__input} ${styles.addtransactionform__currencyInput}`}
-            required
-            type="text"
-            onChange={(e) => setAmount(unmaskCurrencyNumber(e.target.value))}
-            value={maskCurrencyNumber(amount)}
-            placeholder='0.00'
-          />
-
-          <label className={styles.addtransactionform__label}> Which category?
-            <select
-              className={styles.addtransactionform__input}
-              value={category}
-              onChange={handleSelectingCategory}
-              required
-            >
-              <option value=""></option>
-              {
-                categories && categories.length > 0 && transactionType
-                  ? (
-                    categories.map(item => (
-                      item.type === transactionType
-                        ? (
-                          <option value={JSON.stringify(item)} key={item.id}>{item.ordering ? `${item.ordering} - ` : null}{item.value}</option>
-                        )
-                        : item.type === 'other'
+            <label className={styles.addtransactionform__label}> Which category?
+              <select
+                className={styles.addtransactionform__input}
+                value={category}
+                onChange={handleSelectingCategory}
+                required
+              >
+                <option value=""></option>
+                {
+                  categories && categories.length > 0 && transactionType
+                    ? (
+                      categories.map(item => (
+                        item.type === transactionType
                           ? (
-                            <option value={JSON.stringify(item)} key={item.id}> {item.value}</option>
+                            <option value={JSON.stringify(item)} key={item.id}>{item.ordering ? `${item.ordering} - ` : null}{item.value}</option>
                           )
-                          : null
-                    ))
+                          : item.type === 'other'
+                            ? (
+                              <option value={JSON.stringify(item)} key={item.id}> {item.value}</option>
+                            )
+                            : null
+                      ))
+                    )
+                    : null
+                }
+              </select>
+            </label>
+            <p className={styles.addtransactionform__categoryDescription}>
+              {
+                categoryDescription && categoryDescription.length > 0
+                  ? (
+                    categoryDescription
                   )
                   : null
               }
-            </select>
-          </label>
-          <p className={styles.addtransactionform__categoryDescription}>
-            {
-              categoryDescription && categoryDescription.length > 0
-                ? (
-                  categoryDescription
-                )
-                : null
-            }
-          </p>
+            </p>
 
-          <label className={styles.addtransactionform__label}>
-            <span className={styles.addtransactionform__labelDateText}>Which date?</span>
-            <input
-              className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}
-              required
-              type="date"
-              onChange={(event) => setTransactionDate(event.target.value)}
-              value={transactionDate}
-            />
-          </label>
+            <label className={styles.addtransactionform__label}>
+              <span className={styles.addtransactionform__labelDateText}>Which date?</span>
+              <input
+                className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}
+                required
+                type="date"
+                onChange={(event) => setTransactionDate(event.target.value)}
+                value={transactionDate}
+              />
+            </label>
 
-          <label className={styles.addtransactionform__label}> Notes:
-            <textarea
-              className={styles.addtransactionform__note}
-              onChange={(event) => setNote(event.target.value)}
-              value={note}
-              placeholder='(optional) take any notes you may find useful about this transaction.'
-            />
-          </label>
+            <label className={styles.addtransactionform__label}> Notes:
+              <textarea
+                className={styles.addtransactionform__note}
+                onChange={(event) => setNote(event.target.value)}
+                value={note}
+                placeholder='(optional) take any notes you may find useful about this transaction.'
+              />
+            </label>
 
-          <button className={styles.addtransactionform__button} type='submit'>
-            {
-              currentTransaction
-                ? ('Update Transaction')
-                : transactionType === 'income' ? 'Add Income'
-                  : transactionType === 'expense' ? 'Add Expense' : 'Add Transaction'
-            }
-          </button>
+            <button className={styles.addtransactionform__button} type='submit'>
+              {
+                currentTransaction
+                  ? ('Update Transaction')
+                  : transactionType === 'income' ? 'Add Income'
+                    : transactionType === 'expense' ? 'Add Expense' : 'Add Transaction'
+              }
+            </button>
 
-        </form>
-      </section>
+          </form>
+        </section>
+      </div>
     </div>
   );
 };

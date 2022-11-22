@@ -3,11 +3,21 @@
 .newTransactionPage__container {
 
   .addtransactionform__container {
-    max-width: 50rem;
-    position: relative;
     margin-left: auto;
     margin-right: auto;
-    width: 50rem;
+    position: relative;
+    
+    @media (min-width: $smallmob) and (max-width: $mobile) {
+      margin-bottom: 2rem;
+      max-width: 40rem;
+      width: 40rem;
+    }
+     
+    @media (min-width: $mobile) {
+      margin-bottom: 2rem;
+      max-width: 50rem;
+      width: 50rem;
+    }
   
     .addtransactionform__returnPage {
       border-radius: 50%;

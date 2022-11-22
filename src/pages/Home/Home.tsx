@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import styles from './Home.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPages from 'assets/styles/pages.module.scss';
 import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
 import TotalsPerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
@@ -44,7 +46,7 @@ const Home = () => {
   };
 
   return (
-    <div className='theme__padding theme__page'>
+    <div className={`${stylesPadding.padding} ${stylesPages.pages}`}>
       <div className={styles.home__components}>
         <div className={styles.home__userHeader}><UserHeader /></div>
         <div className={styles.home__overview}><Overview /></div>

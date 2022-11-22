@@ -13,7 +13,7 @@
     }
 
     .totalsPerCategory__typeTransactionSelect {
-      background: $mainsections-background;
+      background: $typeTransactionDropMenu-bgd;
       border: 0.05rem solid white;
       border-radius: 0.5rem;
       cursor: pointer;
@@ -31,7 +31,7 @@
     padding: 2.5rem 0 2rem 1.2rem;
   
     &::-webkit-scrollbar {
-      background-color: $mainsections-background;
+      background-color: $typeTransactionScroll-bgd;
       width: 0.5rem;
     }
   

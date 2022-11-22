@@ -5,6 +5,9 @@
   .addtransactionform__container {
     max-width: 50rem;
     position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50rem;
   
     .addtransactionform__returnPage {
       border-radius: 50%;
@@ -67,7 +70,7 @@
       }
       .addtransactionform__typeOptionSelected{
         transition: 100ms;
-        background: $mainsections-background;
+        background: $typeSelectedForm-bgd;
         border-radius: 0.5rem;
       }
     }

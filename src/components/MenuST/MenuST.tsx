@@ -3,6 +3,7 @@ import Language from './Language/Language';
 import Logo from './Logo/Logo';
 import UserMenu from './UserMenu/UserMenu';
 import styles from './MenuST.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
 
 const MenuST = () => {
   const language = useSelectedLanguage();
@@ -11,7 +12,7 @@ const MenuST = () => {
   document.documentElement.setAttribute('lang', language.value);
 
   return (
-    <header className={`theme__padding ${styles.stheader}`}>
+    <header className={`${stylesPadding.padding} ${styles.stheader}`}>
       <Logo />
       <div className={styles.stheader__nav}>
         <Language />

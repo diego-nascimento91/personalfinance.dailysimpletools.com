@@ -5,6 +5,7 @@ import { validatePassword } from 'assets/functions/validatePassword';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './Login.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
 
 const Login = () => {
   const [user, loading] = useUser();
@@ -57,7 +58,7 @@ const Login = () => {
 
   return (
     <>
-      <div className={`theme__padding ${styles.login__container}`}>
+      <div className={`${stylesPadding.padding} ${styles.login__container}`}>
         <h1 className={styles.login__pagetitle}>Personal Finance Tool</h1>
         <div className={styles.login__block}>
           <p className={styles.login__text}>Sign-in</p>

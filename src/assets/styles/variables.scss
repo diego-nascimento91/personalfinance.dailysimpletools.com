@@ -5,27 +5,36 @@ $hpadding-desksm: 5rem;
 $hpadding-deskmd: 12rem;
 $hpadding-deskbg: 20rem;
 
-// component padding
-$compPadding-smallmob: 1rem;
-$compPadding-mobile: 2rem;
-$compPadding-desksm: 2rem;
-$compPadding-deskmd: 2rem;
-$compPadding-deskbg: 2rem;
+// page theme
+$page-background: rgb(0, 0, 31);
+$spaceBtwComponents-smallmob: 1rem;
+$spaceBtwComponents-mobile: 2rem;
+$spaceBtwComponents-desksm: 2rem;
+$spaceBtwComponents-deskmd: 2rem;
+$spaceBtwComponents-deskbg: 2rem;
 
-// theme_componentsections
+// page components theme
+$components-bgd: rgb(34, 34, 82);
+
+// bgd
+$addTransactionButton-bgd: $components-bgd;
+$typeTransactionDropMenu-bgd: $components-bgd;
+$typeTransactionScroll-bgd: $components-bgd;
+$typeSelectedForm-bgd: $components-bgd;
+$transactnosSummaryScroll-bgd: $components-bgd;
+
+// colors
 $positiveMoney: rgb(0, 255, 0);
 $negativeMoney: rgb(255, 90, 90);
-$mainsections-background: rgb(34, 34, 82);
-$page-background: rgb(0, 0, 31);
+$menuColor: #4d4d4d;
 
 // charts
 $barwidth: 3rem;
 
-// font-size + colors
+// font-size
 $font-size: 1.3rem;
 $font-size-h1: 2.5rem;
 $font-weight-h1: 700;
-$menuColor: #4d4d4d;
 
 // breakpoints
 $smallmob: 450px;
@@ -38,3 +47,11 @@ $width-maxmobile: 45rem;
 $width-maxtablet: 60rem;
 $width-mediumdesk: 80rem;
 $width-largedesk: 90rem;
+
+//to use in the components
+// @import 'assets/styles/variables.scss';
+// @media (max-width: $smallmob) {}
+// @media (min-width: $smallmob) and (max-width: $mobile) {}
+// @media (min-width: $mobile) and (max-width: $desktop_sm) {}
+// @media (min-width: $desktop_sm) and (max-width: $desktop_md) {}
+// @media (min-width: $desktop_md) {}

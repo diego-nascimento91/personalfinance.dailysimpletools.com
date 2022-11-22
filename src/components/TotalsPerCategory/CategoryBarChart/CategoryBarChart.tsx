@@ -4,6 +4,7 @@ import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './CategoryBarChart.module.scss';
+import stylesImgError from 'assets/styles/imgError.module.scss';
 
 interface Props {
   barHeight: number,
@@ -86,7 +87,7 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
                   <img className={styles['barChart__bar--icon']} src={imageURL}
                     onError={({ currentTarget }) => {
                       currentTarget.src = '';
-                      currentTarget.className = 'imgError';
+                      currentTarget.className = stylesImgError.imgError;
                       setImgError(true);
                     }}
                   />

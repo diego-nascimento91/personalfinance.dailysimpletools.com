@@ -4,6 +4,8 @@ import { useUser } from 'assets/state/hooks/firebaseHooks';
 import { handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
 import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 import styles from './AddCategory.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPages from 'assets/styles/pages.module.scss';
 import AddCategoryForm from './AddCategoryForm/AddCategoryForm';
 import UserCategories from './UserCategories/UserCategories';
 
@@ -30,7 +32,7 @@ const AddCategory = () => {
   };
 
   return (
-    <div className={`theme__page theme__padding ${styles.addCategoryPage__container}`}>
+    <div className={`${stylesPages.pages} ${stylesPadding.padding} ${styles.addCategoryPage__container}`}>
       <div>
         <AddCategoryForm />
         <UserCategories />

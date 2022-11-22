@@ -1,0 +1,28 @@
+@import './variables.scss';
+
+.padding {
+  @media (max-width: $smallmob) {
+    padding-left: $hpadding-smallmob;
+    padding-right: $hpadding-smallmob;
+  }
+
+  @media (min-width: $smallmob) and (max-width: $mobile) {
+    padding-left: $hpadding-mobile;
+    padding-right: $hpadding-mobile;
+  }
+
+  @media (min-width: $mobile) and (max-width: $desktop_sm) {
+    padding-left: $hpadding-desksm;
+    padding-right: $hpadding-desksm;
+  }
+
+  @media (min-width: $desktop_sm) and (max-width: $desktop_md) {
+    padding-left: $hpadding-deskmd;
+    padding-right: $hpadding-deskmd;
+  }
+
+  @media (min-width: $desktop_md) {
+    padding-left: $hpadding-deskbg;
+    padding-right: $hpadding-deskbg;
+  }
+}

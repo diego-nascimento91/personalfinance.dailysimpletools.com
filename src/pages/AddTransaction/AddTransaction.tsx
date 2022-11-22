@@ -6,9 +6,10 @@ import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/int
 import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransaction.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPages from 'assets/styles/pages.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import classNames from 'classnames';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const CurrencyInput = require('react-currency-masked-input');
 
 
 const AddTransaction = () => {
@@ -23,7 +24,7 @@ const AddTransaction = () => {
 
   // 👇 form states
   const [note, setNote] = useState('');
-  const [amount, setAmount] = useState<number>();
+  const [amount, setAmount] = useState(0);
   const [transactionDate, setTransactionDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
@@ -84,7 +85,7 @@ const AddTransaction = () => {
   const getTransactionDoc = () => {
     const transaction: ITransaction = {
       description: description,
-      amount: amount as number,
+      amount: +amount,
       category: JSON.parse(category).value,
       date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
       account: 'account',
@@ -142,9 +143,24 @@ const AddTransaction = () => {
     setCategoryDescription(''); // to reset the category so the full description does not keep on the screen
   };
 
+  const maskCurrencyNumber = (value: number) => {
+    const options = { minimumFractionDigits: 2 };
+    const maskedNumber = (new Intl.NumberFormat('en-US', options).format(value)).toLocaleString().replace(/,/g, ' ');
+
+    const currency = transactionType === 'income' ? '+ $'
+      : transactionType === 'expense' ? '- $' : '$';
+
+    return currency + ' ' + maskedNumber;
+  };
+
+  const unmaskCurrencyNumber = (value: string) => {
+    value = value.replace('.', '').replace(',', '').replace(/\D/g, '');
+    return parseFloat(value) / 100;
+  };
+
   return (
-    <div className={`theme__padding theme__page ${styles.newTransactionPage__container}`}>
-      <section className={`theme__homesections ${styles.addtransactionform__container}`}>
+    <div className={`${stylesPadding.padding} ${stylesPages.pages} ${styles.newTransactionPage__container}`}>
+      <section className={`${stylesComponents.pageComponents} ${styles.addtransactionform__container}`}>
         <BsArrowLeft className={styles.addtransactionform__returnPage} role='button' onClick={handleReturnButton} />
         <h2 className={styles.addtransactionform__title}>{getFormTitle()}</h2>
         <form onSubmit={handleFormSubmit}>
@@ -178,13 +194,13 @@ const AddTransaction = () => {
               onClick={() => handleTypeTransactionOptionClick('expense')}
             >- $</div>
           </div>
-          <CurrencyInput
+          <input
             id='transactionamount'
             className={`${styles.addtransactionform__input} ${styles.addtransactionform__currencyInput}`}
             required
-            type="number"
-            onChange={(original: number, masked: number) => setAmount(masked)}
-            value={amount}
+            type="text"
+            onChange={(e) => setAmount(unmaskCurrencyNumber(e.target.value))}
+            value={maskCurrencyNumber(amount)}
             placeholder='0.00'
           />
 
@@ -225,7 +241,7 @@ const AddTransaction = () => {
             }
           </p>
 
-          <label className={styles.addtransactionform__label}> 
+          <label className={styles.addtransactionform__label}>
             <span className={styles.addtransactionform__labelDateText}>Which date?</span>
             <input
               className={`${styles.addtransactionform__input} ${styles.addtransactionform__inputdate}`}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
 import styles from './TransactionsSummary.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 
 interface Props {
@@ -14,7 +15,7 @@ const TransactionsSummary = (props: Props) => {
   const [filteredCategory] = useFilteredCategory();
 
   return (
-    <section className={`${styles.transactions__container} theme__homesections`}>
+    <section className={`${styles.transactions__container} ${stylesComponents.pageComponents}`}>
       {!allTransactions && <Link to="/transactions" className={styles.transactions__seeall}>see all</Link>}
       <h2 className={`theme__title ${styles.transactions__title}`}>{allTransactions ? 'Transactions' : 'Recent Transactions'}</h2>
       {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ITransaction } from 'assets/interfaces/interfaces';
 import { useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './Overview.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
 
 const Overview = () => {
   const [user,] = useUser();
@@ -56,7 +57,7 @@ const Overview = () => {
   };
 
   return (
-    <section className='theme__homesections'>
+    <section className={`${stylesComponents.pageComponents}`}>
       <h2 className='theme__title'>Overview of income / expenses:</h2>
       <div>
         <div className={styles.overview__sum}>

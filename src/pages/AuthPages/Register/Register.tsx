@@ -5,6 +5,7 @@ import { validatePassword } from 'assets/functions/validatePassword';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './Register.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
 
 const Register = () => {
   const [user, loading] = useUser();
@@ -70,7 +71,7 @@ const Register = () => {
 
   return (
     <>
-      <div className={`theme__padding ${styles.register__container}`}>
+      <div className={`${stylesPadding.padding} ${styles.register__container}`}>
         <h1 className={styles.register__pagetitle}>Personal Finance Tool</h1>
         <div className={styles.register__block}>
           <p className={styles.register__text}>Sign-up</p>

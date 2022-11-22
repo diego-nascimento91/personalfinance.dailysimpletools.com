@@ -112,7 +112,7 @@ describe('<AddCategory /> Page', () => {
     //   expect(mockedNavegacao).toBeCalled();
     // });
 
-    it('should render component AddCategoryForm', () => {
+    it('should render <AddCategoryForm />', () => {
       render(
         <RecoilRoot>
           <BrowserRouter>
@@ -126,7 +126,7 @@ describe('<AddCategory /> Page', () => {
       expect(AddCategoryForm_Component).toBeInTheDocument();
     });
     
-    it('should render component UserCategories', () => {
+    it('should render <UserCategories />', () => {
       render(
         <RecoilRoot>
           <BrowserRouter>
@@ -138,6 +138,16 @@ describe('<AddCategory /> Page', () => {
       const AddCategoryForm_Component = screen.getByText('UserCategories');
 
       expect(AddCategoryForm_Component).toBeInTheDocument();
+    });
+
+    it('should render <AddCategory/> correctly', () => {
+      const { container } = render(
+        <RecoilRoot>
+          <AddCategory />
+        </RecoilRoot>
+      );
+  
+      expect(container).toMatchSnapshot();
     });
   });
 });

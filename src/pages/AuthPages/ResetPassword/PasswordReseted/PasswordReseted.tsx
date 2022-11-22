@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './PasswordReseted.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
 
 const PasswordReseted = () => {
   return (
-    <div className={`${styles.passwordreseted__container} theme__padding`}>
+    <div className={`${styles.passwordreseted__container} ${stylesPadding.padding}`}>
       <h1 className={styles.passwordreseted__pagetitle}>Personal Finance Tool</h1>
       <div className={styles.passwordreseted__block}>
         <h2 className={styles.passwordreseted__blocktitle}>Email Link Sent</h2>

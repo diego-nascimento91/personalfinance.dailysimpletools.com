@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import TransactionReceipt from './TransactionReceipt/TransactionReceipt';
 import styles from './TransactionSummary.module.scss';
+import stylesImgError from 'assets/styles/imgError.module.scss';
 
 
 const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => {
@@ -65,7 +66,7 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
                   <img className={styles['transaction__category--icon']} src={imageURL} alt="icon"
                     onError={({ currentTarget }) => {
                       currentTarget.src = '';
-                      currentTarget.className = 'imgError';
+                      currentTarget.className = stylesImgError.imgError;
                       setImageError(true);
                     }}
                   />

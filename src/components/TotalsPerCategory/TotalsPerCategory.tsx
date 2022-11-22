@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ITotalsCategories, ITransaction } from 'assets/interfaces/interfaces';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
-import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
 
 interface Props {
   transactions: ITransaction[],
@@ -70,7 +71,7 @@ const TotalsPerCategory = (props: Props) => {
 
 
   return (
-    <section className={`theme__homesections ${styles.totalsPerCategory__container}`}>
+    <section className={`${stylesComponents.pageComponents} ${styles.totalsPerCategory__container}`}>
       <label className={styles.totalsPerCategory__typeTransactionLabel}>
         <select 
           value={typeTransaction} 

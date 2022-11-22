@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import styles from './AddCategoryForm.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesImgError from 'assets/styles/imgError.module.scss';
 
 
 const AddCategoryForm = () => {
@@ -30,15 +32,15 @@ const AddCategoryForm = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    handleCategoryNameValidation();
+    if(name !== '' ||  type !== '') handleCategoryNameValidation();
   }, [name, type]);
 
   const handleSelectedCategoryFormLoad = () => {
     if (selectedCategory) {
-      setName(selectedCategory.value);
-      setType(selectedCategory.type);
-      setDescription(selectedCategory.description);
-      setIcon(selectedCategory.icon);
+      if(selectedCategory.value) setName(selectedCategory.value);
+      if(selectedCategory.type) setType(selectedCategory.type);
+      if(selectedCategory.description) setDescription(selectedCategory.description);
+      if(selectedCategory.icon) setIcon(selectedCategory.icon);
     }
   };
 
@@ -114,7 +116,7 @@ const AddCategoryForm = () => {
   };
 
   return (
-    <section className={`theme__homesections ${styles.addCategoryForm__container}`}>
+    <section className={`${stylesComponents.pageComponents} ${styles.addCategoryForm__container}`}>
       <BsArrowLeft className={styles.addCategoryForm__returnPage} role='button' onClick={handleReturnButton} />
       <>
         {
@@ -184,7 +186,7 @@ const AddCategoryForm = () => {
                   <img className={styles.addCategoryForm__iconPreview} src={icon} alt="icon"
                     onError={({ currentTarget }) => {
                       currentTarget.src = '';
-                      currentTarget.className = 'imgError';
+                      currentTarget.className = stylesImgError.imgError;
                       setImgError(true);
                     }}
                   />

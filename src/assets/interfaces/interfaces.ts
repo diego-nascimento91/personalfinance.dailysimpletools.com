@@ -4,7 +4,7 @@ export type ITransactionType = 'income' | 'expense' | 'other';
 
 export interface ITransaction {
   description: string,
-  amount: number
+  amount: number,
   category: string,
   date: Date,
   account: string,
@@ -15,7 +15,7 @@ export interface ITransaction {
 }
 
 export interface ICategory {
-  description: string
+  description: string,
   value: string,
   type: ITransactionType,
   icon: string,

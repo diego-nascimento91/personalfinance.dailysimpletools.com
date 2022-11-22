@@ -1,10 +1,11 @@
-import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BsArrowLeft } from 'react-icons/bs';
+import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCategories, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
 import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
-import { useEffect, useState } from 'react';
-import { BsArrowLeft } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { isCategoryNameValid } from './isCategoryNameValid';
 import styles from './AddCategoryForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import stylesImgError from 'assets/styles/imgError.module.scss';
@@ -32,7 +33,7 @@ const AddCategoryForm = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    handleCategoryNameValidation();
+    setCategoryError(isCategoryNameValid(name, type, categories, selectedCategory));
   }, [name, type]);
 
   const handleSelectedCategoryFormLoad = () => {
@@ -48,34 +49,6 @@ const AddCategoryForm = () => {
     }
   };
 
-  const handleCategoryNameValidation = () => {
-    // if name or type is empty there is no error
-    if (name === '' || type === '') {
-      setCategoryError(false);
-      return;
-    }
-
-    // get all categories of the type chosen by user
-    const categoriesOfType = categories.filter(category => {
-      return category.type === type;
-    });
-
-    // find if there is any name that is equal to the input name
-    const nameExists = categoriesOfType.some(category => {
-      // if user is editing a current category
-      if(selectedCategory) {
-        return isEqual(category.value, name) && category.id !== selectedCategory.id;
-      }
-      return isEqual(category.value, name);
-    });
-
-    if (nameExists) {
-      setCategoryError(true);
-    } else {
-      setCategoryError(false);
-    }
-  };
-
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -87,7 +60,7 @@ const AddCategoryForm = () => {
     if (user) {
       const category = getCategoryObj();
       if (selectedCategory) {
-        alert('transaction uptade call');
+        await handleUpdateDocFunction('categories', user.uid, { ...category, id: selectedCategory.id });
       } else {
         await handleCreateDocFunction('categories', user.uid, category);
       }
@@ -125,13 +98,6 @@ const AddCategoryForm = () => {
       nav('/', { replace: true }); // return to home if there is no back page history
     }
   };
-
-  const isEqual = (a: string, b: string) => {
-    const aPure = a.replace(/\s+/g, '');
-    const bPure = b.replace(/\s+/g, '');
-    return aPure.localeCompare(bPure, undefined, { sensitivity: 'accent' }) === 0;
-  };
-
 
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addCategoryForm__container}`}>

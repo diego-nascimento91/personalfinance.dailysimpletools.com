@@ -63,8 +63,8 @@ a {
 }
 
  /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;600;700&display=swap');
-
+*/
  main {
    display: flow-root;
    min-height: calc(100vh - 10rem);
- } */
+ } 

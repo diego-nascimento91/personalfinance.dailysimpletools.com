@@ -1,0 +1,27 @@
+.iconPreview {
+  border: .2rem solid white;
+  border-radius: 50%;
+  display: block;
+  height: 5rem;
+  margin-bottom: 1rem;
+  width: 5rem;
+}
+
+.iconPreview__iconText {
+  align-items: center;
+  border: .2rem solid white;
+  border-radius: 50%;
+  display: flex;
+  font-size: 180%;
+  font-weight: bold;
+  height: 5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  text-transform: capitalize;
+  width: 5rem;
+
+  &.error {
+    font-size: 100% !important;
+  }
+}

@@ -5,10 +5,10 @@ import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCate
 import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
 import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
-import { isCategoryNameValid } from './isCategoryNameValid';
+import { isCategoryNameInvalid } from './isCategoryNameInvalid';
 import styles from './AddCategoryForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
-import stylesImgError from 'assets/styles/imgError.module.scss';
+import IconPreview from './IconPreview/IconPreview';
 
 
 const AddCategoryForm = () => {
@@ -25,7 +25,6 @@ const AddCategoryForm = () => {
   const [icon, setIcon] = useState('');
   // ☝️ useState forms
 
-  const [imgError, setImgError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const AddCategoryForm = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    setCategoryError(isCategoryNameValid(name, type, categories, selectedCategory));
+    setCategoryError(isCategoryNameInvalid(name, type, categories, selectedCategory));
   }, [name, type]);
 
   const handleSelectedCategoryFormLoad = () => {
@@ -102,22 +101,20 @@ const AddCategoryForm = () => {
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addCategoryForm__container}`}>
       <BsArrowLeft className={styles.addCategoryForm__returnPage} role='button' onClick={handleReturnButton} />
-      <>
-        {
-          selectedCategory
-            ? (
-              <>
-                <h2>Update Category</h2>
-                <button className={styles.addCategoryForm__cancelUpdate} onClick={resetForm}>Cancel Update Transaction</button>
-              </>
-            )
-            : (
-              <h2>Add a new Category</h2>
-            )
-        }
-      </>
+      {
+        selectedCategory
+          ? (
+            <>
+              <h2>Edit Selected Category</h2>
+              <button className={styles.addCategoryForm__cancelUpdate} onClick={resetForm}>Cancel Update Transaction</button>
+            </>
+          )
+          : (
+            <h2>Add a new Category</h2>
+          )
+      }
 
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} data-testid="addCategoryForm">
         <label className={styles.addCategoryForm__labels}>
           How would like to call this Category?
           <input
@@ -128,7 +125,9 @@ const AddCategoryForm = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </label>
-        {categoryError && <span className={styles.addCategoryForm__categoryErrorMsg} role='alert'>This category&apos;s name already exists for the type chosen. Please choose another name.</span>}
+        {
+          categoryError && <span className={styles.addCategoryForm__categoryErrorMsg} role='alert'>This category&apos;s name already exists for the type chosen. Please choose another name.</span>
+        }
         <label className={styles.addCategoryForm__labels}>
           Type:
           <select
@@ -162,32 +161,7 @@ const AddCategoryForm = () => {
             placeholder='(optional) paste a link of an icon you would like to use.'
           />
         </label>
-        <>
-          {
-            icon && icon.length > 0
-              ? (
-                <>
-                  <img className={styles.addCategoryForm__iconPreview} src={icon} alt="icon"
-                    onError={({ currentTarget }) => {
-                      currentTarget.src = '';
-                      currentTarget.className = stylesImgError.imgError;
-                      setImgError(true);
-                    }}
-                  />
-                  {
-                    imgError
-                      ? name && name.length > 0 
-                        ? <span className={styles['addCategoryForm__iconPreview--iconText']}>{name[0]}</span>
-                        : <span className={`${styles['addCategoryForm__iconPreview--iconText']} ${styles.error}`}>error</span>
-                      : null
-                  }
-                </>
-              )
-              : name && name.length > 0
-                ? <span className={styles['addCategoryForm__iconPreview--iconText']}>{name[0]}</span>
-                : null
-          }
-        </>
+        <IconPreview name = {name} icon = {icon}/>
         <button className={styles.addCategoryForm__button} type='submit' disabled={categoryError}>
           {
             selectedCategory

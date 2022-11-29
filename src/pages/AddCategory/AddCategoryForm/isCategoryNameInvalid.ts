@@ -1,7 +1,7 @@
 import { ICategory } from 'assets/interfaces/interfaces';
 import { compareStrings } from './compareStrings';
 
-export const isCategoryNameValid = (name: string, type: string, categories: ICategory[], selectedCategory: ICategory | null) => {
+export const isCategoryNameInvalid = (name: string, type: string, categories: ICategory[], selectedCategory: ICategory | null) => {
   // if name or type is empty there is no error
   if (name === '' || type === '') {
     return false;

@@ -48,6 +48,17 @@
       width: 100%;
     }
 
+    .register__passwordvisibility--container {
+      position: relative;
+
+      .register__passwordvisibility--icon {
+        cursor: pointer;
+        height: 100%;
+        position: absolute;
+        right: 1rem;
+      }
+    }
+
     .register__inputalert{
       color: rgb(255, 78, 78);
       display: block;

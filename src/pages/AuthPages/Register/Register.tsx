@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './Register.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
@@ -24,6 +25,11 @@ const Register = () => {
   const [spanMessageEmail, setSpanMessageEmail] = useState('');
   const [spanMessagePassword, setSpanMessagePassword] = useState('');
   const [spanMessageFinal, setSpanMessageFinal] = useState('');
+  
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [passwordInputType, setPasswordInputType] = useState('');
+  const [isRepeatedPasswordVisible, setIsRepeatedPasswordVisible] = useState(false);
+  const [RepeatedPasswordInputType, setRepeatedPasswordInputType] = useState('');
 
   const nav = useNavigate();
   useEffect(() => {
@@ -74,8 +80,8 @@ const Register = () => {
 
     // validating repeated password
     let isValid__repeatedPassword = true;
-    if(isValid_password){
-      if (password !== repeatedPassword){
+    if (isValid_password) {
+      if (password !== repeatedPassword) {
         setIsRepeatedPasswordValid(false);
         setSpanMessageFinal('Passwords should be identical');
         isValid__repeatedPassword = false;
@@ -83,6 +89,26 @@ const Register = () => {
     }
 
     return isValid_password && isValid__repeatedPassword;
+  };
+
+  const setPasswordVisibility = (whichPassword: 'password' | 'repeatedpassword') => {
+    if(whichPassword === 'password') {
+      if (isPasswordVisible) {
+        setIsPasswordVisible(false);
+        setPasswordInputType('password');
+      } else {
+        setIsPasswordVisible(true);
+        setPasswordInputType('text');
+      }
+    } else if (whichPassword === 'repeatedpassword'){
+      if (isRepeatedPasswordVisible) {
+        setIsRepeatedPasswordVisible(false);
+        setRepeatedPasswordInputType('password');
+      } else {
+        setIsRepeatedPasswordVisible(true);
+        setRepeatedPasswordInputType('text');
+      }
+    }
   };
 
   return (
@@ -102,7 +128,7 @@ const Register = () => {
               required
               className={styles.register__input}
               value={name}
-              onChange={(e) => { setName(e.target.value); setIsNameValid(true);  setIsRegistrationValid(true);}}
+              onChange={(e) => { setName(e.target.value); setIsNameValid(true); setIsRegistrationValid(true); }}
             />
             {!isNameValid && <span role='alert' className={styles.register__inputalert}>Input required! Please enter your name.</span>}
 
@@ -115,34 +141,48 @@ const Register = () => {
               required
               className={styles.register__input}
               value={email}
-              onChange={(e) => { setEmail(e.target.value); setIsEmailValid(true);  setIsRegistrationValid(true);}}
+              onChange={(e) => { setEmail(e.target.value); setIsEmailValid(true); setIsRegistrationValid(true); }}
             />
             {!isEmailValid && <span role='alert' className={styles.register__inputalert}>{spanMessageEmail}</span>}
 
             <label htmlFor='userpassword' className={styles.register__label}>Password</label>
-            <input
-              type="password"
-              id='userpassword'
-              name='userpassword'
-              placeholder='Password'
-              required
-              className={styles.register__input}
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); setIsPasswordValid(true);  setIsRegistrationValid(true);}}
-            />
+            <div className={styles['register__passwordvisibility--container']}>
+              <input
+                type={passwordInputType}
+                id='userpassword'
+                name='userpassword'
+                placeholder='Password'
+                required
+                className={styles.register__input}
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setIsPasswordValid(true); setIsRegistrationValid(true); }}
+              />
+              {
+                isPasswordVisible
+                  ? <AiOutlineEye onClick={() => setPasswordVisibility('password')} className={styles['register__passwordvisibility--icon']} />
+                  : <AiOutlineEyeInvisible onClick={() => setPasswordVisibility('password')} className={styles['register__passwordvisibility--icon']} />
+              }
+            </div>
             {!isPasswordValid && <span role='alert' className={styles.register__inputalert}>{spanMessagePassword}</span>}
 
             <label htmlFor='userrepeatpassword' className={styles.register__label}>Repeat Password</label>
-            <input
-              type="password"
-              id='userrepeatpassword'
-              name='userrepeatpassword'
-              placeholder='Repeat Password'
-              required
-              className={styles.register__input}
-              value={repeatedPassword}
-              onChange={(e) => { setRepeatedPassword(e.target.value); setIsRepeatedPasswordValid(true); setIsRegistrationValid(true);}}
-            />
+            <div className={styles['register__passwordvisibility--container']}>
+              <input
+                type={RepeatedPasswordInputType}
+                id='userrepeatpassword'
+                name='userrepeatpassword'
+                placeholder='Repeat Password'
+                required
+                className={styles.register__input}
+                value={repeatedPassword}
+                onChange={(e) => { setRepeatedPassword(e.target.value); setIsRepeatedPasswordValid(true); setIsRegistrationValid(true); }}
+              />
+              {
+                isRepeatedPasswordVisible
+                  ? <AiOutlineEye onClick={() => setPasswordVisibility('repeatedpassword')} className={styles['register__passwordvisibility--icon']} />
+                  : <AiOutlineEyeInvisible onClick={() => setPasswordVisibility('repeatedpassword')} className={styles['register__passwordvisibility--icon']} />
+              }
+            </div>
             {!isRepeatedPasswordValid && <span role='alert' className={styles.register__inputalert}>{spanMessageFinal}</span>}
             {!isRegistrationValid && <span role='alert' className={styles.register__inputalert}>{spanMessageFinal}</span>}
 

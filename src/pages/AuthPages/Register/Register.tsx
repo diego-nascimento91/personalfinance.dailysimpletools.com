@@ -13,13 +13,17 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [repeatedPassword, setRepeatedPassword] = useState('');
 
-  const [validName, setValidName] = useState(true);
-  const [emailIsValid, setEmailIsValid] = useState(true);
-  const [passwordIsValid, setPasswordIsValid] = useState(true);
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isRepeatedPasswordValid, setIsRepeatedPasswordValid] = useState(true);
+  const [isRegistrationValid, setIsRegistrationValid] = useState(true);
 
   const [spanMessageEmail, setSpanMessageEmail] = useState('');
   const [spanMessagePassword, setSpanMessagePassword] = useState('');
+  const [spanMessageFinal, setSpanMessageFinal] = useState('');
 
   const nav = useNavigate();
   useEffect(() => {
@@ -27,10 +31,10 @@ const Register = () => {
     if (user) nav('/home');
   }, [user, loading]);
 
-  const handleRegisterCall = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (handleEmailCheck() && handlePasswordCheck() && handleNameCheck()) {
+    if (handleNameCheck() && handleEmailCheck() && handlePasswordCheck()) {
       handleRegisterNewUser();
     }
   };
@@ -38,11 +42,11 @@ const Register = () => {
   const handleRegisterNewUser = async () => {
     const err = await FirebaseAuthService.createNewUserWithEmailAndPassword(name, email, password);
     if (err instanceof Error) {
-      setPasswordIsValid(false);
-      if ( (err.message).includes('email-already-in-use') ) {
-        setSpanMessagePassword('Email already in use. Return to Login page or check your information and try again.');
+      setIsRegistrationValid(false);
+      if ((err.message).includes('email-already-in-use')) {
+        setSpanMessageFinal('Email already in use. Return to Login page or check your information and try again.');
       } else {
-        setSpanMessagePassword('Signup failed. Please try again later.');
+        setSpanMessageFinal('Signup failed. Please try again later.');
       }
       return;
     }
@@ -50,23 +54,35 @@ const Register = () => {
   };
 
   const handleNameCheck = () => {
-    const nameValidity = !(name === null || name === '');
-    setValidName(nameValidity);
+    const nameValidity = !(name.trim() === null || name.trim() === '');
+    setIsNameValid(nameValidity);
     return nameValidity;
   };
 
   const handleEmailCheck = () => {
     const { isValid_email, alertMessage_email } = validateEmail(email);
-    setEmailIsValid(isValid_email);
+    setIsEmailValid(isValid_email);
     setSpanMessageEmail(alertMessage_email);
     return isValid_email;
   };
 
   const handlePasswordCheck = () => {
+    // validating password
     const { isValid_password, alertMessage_password } = validatePassword(password);
-    setPasswordIsValid(isValid_password);
+    setIsPasswordValid(isValid_password);
     setSpanMessagePassword(alertMessage_password);
-    return isValid_password;
+
+    // validating repeated password
+    let isValid__repeatedPassword = true;
+    if(isValid_password){
+      if (password !== repeatedPassword){
+        setIsRepeatedPasswordValid(false);
+        setSpanMessageFinal('Passwords should be identical');
+        isValid__repeatedPassword = false;
+      }
+    }
+
+    return isValid_password && isValid__repeatedPassword;
   };
 
   return (
@@ -75,7 +91,8 @@ const Register = () => {
         <h1 className={styles.register__pagetitle}>Personal Finance Tool</h1>
         <div className={styles.register__block}>
           <p className={styles.register__text}>Sign-up</p>
-          <form onSubmit={handleRegisterCall} noValidate>
+          <form onSubmit={handleRegisterFormSubmit} noValidate>
+
             <label htmlFor='username' className={styles.register__label}>Name</label>
             <input
               type="name"
@@ -85,9 +102,10 @@ const Register = () => {
               required
               className={styles.register__input}
               value={name}
-              onChange={(e) => { setName(e.target.value); setValidName(true); }}
+              onChange={(e) => { setName(e.target.value); setIsNameValid(true);  setIsRegistrationValid(true);}}
             />
-            {!validName && <span role='alert' className={styles.register__inputalert}>Input required! Please enter your name.</span>}
+            {!isNameValid && <span role='alert' className={styles.register__inputalert}>Input required! Please enter your name.</span>}
+
             <label htmlFor='useremail' className={styles.register__label}>E-mail</label>
             <input
               type="email"
@@ -97,9 +115,10 @@ const Register = () => {
               required
               className={styles.register__input}
               value={email}
-              onChange={(e) => { setEmail(e.target.value); setEmailIsValid(true); }}
+              onChange={(e) => { setEmail(e.target.value); setIsEmailValid(true);  setIsRegistrationValid(true);}}
             />
-            {!emailIsValid && <span role='alert' className={styles.register__inputalert}>{spanMessageEmail}</span>}
+            {!isEmailValid && <span role='alert' className={styles.register__inputalert}>{spanMessageEmail}</span>}
+
             <label htmlFor='userpassword' className={styles.register__label}>Password</label>
             <input
               type="password"
@@ -109,9 +128,24 @@ const Register = () => {
               required
               className={styles.register__input}
               value={password}
-              onChange={(e) => { setPassword(e.target.value); setPasswordIsValid(true); }}
+              onChange={(e) => { setPassword(e.target.value); setIsPasswordValid(true);  setIsRegistrationValid(true);}}
             />
-            {!passwordIsValid && <span role='alert' className={styles.register__inputalert}>{spanMessagePassword}</span>}
+            {!isPasswordValid && <span role='alert' className={styles.register__inputalert}>{spanMessagePassword}</span>}
+
+            <label htmlFor='userrepeatpassword' className={styles.register__label}>Repeat Password</label>
+            <input
+              type="password"
+              id='userrepeatpassword'
+              name='userrepeatpassword'
+              placeholder='repeat password'
+              required
+              className={styles.register__input}
+              value={repeatedPassword}
+              onChange={(e) => { setRepeatedPassword(e.target.value); setIsRepeatedPasswordValid(true); setIsRegistrationValid(true);}}
+            />
+            {!isRepeatedPasswordValid && <span role='alert' className={styles.register__inputalert}>{spanMessageFinal}</span>}
+            {!isRegistrationValid && <span role='alert' className={styles.register__inputalert}>{spanMessageFinal}</span>}
+
             <button
               className={styles.register__button}
               type='submit'

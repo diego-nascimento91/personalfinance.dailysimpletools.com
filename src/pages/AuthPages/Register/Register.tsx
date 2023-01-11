@@ -124,7 +124,7 @@ const Register = () => {
               type="password"
               id='userpassword'
               name='userpassword'
-              placeholder='password'
+              placeholder='Password'
               required
               className={styles.register__input}
               value={password}
@@ -137,7 +137,7 @@ const Register = () => {
               type="password"
               id='userrepeatpassword'
               name='userrepeatpassword'
-              placeholder='repeat password'
+              placeholder='Repeat Password'
               required
               className={styles.register__input}
               value={repeatedPassword}

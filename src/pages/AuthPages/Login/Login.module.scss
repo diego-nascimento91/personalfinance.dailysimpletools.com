@@ -48,6 +48,17 @@
       width: 100%;
     }
 
+    .login__passwordvisibility {
+      position: relative;
+
+      .login__passwordvisibility--icon {
+        cursor: pointer;
+        height: 100%;
+        position: absolute;
+        right: 1rem;
+      }
+    }
+
     .login__inputalert{
       color: rgb(255, 78, 78);
       display: block;

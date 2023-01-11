@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './Login.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
@@ -11,6 +12,8 @@ const Login = () => {
   const [user, loading] = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [passwordInputType, setPasswordInputType] = useState('password');
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [spanMessageEmail, setSpanMessageEmail] = useState('');
@@ -56,6 +59,16 @@ const Login = () => {
     FirebaseAuthService.signInWithGoogle();
   };
 
+  const setPasswordVisibility = () => {
+    if (isPasswordVisible) {
+      setIsPasswordVisible(false);
+      setPasswordInputType('password');
+    } else {
+      setIsPasswordVisible(true);
+      setPasswordInputType('text');
+    }
+  };
+
   return (
     <>
       <div className={`${stylesPadding.padding} ${styles.login__container}`}>
@@ -63,6 +76,7 @@ const Login = () => {
         <div className={styles.login__block}>
           <p className={styles.login__text}>Sign-in</p>
           <form onSubmit={handleLoginFormSubmit} noValidate>
+            
             <label htmlFor='useremail' className={`${styles.login__label} ${styles.login__labelemail}`}>E-mail</label>
             <input
               type="email"
@@ -75,18 +89,30 @@ const Login = () => {
               onChange={(e) => { setEmail(e.target.value); setEmailIsValid(true); }}
             />
             {!emailIsValid && <span role='alert' className={styles.login__inputalert}>{spanMessageEmail}</span>}
-            <label htmlFor='userpassword' className={`${styles.login__label} ${styles.login__labelpassword}`}>Password</label>
-            <input
-              type="password"
-              id='userpassword'
-              name='userpassword'
-              placeholder='password'
-              required
-              className={`${styles.login__input} ${styles.login__inputpassword}`}
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); setPasswordIsValid(true); }}
-            />
+
+            <label htmlFor='userpassword' className={`${styles.login__label} ${styles.login__labelpassword}`}>
+              Password
+            </label>
+            <div className={styles.login__passwordvisibility}>
+              <input
+                type={passwordInputType}
+                name='userpassword'
+                id='userpassword'
+                placeholder='password'
+                required
+                className={`${styles.login__input} ${styles.login__inputpassword}`}
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setPasswordIsValid(true); }}
+              />
+              {
+                isPasswordVisible
+                  ? <AiOutlineEye onClick={setPasswordVisibility} className={styles['login__passwordvisibility--icon']} />
+                  : <AiOutlineEyeInvisible onClick={setPasswordVisibility} className={styles['login__passwordvisibility--icon']} />
+              }
+            </div>
+
             {!passwordIsValid && <span role='alert' className={styles.login__inputalert}>{spanMessagePassword}</span>}
+
             <button
               className={`${styles.login__button} ${styles.login__buttonemail}`}
               type='submit'

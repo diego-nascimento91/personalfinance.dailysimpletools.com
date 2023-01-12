@@ -1,5 +1,5 @@
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { IAccounts, ICategory, IOrderConfig, IQuery, ITransaction } from 'assets/interfaces/interfaces';
+import { IAccount, ICategory, IOrderConfig, IQuery, ITransaction } from 'assets/interfaces/interfaces';
 import { SetterOrUpdater } from 'recoil';
 
 export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICategory[]>, userId: string) => {
@@ -42,13 +42,12 @@ export const handleFetchOnlyUserCategories = async (setCategories: SetterOrUpdat
   }
 };
 
-export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccounts[]>) => {
-  const collectionPath = 'accounts';
-  const orderConfig: IOrderConfig[] = [{fieldName: 'value', orderDirection: 'asc'}];
-
+export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccount[]>, userId: string) => {
   try {
+    const collectionPath = `users/${userId}/accounts`;
+    const orderConfig: IOrderConfig[] = [{fieldName: 'name', orderDirection: 'asc'}];
     const accountsDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderConfig);
-    setAccounts(accountsDB as IAccounts[]);
+    setAccounts(accountsDB as IAccount[]);
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
@@ -109,7 +108,7 @@ export const handleFetchTransactionsMonth = async (userId: string, setTransactio
   }
 };
 
-export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory) => {
+export const handleCreateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory | IAccount) => {
   try {
     const collectionPath = `users/${userId}/${collectionName}`;
     await FirebaseFirestoreService.createDocument(collectionPath, document);
@@ -122,7 +121,7 @@ export const handleCreateDocFunction = async (collectionName: string, userId: st
   }
 };
 
-export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory) => {
+export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory | IAccount) => {
   try {
     const collectionPath = `users/${userId}/${collectionName}`;
     if (document.id) {

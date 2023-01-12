@@ -1,0 +1,38 @@
+import { useUserCategories } from 'assets/state/hooks/addCategoryHooks';
+import styles from './UserCategories.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import UserCategory from './AccountItem/AccountItem';
+
+
+const AccountsList = () => {
+  const [userCategories] = useUserCategories();
+
+  return (
+    <section className={`${stylesComponents.pageComponents} ${styles.userCategories__container}`}>
+      <h2>Categories Added</h2>
+      <div className={styles.userCategories__userCategoryComponents}>
+        {
+          userCategories && userCategories.length > 0
+            ? (
+              <>
+                {
+                  userCategories.map(category => (
+                    category.type === 'income' && <UserCategory key={category.id} category={category} />
+                  ))
+                }
+                {
+                  userCategories.map(category => (
+                    category.type === 'expense' && <UserCategory key={category.id} category={category} />
+                  ))
+                }
+              </>
+
+            )
+            : 'No categories added yet.'
+        }
+      </div>
+    </section>
+  );
+};
+
+export default AccountsList;

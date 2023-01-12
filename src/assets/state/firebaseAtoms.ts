@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { IAccounts, ICategory, ITransaction } from 'assets/interfaces/interfaces';
+import { IAccount, ICategory, ITransaction } from 'assets/interfaces/interfaces';
 
 export const useChosenMonthAtom = atom<Date> ({
   key: 'useChosenMonthAtom',
@@ -21,7 +21,12 @@ export const useCategoriesAtom = atom<ICategory[]> ({
   default: []
 });
 
-export const useAccountsAtom = atom<IAccounts[]> ({
+export const useAccountsAtom = atom<IAccount[]> ({
   key: 'useAccountsAtom',
   default: []
+});
+
+export const useSelectedAccountAtom = atom<IAccount | null> ({
+  key: 'useSelectedAccountAtom',
+  default: null
 });

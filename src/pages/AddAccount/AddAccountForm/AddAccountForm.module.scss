@@ -1,0 +1,84 @@
+@import 'assets/styles/variables.scss';
+
+.addAccountForm__container {
+  position: relative;
+
+  .addAccountForm__returnPage {
+    border-radius: 50%;
+    cursor: pointer;
+    height: 2.5rem;
+    position: absolute;
+    right: 2.5rem;
+    top: 1rem;
+    width: 2.5rem;
+  }
+
+  .addAccountForm__cancelUpdate {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    padding: 0;
+    text-decoration: underline;
+  }
+  
+  .addAccountForm__labels{
+    display: block;
+    width: 100%;
+  }
+
+  .addAccountForm__inputs, .addAccountForm__textareas, .addAccountForm__selects{
+    background: rgb(180, 180, 180);
+    border: none;
+    border-radius: 0.5rem;
+    color: black;
+    height: 2.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  .addAccountForm__accountErrorMsg {
+    color: red;
+    font-weight: 400;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
+  }
+
+  .addAccountForm__inputIcon {
+    @media (max-width: 375px) {
+      height: 4rem;
+      &::placeholder {
+        position: relative;
+        top: -0.7rem;
+        white-space: pre-line;
+      }
+    }
+  }
+
+  .addAccountForm__textareas{
+    height: 7rem;
+    resize: none;
+
+    &::placeholder {
+      color: rgb(54, 54, 54);
+    }
+  }
+
+  .addAccountForm__button {
+    background: $menuColor;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    height: 3rem;
+    width: 100%;
+
+    &:hover:disabled {
+      cursor: not-allowed;
+    }
+  }
+}

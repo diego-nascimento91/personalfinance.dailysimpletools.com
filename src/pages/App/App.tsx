@@ -10,6 +10,7 @@ import AddTransactionForm from 'pages/AddTransaction/AddTransaction';
 import AddCategory from 'pages/AddCategory/AddCategory';
 import Login from 'pages/AuthPages/Login/Login';
 import Register from 'pages/AuthPages/Register/Register';
+import AddAccount from 'pages/AddAccount/AddAccount';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path='/transactions' element={<TransactionsPage />} />
             <Route path='/newtransaction' element={<AddTransactionForm />} />
             <Route path='/newcategory' element={<AddCategory />} />
+            <Route path='/newaccount' element={<AddAccount />} />
             <Route path='/register' element={<Register />} />
             <Route path='/resetpassword' element={<ResetPassword />} />
             <Route path='/resetpassword/emailsent' element={<PasswordReseted />} />

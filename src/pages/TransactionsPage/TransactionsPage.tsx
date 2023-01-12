@@ -32,7 +32,7 @@ const TransactionsPage = () => {
         handleFetchCategories(setCategories, user.uid);
       }
       if(!(accounts && accounts.length > 0)){
-        handleFetchAccounts(setAccounts);
+        handleFetchAccounts(setAccounts, user.uid);
       }
       if (!(transactionsMonth && transactionsMonth.length > 0)) {
         handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);

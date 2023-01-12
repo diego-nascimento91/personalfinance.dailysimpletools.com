@@ -1,7 +1,7 @@
 import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, limit, QueryConstraint } from 'firebase/firestore';
 
 import { db } from 'assets/functions/FirebaseConfig';
-import { ITransaction, IQuery, ICategory, IOrderConfig } from 'assets/interfaces/interfaces';
+import { ITransaction, IQuery, ICategory, IOrderConfig, IAccount } from 'assets/interfaces/interfaces';
 
 const readAllDocsFromCollection = async (collectionPath: string, orderConfigs: IOrderConfig[], queries?: IQuery[], limitDocs?: number) => {
   // get constraints array
@@ -51,7 +51,7 @@ const readDocument = async (collectionPath: string, docPath: string) => {
   return { id: result.id, ...data };
 };
 
-const createDocument = async (collectionPath: string, document: ITransaction | ICategory, id?: string) => {
+const createDocument = async (collectionPath: string, document: ITransaction | ICategory | IAccount, id?: string) => {
   if (id) {
     return await setDoc(doc(db, collectionPath, id), document);
   } else {
@@ -63,7 +63,7 @@ const deleteDocument = async (collectionPath: string, id: string) => {
   return await deleteDoc(doc(db, collectionPath, id));
 };
 
-const updateDocument = async (collectionPath: string, document: ITransaction | ICategory, id: string) => {
+const updateDocument = async (collectionPath: string, document: ITransaction | ICategory | IAccount, id: string) => {
   return await setDoc(doc(db, collectionPath, id), document, { merge: true });
 };
 

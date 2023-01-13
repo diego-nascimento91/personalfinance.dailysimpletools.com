@@ -5,11 +5,11 @@ import { handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactio
 import styles from './Home.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
 import stylesPages from 'assets/styles/pages.module.scss';
-import AddTransactionButton from '../../components/AddTransactionButton/AddTransactionButton';
 import TotalsPerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import UserHeader from 'components/UserHeader/UserHeader';
+import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
 
 const Home = () => {
   const nav = useNavigate();
@@ -53,7 +53,7 @@ const Home = () => {
         <div className={styles.home__totalsPerCategory}><TotalsPerCategory transactions={transactionsMonth} /></div>
         <div className={styles.home__transactionsSummary}><TransactionsSummary transactions={recentTransactions} /></div>
       </div>
-      <AddTransactionButton />
+      <AddPlusButton />
     </div>
   );
 };

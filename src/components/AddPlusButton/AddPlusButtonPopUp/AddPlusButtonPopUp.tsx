@@ -1,10 +1,10 @@
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useCurrentTransaction, useShowChooseTypeTransactionPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useNavigate } from 'react-router-dom';
-import styles from './AddTransactionPopUp.module.scss';
+import styles from './AddPlusButtonPopUp.module.scss';
 
 
-const AddTransactionPopUp = () => {
+const AddPlusButtonPopUp = () => {
   const nav = useNavigate();
   const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
   const [,setCurrentTransaction] = useCurrentTransaction();
@@ -18,6 +18,11 @@ const AddTransactionPopUp = () => {
   const handleNewCategoryButtonClick = () => {
     setShowPopUp(false);
     nav('/newcategory');
+  };
+
+  const handleNewAccountButtonClick = () => {
+    setShowPopUp(false);
+    nav('/newaccount');
   };
 
   return (
@@ -34,6 +39,10 @@ const AddTransactionPopUp = () => {
                 <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
                 <span className={styles['popup__option--text']}>Add/Edit a category</span>
               </div>
+              <div role='button' onClick={() => handleNewAccountButtonClick()} className={styles.popup__option}>
+                <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
+                <span className={styles['popup__option--text']}>Add/Edit an account</span>
+              </div>
             </div >
           )
           : null
@@ -42,4 +51,4 @@ const AddTransactionPopUp = () => {
   );
 };
 
-export default AddTransactionPopUp;
+export default AddPlusButtonPopUp;

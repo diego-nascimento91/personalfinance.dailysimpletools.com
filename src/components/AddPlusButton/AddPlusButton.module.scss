@@ -1,6 +1,6 @@
 @import 'assets/styles/variables.scss';
 
-.addtransaction__container {
+.addPlusButton__container {
   bottom: 1rem;
   color: black;
   position:-webkit-sticky;
@@ -33,7 +33,7 @@
     margin-left: calc(100vw - 7.5rem - 2 * $hpadding-deskbg);
   }
 
-  .addtransaction__button {
+  .addPlusButton__button {
     background: $addTransactionButton-bgd;
     border: 0.15rem solid $positiveMoney;
     border-radius: 50%;
@@ -57,12 +57,12 @@
     }
   }
 
-  .addtransaction__button-x{
+  .addPlusButton__button-x{
     transition: 200ms;
     transform: rotate(45deg);
   }
 
-  .addtransaction__button-position{
+  .addPlusButton__button-position{
     display: none;
   }
 }

@@ -7,8 +7,8 @@ import stylesPadding from 'assets/styles/padding.module.scss';
 import stylesPages from 'assets/styles/pages.module.scss';
 import TotalsPerCategory from 'components/TotalsPerCategory/TotalsPerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
-import AddTransactionButton from 'components/AddTransactionButton/AddTransactionButton';
 import UserHeader from 'components/UserHeader/UserHeader';
+import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
 
 const TransactionsPage = () => {
   const nav = useNavigate();
@@ -47,7 +47,7 @@ const TransactionsPage = () => {
         <div className={styles.transactionsPage__totalsPerCategory}><TotalsPerCategory transactions={transactionsMonth} allTransactions={true}/></div>
         <div className={styles.transactionsPage__transactionsSummary}><TransactionsSummary transactions={transactionsMonth} allTransactions={true} /></div>
       </div>
-      <AddTransactionButton />
+      <AddPlusButton />
     </div>
   );
 };

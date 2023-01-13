@@ -49,17 +49,6 @@
     margin-top: -0.5rem;
   }
 
-  .addAccountForm__inputIcon {
-    @media (max-width: 375px) {
-      height: 4rem;
-      &::placeholder {
-        position: relative;
-        top: -0.7rem;
-        white-space: pre-line;
-      }
-    }
-  }
-
   .addAccountForm__textareas{
     height: 7rem;
     resize: none;
@@ -76,9 +65,5 @@
     color: white;
     height: 3rem;
     width: 100%;
-
-    &:hover:disabled {
-      cursor: not-allowed;
-    }
   }
 }

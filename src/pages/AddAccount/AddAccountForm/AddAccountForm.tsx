@@ -110,7 +110,18 @@ const AddAccountForm = () => {
         role='button'
         onClick={handleReturnButton}
       />
-      <h2>Add a new Account</h2>
+      {
+        selectedAccount
+          ? (
+            <>
+              <h2>Edit Selected Account</h2>
+              <button className={styles.addAccountForm__cancelUpdate} onClick={resetForm}>Cancel Update Account</button>
+            </>
+          )
+          : (
+            <h2>Add a new Account</h2>
+          )
+      }
 
       <form onSubmit={handleFormSubmit}>
         <label className={styles.addAccountForm__labels}>
@@ -130,7 +141,7 @@ const AddAccountForm = () => {
         <label className={styles.addAccountform__labels}>
           Current balance:
           <input
-            className={`${styles.addAccountForm__inputs} ${styles.addAccountform__currencyInput}`}
+            className={styles.addAccountForm__inputs}
             required
             type="text"
             onChange={(e) => setInitialBalance(unmaskCurrencyNumber(e.target.value))}
@@ -168,7 +179,11 @@ const AddAccountForm = () => {
         </label>
 
         <button className={styles.addAccountForm__button} type='submit'>
-          Add new account
+          {
+            selectedAccount
+              ? 'Update Account'
+              : 'Add Account'
+          }
         </button>
       </form>
 

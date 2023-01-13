@@ -140,7 +140,7 @@ export const handleUpdateDocFunction = async (collectionName: string, userId: st
   }
 };
 
-export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory) => {
+export const handleDeleteDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory | IAccount) => {
   try {
     const deleteConfirmation = window.confirm(`Are you sure you want to delete this document from your ${collectionName}? Ok for Yes. Cancel for No.`);
     if (deleteConfirmation) {

@@ -1,34 +1,24 @@
-import { useUserCategories } from 'assets/state/hooks/addCategoryHooks';
-import styles from './UserCategories.module.scss';
+import styles from './AccountsList.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
-import UserCategory from './AccountItem/AccountItem';
+import { useAccounts } from 'assets/state/hooks/firebaseHooks';
+import AccountItem from './AccountItem/AccountItem';
 
 
 const AccountsList = () => {
-  const [userCategories] = useUserCategories();
+  const [accounts] = useAccounts();
 
   return (
-    <section className={`${stylesComponents.pageComponents} ${styles.userCategories__container}`}>
-      <h2>Categories Added</h2>
-      <div className={styles.userCategories__userCategoryComponents}>
+    <section className={`${stylesComponents.pageComponents} ${styles.userAccounts__container}`}>
+      <h2>Accounts Added</h2>
+      <div className={styles.userAccounts__userAccountComponents}>
         {
-          userCategories && userCategories.length > 0
+          accounts && accounts.length > 0
             ? (
-              <>
-                {
-                  userCategories.map(category => (
-                    category.type === 'income' && <UserCategory key={category.id} category={category} />
-                  ))
-                }
-                {
-                  userCategories.map(category => (
-                    category.type === 'expense' && <UserCategory key={category.id} category={category} />
-                  ))
-                }
-              </>
-
+              accounts.map(account => (
+                <AccountItem key={account.id} account={account} />
+              ))
             )
-            : 'No categories added yet.'
+            : 'No accounts added yet.'
         }
       </div>
     </section>

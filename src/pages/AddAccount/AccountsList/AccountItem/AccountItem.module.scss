@@ -1,6 +1,6 @@
 @import 'assets/styles/variables.scss';
 
-.userCategory__container {
+.userAccount__container {
   align-items: center;
   background: $page-background;
   border-radius: 0.5rem;
@@ -8,53 +8,31 @@
   gap: 1rem;
   padding: 0.75rem;
 
-
-  .userCategory__img{
-    
-    .userCategory__img--icon {
-      border: 0.2rem solid white;
-      border-radius: 50%;
-      height: 3rem;
-      width: 3rem;
-    }
-    .userCategory__img--iconText {
-      align-items: center;
-      border: 0.2rem solid white;
-      border-radius: 50%;
-      display: flex;
-      font-weight: bold;
-      height: 3rem;
-      justify-content: center;
-      text-transform: uppercase;
-      width: 3rem;
-    }
-  }
-
-  .userCategory__nameAndType--container {
+  .userAccount__nameAndType--container {
     display: flex;
     flex-direction: column;
     
     flex: 1;
     width: 0;
-    .userCategory__nameAndType--name {
+    .userAccount__nameAndType--name {
       font-weight: bold;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .userCategory__nameAndType--type {
+    .userAccount__nameAndType--type {
       font-size: 80%;
       margin-left: 0.5rem;
       white-space: nowrap;
     }
   }
 
-  .userCategory__buttons {
+  .userAccount__buttons {
     display: flex;
     justify-content: flex-end;
 
-    .userCategory__button {
+    .userAccount__button {
       background: none;
       border: none;
       color: white;

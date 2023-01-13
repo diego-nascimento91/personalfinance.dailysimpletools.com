@@ -1,57 +1,43 @@
-import { handleDeleteDocFunction, handleFetchCategories, handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
-import { ICategory } from 'assets/interfaces/interfaces';
-import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
-import styles from './UserCategory.module.scss';
+import { handleDeleteDocFunction, handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
+import { IAccount } from 'assets/interfaces/interfaces';
+import { useAccounts, useSelectedAccount, useUser } from 'assets/state/hooks/firebaseHooks';
+import styles from './AccountItem.module.scss';
 
 interface Props {
-  category: ICategory
+  account: IAccount
 }
-const UserCategory = (props: Props) => {
-  const { category } = props;
+const AccountItem = (props: Props) => {
+  const { account } = props;
 
   const [user] = useUser();
-  const [, setCategories] = useCategories();
-  const [, setUserCategories] = useUserCategories();
-  const [, setSelectedCategory] = useSelectedCategory();
+  const [, setAccounts] = useAccounts();
+  const [, setSelectedAccount] = useSelectedAccount();
 
   const handleEditButtonClick = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
-    setSelectedCategory({...category});
+    setSelectedAccount({...account});
   };
 
   const handleDeleteButtonClick = async () => {
     if (user) {
-      await handleDeleteDocFunction('categories', user.uid, category);
+      await handleDeleteDocFunction('accounts', user.uid, account);
 
-      handleFetchCategories(setCategories, user.uid);
-      handleFetchOnlyUserCategories(setUserCategories, user.uid);
+      handleFetchAccounts(setAccounts, user.uid);
     }
   };
 
   return (
-    <div className={styles.userCategory__container}>
-      <div className={styles.userCategory__img}>
-        {
-          category.icon && category.icon.length > 0
-            ? (
-              <img className={styles['userCategory__img--icon']} src={category.icon} />
-            )
-            : (
-              <span className={styles['userCategory__img--iconText']} >{category.value[0]}</span>
-            )
-        }
+    <div className={styles.userAccount__container}>
+      <div className={styles['userAccount__nameAndType--container']}>
+        <p className={styles['userAccount__nameAndType--name']}>{account.name}</p>
+        <p className={styles['userAccount__nameAndType--type']}>type: {account.type}</p>
       </div>
-      <div className={styles['userCategory__nameAndType--container']}>
-        <p className={styles['userCategory__nameAndType--name']}>{category.value}</p>
-        <p className={styles['userCategory__nameAndType--type']}>{category.type[0].toUpperCase() + category.type.substring(1)} category</p>
-      </div>
-      <div className={styles.userCategory__buttons}>
-        <button className={styles.userCategory__button} role='button' onClick={handleEditButtonClick}>edit</button>
-        <button className={styles.userCategory__button} role='button' onClick={handleDeleteButtonClick}>delete</button>
+      <div className={styles.userAccount__buttons}>
+        <button className={styles.userAccount__button} role='button' onClick={handleEditButtonClick}>edit</button>
+        <button className={styles.userAccount__button} role='button' onClick={handleDeleteButtonClick}>delete</button>
       </div>
     </div>
   );
 };
 
-export default UserCategory;
+export default AccountItem;

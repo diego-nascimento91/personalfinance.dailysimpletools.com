@@ -43,9 +43,14 @@ const TransactionsPage = () => {
   return (
     <div className={`${stylesPadding.padding} ${stylesPages.pages}`}>
       <div className={styles.transactionsPage__components}>
-        <div className={styles.transactionsPage__userHeader}><UserHeader/></div>
-        <div className={styles.transactionsPage__totalsPerCategory}><TotalsPerCategory transactions={transactionsMonth} allTransactions={true}/></div>
-        <div className={styles.transactionsPage__transactionsSummary}><TransactionsSummary transactions={transactionsMonth} allTransactions={true} /></div>
+        <div className={styles.transactionsPage__userHeader}>
+          <UserHeader/>
+        </div>
+        <div className={styles.transactionsPage__totalsPerCategory}>
+          <TotalsPerCategory transactions={transactionsMonth} allTransactions={true}/>
+        </div>
+        <div className={styles.transactionsPage__transactionsSummary}><TransactionsSummary transactions={transactionsMonth} allTransactions={true} />
+        </div>
       </div>
       <AddPlusButton />
     </div>

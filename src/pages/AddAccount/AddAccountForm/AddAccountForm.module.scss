@@ -22,6 +22,30 @@
     padding: 0;
     text-decoration: underline;
   }
+
+  .addAccountForm__numberSignOptions{
+    background: $page-background;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem ;
+    margin-bottom: 0.4rem;
+    padding: 0.25rem;
+    width: min-content;
+
+    .addAccountForm__numberSign{
+      white-space: nowrap;
+      transition: 100ms;
+      font-size: 70%;
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+    }
+    .addAccountForm__numberSignSelected{
+      transition: 100ms;
+      background: $typeSelectedForm-bgd;
+      border-radius: 0.5rem;
+    }
+  }
   
   .addAccountForm__labels{
     display: block;

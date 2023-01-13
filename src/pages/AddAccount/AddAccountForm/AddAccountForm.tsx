@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
-// import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCategories, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { IAccount, IAccountType } from 'assets/interfaces/interfaces';
 import { useAccounts, useSelectedAccount, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddAccountForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import { isAccountNameValid } from './isAccountNameValid';
 import { handleCreateDocFunction, handleFetchAccounts, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
+import classNames from 'classnames';
 
 
 const AddAccountForm = () => {
@@ -20,6 +20,7 @@ const AddAccountForm = () => {
   const [name, setName] = useState('');
   const [isNameValid, setIsNameValid] = useState(true);
   const [initialBalance, setInitialBalance] = useState(0);
+  const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
   const [type, setType] = useState<IAccountType | ''>('');
   const [description, setDescription] = useState('');
   // ☝️ useState form
@@ -27,6 +28,7 @@ const AddAccountForm = () => {
   useEffect(() => {
     if (selectedAccount) handleSelectedAccountFormLoad();
   }, [selectedAccount]);
+
 
   const handleSelectedAccountFormLoad = () => {
     if (selectedAccount) {
@@ -36,6 +38,7 @@ const AddAccountForm = () => {
       const editDescription = selectedAccount.description;
       setName(editName);
       setInitialBalance(editBalance);
+      setNumberSign(editBalance >= 0 ? '+' : '-');
       setType(editType);
       setDescription(editDescription);
     }
@@ -91,37 +94,64 @@ const AddAccountForm = () => {
   };
 
   const maskCurrencyNumber = (value: number) => {
-    const options = { minimumFractionDigits: 2 };
-    const maskedNumber = (new Intl.NumberFormat('en-US', options).format(value)).toLocaleString().replace(/,/g, ' ');
+    const currency = numberSign === '+' ? '+ $' : '- $';
 
-    return '$ ' + maskedNumber;
+    const options = { minimumFractionDigits: 2 };
+    const maskedNumber = currency + ' ' + (new Intl.NumberFormat('en-US', options).format(Math.abs(value))).toLocaleString().replace(/,/g, ' ');
+
+    return maskedNumber;
   };
 
   const unmaskCurrencyNumber = (value: string) => {
-    value = value.replace('.', '').replace(',', '').replace(/\D/g, '');
-    return parseFloat(value) / 100;
+    const valueOnlyNumbers = value.replace('.', '').replace(',', '').replace(/\D/g, '');
+    const valueToFloat = parseFloat(valueOnlyNumbers) / 100;
+    const finalValue = numberSign === '+' ? valueToFloat : - valueToFloat;
+    setInitialBalance(finalValue);
+  };
+
+  const handleNumberSignClick = (input: '+' | '-') => {
+    if (input === '+') {
+      setNumberSign('+');
+      setInitialBalance(Math.abs(initialBalance));
+    } else {
+      setNumberSign('-');
+      setInitialBalance(-Math.abs(initialBalance));
+    }
+  };
+
+  const handleNumberSignOnKeyUp = (key: string) => {
+    if (key === '-') {
+      handleNumberSignClick('-');
+    } else if (key === '+') {
+      handleNumberSignClick('+');
+    }
   };
 
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addAccountForm__container}`}>
 
-      <BsArrowLeft
-        className={styles.addAccountForm__returnPage}
-        role='button'
-        onClick={handleReturnButton}
-      />
-      {
-        selectedAccount
-          ? (
-            <>
-              <h2>Edit Selected Account</h2>
-              <button className={styles.addAccountForm__cancelUpdate} onClick={resetForm}>Cancel Update Account</button>
-            </>
-          )
-          : (
-            <h2>Add a new Account</h2>
-          )
-      }
+      <div id='form-header'>
+        <BsArrowLeft
+          className={styles.addAccountForm__returnPage}
+          role='button'
+          onClick={handleReturnButton}
+        />
+
+        <div id='title'>
+          {
+            selectedAccount
+              ? (
+                <>
+                  <h2>Edit Selected Account</h2>
+                  <button className={styles.addAccountForm__cancelUpdate} onClick={resetForm}>Cancel Update Account</button>
+                </>
+              )
+              : (
+                <h2>Add a new Account</h2>
+              )
+          }
+        </div>
+      </div>
 
       <form onSubmit={handleFormSubmit}>
         <label className={styles.addAccountForm__labels}>
@@ -140,11 +170,30 @@ const AddAccountForm = () => {
 
         <label className={styles.addAccountform__labels}>
           Current balance:
+          <div id='number-sing-options' role='select' className={styles.addAccountForm__numberSignOptions}>
+            <div
+              role='option'
+              className={classNames({
+                [styles.addAccountForm__numberSign]: true,
+                [styles.addAccountForm__numberSignSelected]: numberSign === '+'
+              })}
+              onClick={() => handleNumberSignClick('+')}
+            >+ $</div>
+            <div
+              role='option'
+              className={classNames({
+                [styles.addAccountForm__numberSign]: true,
+                [styles.addAccountForm__numberSignSelected]: numberSign === '-'
+              })}
+              onClick={() => handleNumberSignClick('-')}
+            >- $</div>
+          </div>
           <input
             className={styles.addAccountForm__inputs}
             required
             type="text"
-            onChange={(e) => setInitialBalance(unmaskCurrencyNumber(e.target.value))}
+            onKeyUp={(e) => handleNumberSignOnKeyUp(e.key)}
+            onChange={(e) => unmaskCurrencyNumber(e.target.value)}
             value={maskCurrencyNumber(initialBalance)}
             placeholder='0.00'
           />

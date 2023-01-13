@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
-import { handleCreateDocFunction, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
+import { handleCreateDocFunction, handleFetchAccounts, handleFetchCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
-import { useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransaction.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
 import stylesPages from 'assets/styles/pages.module.scss';
@@ -19,6 +19,7 @@ const AddTransaction = () => {
   const [, setTransactionsMonth] = useTransactionsMonth();
   const [month] = useChosenMonth();
   const [categories, setCategories] = useCategories();
+  const [accounts, setAccounts] = useAccounts();
   const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
   const [transactionType, setTransactionType] = useState<ITransactionType | null>(null);
 
@@ -28,6 +29,7 @@ const AddTransaction = () => {
   const [transactionDate, setTransactionDate] = useState((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
   const [category, setCategory] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
+  const [account, setAccount] = useState('');
   const [description, setDescription] = useState('');
   // ☝️ form states
 
@@ -47,6 +49,9 @@ const AddTransaction = () => {
       if (!(categories && categories.length > 0)) {
         handleFetchCategories(setCategories, user.uid);
       }
+      if (!(accounts && accounts.length > 0)) {
+        handleFetchAccounts(setAccounts, user.uid);
+      }
     }
   };
 
@@ -59,6 +64,7 @@ const AddTransaction = () => {
       const categoryObj = categories.find(item => (item.value === currentTransaction.category));
       if (categoryObj) setCategory(JSON.stringify(categoryObj));
 
+      setAccount(currentTransaction.account);
       setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
       setNote(currentTransaction.note);
     }
@@ -88,7 +94,7 @@ const AddTransaction = () => {
       amount: +amount,
       category: JSON.parse(category).value,
       date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
-      account: 'account',
+      account: account,
       note: note,
       publishDate: new Date(),
       type: transactionType as ITransactionType,
@@ -102,6 +108,7 @@ const AddTransaction = () => {
     setCategoryDescription('');
     setAmount(0);
     setCategory('');
+    setAccount('');
     setTransactionDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
     setNote('');
   };
@@ -162,8 +169,15 @@ const AddTransaction = () => {
     <div className={`${stylesPadding.padding} ${stylesPages.pages} ${styles.newTransactionPage__container}`}>
       <div>
         <section className={`${stylesComponents.pageComponents} ${styles.addtransactionform__container}`}>
-          <BsArrowLeft className={styles.addtransactionform__returnPage} role='button' onClick={handleReturnButton} />
-          <h2 className={styles.addtransactionform__title}>{getFormTitle()}</h2>
+          <div id='form-header'>
+            <BsArrowLeft 
+              className={styles.addtransactionform__returnPage} 
+              role='button' 
+              onClick={handleReturnButton} 
+            />
+            <h2 className={styles.addtransactionform__title}>{getFormTitle()}</h2>
+          </div>
+
           <form onSubmit={handleFormSubmit}>
             <label className={styles.addtransactionform__label}>
               How would you like to call this transaction?
@@ -253,6 +267,26 @@ const AddTransaction = () => {
               />
             </label>
 
+            <label className={styles.addtransactionform__label}> Which account?
+              <select
+                className={styles.addtransactionform__input}
+                value={account}
+                onChange={(e) => setAccount(e.target.value)}
+                required
+              >
+                <option value=""></option>
+                {
+                  accounts && accounts.length > 0
+                    ? (
+                      accounts.map(item => (
+                        <option value={item.name} key={item.id}>{item.name}</option>
+                      ))
+                    )
+                    : null
+                }
+              </select>
+            </label>
+
             <label className={styles.addtransactionform__label}> Notes:
               <textarea
                 className={styles.addtransactionform__note}
@@ -270,7 +304,6 @@ const AddTransaction = () => {
                     : transactionType === 'expense' ? 'Add Expense' : 'Add Transaction'
               }
             </button>
-
           </form>
         </section>
       </div>

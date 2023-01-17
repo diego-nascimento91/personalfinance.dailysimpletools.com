@@ -37,11 +37,11 @@ const AddPlusButtonPopUp = () => {
               </div>
               <div role='button' onClick={() => handleNewCategoryButtonClick()} className={styles.popup__option}>
                 <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
-                <span className={styles['popup__option--text']}>Add/Edit a category</span>
+                <span className={styles['popup__option--text']}>Add/edit a category</span>
               </div>
               <div role='button' onClick={() => handleNewAccountButtonClick()} className={styles.popup__option}>
                 <AiOutlinePlusCircle className={styles['popup__option--icon']}/>
-                <span className={styles['popup__option--text']}>Add/Edit an account</span>
+                <span className={styles['popup__option--text']}>Add/edit an account</span>
               </div>
             </div >
           )

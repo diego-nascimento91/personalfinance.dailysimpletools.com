@@ -22,6 +22,7 @@ const AddAccountForm = () => {
   const [initialBalance, setInitialBalance] = useState(0);
   const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
   const [type, setType] = useState<IAccountType | ''>('');
+  const [typeDescription, setTypeDescription] = useState('');
   const [description, setDescription] = useState('');
   // ☝️ useState form
 
@@ -127,6 +128,20 @@ const AddAccountForm = () => {
     }
   };
 
+  const handleSetType = (value: string) => {
+
+    if(value === '') {
+      setTypeDescription('');
+      return;
+    }
+    if(value === 'credit-account'){
+      setTypeDescription('A credit card account will accept expenses and it will show the sum of all the expenses through each month. It may also receive an income transaction as a way of making a reverse transaction.');
+    } else {
+      setTypeDescription('This type of account accepts incomes and expenses that will be added to the account as deposits or withdraws. The balance will be upated after adding each transaction that uses this account.');
+    }
+    setType(value as IAccountType);
+  };
+
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addAccountForm__container}`}>
 
@@ -154,8 +169,7 @@ const AddAccountForm = () => {
       </div>
 
       <form onSubmit={handleFormSubmit}>
-        <label className={styles.addAccountForm__labels}>
-          How would you like to call this account?
+        <label className={styles.addAccountForm__labels}> How would you like to call this account?
           <input
             className={styles.addAccountForm__inputs}
             required
@@ -168,8 +182,7 @@ const AddAccountForm = () => {
           }
         </label>
 
-        <label className={styles.addAccountform__labels}>
-          Current balance:
+        <label className={styles.addAccountform__labels}> Current balance:
           <div id='number-sing-options' role='select' className={styles.addAccountForm__numberSignOptions}>
             <div
               role='option'
@@ -199,25 +212,29 @@ const AddAccountForm = () => {
           />
         </label>
 
-        <label className={styles.addAccountForm__labels}>
-          Type of account:
+        <label className={styles.addAccountForm__labels}> Type of account:
           <select
             className={styles.addAccountForm__selects}
             required
             value={type}
-            onChange={(e) => setType(e.target.value as IAccountType)}
+            onChange={(e) => handleSetType(e.target.value)}
           >
             <option value=""></option>
-            <option value="creditcard">Credit Card</option>
-            <option value="money">Money</option>
-            <option value="bankaccount">Bank Account</option>
-            <option value="debitcard">Debit Card</option>
-            <option value="other">Other</option>
+            <option value="credit-account">Credit Card</option>
+            <option value="balance-account">Bank Account/ Debit Card/ Money</option>
           </select>
+          <p className={styles.addAccountForm__typeDescription}>
+            {
+              typeDescription && typeDescription.length > 0
+                ? (
+                  typeDescription
+                )
+                : null
+            }
+          </p>
         </label>
 
-        <label className={styles.addAccountForm__labels}>
-          Description:
+        <label className={styles.addAccountForm__labels}> Description:
           <textarea
             className={styles.addAccountForm__textareas}
             value={description}

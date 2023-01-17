@@ -29,7 +29,7 @@ export interface ITotalsCategories {
 }
 
 // Accounts
-export type IAccountType = 'bankaccount' | 'money' | 'creditcard' | 'debitcard' | 'other';
+export type IAccountType = 'balance-account' | 'credit-account';
 export interface IAccount {
   name: string,
   balance: number,

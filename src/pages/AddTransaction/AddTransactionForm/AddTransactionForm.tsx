@@ -106,15 +106,27 @@ const AddTransactionForm = () => {
     }
   };
 
-  const handleSelectingCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
+  const handleSetCategory = (value: string) => {
+    if(value === 'addcategory'){
+      nav('/newcategory');
+      return;
+    }
+
     setCategory(value);
     if (value && value.length > 0) {
-      const item: ICategory = JSON.parse(e.target.value);
+      const item: ICategory = JSON.parse(value);
       setCategoryDescription(item.description);
     } else {
       setCategoryDescription('');
     }
+  };
+  
+  const handleSetAccount = (value: string) => {
+    if(value === 'addaccount') {
+      nav('/newaccount');
+      return;
+    }
+    setAccount(value);
   };
 
   const getFormTitle = () => {
@@ -148,6 +160,8 @@ const AddTransactionForm = () => {
     value = value.replace('.', '').replace(',', '').replace(/\D/g, '');
     return parseFloat(value) / 100;
   };
+
+  
 
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addTransactionForm__container}`}>
@@ -204,7 +218,7 @@ const AddTransactionForm = () => {
           <select
             className={styles.addTransactionForm__input}
             value={category}
-            onChange={handleSelectingCategory}
+            onChange={(e) => handleSetCategory(e.target.value)}
             required
           >
             <option value=""></option>
@@ -225,6 +239,8 @@ const AddTransactionForm = () => {
                 )
                 : null
             }
+            <option value="">...</option>
+            <option value="addcategory">Add a new category</option>
           </select>
 
           <p className={styles.addTransactionForm__categoryDescription}>
@@ -252,7 +268,7 @@ const AddTransactionForm = () => {
           <select
             className={styles.addTransactionForm__input}
             value={account}
-            onChange={(e) => setAccount(e.target.value)}
+            onChange={(e) => handleSetAccount(e.target.value)}
             required
           >
             <option value=""></option>
@@ -265,6 +281,8 @@ const AddTransactionForm = () => {
                 )
                 : null
             }
+            <option value="">...</option>
+            <option value="addaccount">Add a new account</option>
           </select>
         </label>
 

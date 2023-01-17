@@ -15,7 +15,7 @@ const AccountItem = (props: Props) => {
 
   const handleEditButtonClick = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
-    setSelectedAccount({...account});
+    setSelectedAccount({ ...account });
   };
 
   const handleDeleteButtonClick = async () => {
@@ -30,7 +30,12 @@ const AccountItem = (props: Props) => {
     <div className={styles.userAccount__container}>
       <div className={styles['userAccount__nameAndType--container']}>
         <p className={styles['userAccount__nameAndType--name']}>{account.name}</p>
-        <p className={styles['userAccount__nameAndType--type']}>type: {account.type}</p>
+        <p className={styles['userAccount__nameAndType--type']}>Type: {account.type}</p>
+        {
+          account.type === 'balance-account'
+            ? <p className={styles['userAccount__nameAndType--type']}>Balance: $ {account.balance.toFixed(2)}</p>
+            : null
+        }
       </div>
       <div className={styles.userAccount__buttons}>
         <button className={styles.userAccount__button} role='button' onClick={handleEditButtonClick}>edit</button>

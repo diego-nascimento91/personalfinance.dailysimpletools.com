@@ -30,34 +30,20 @@
   .addTransactionForm__label{
     display: block;
     width: 100%;
-  }
 
-  .addTransactionForm__input{
-    background: rgb(180, 180, 180);
-    border: none;
-    border-radius: 0.5rem;
-    color: black;
-    height: 2.5rem;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    width: 100%;
-  }
-
-  .addTransactionForm__currencyInput {
-    &::placeholder {
+    .addTransactionForm__input{
+      background: rgb(180, 180, 180);
+      border: none;
+      border-radius: 0.5rem;
       color: black;
+      height: 2.5rem;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      width: 100%;
     }
   }
 
-  .addTransactionForm__labelDateText {
-    display: block;
-    width: 100%;
-  }
-
-  .addTransactionForm__inputdate {
-    min-width: calc(100% - 1rem);
-  }
 
   .addTransactionForm__typeOptions{
     background: $page-background;
@@ -83,12 +69,22 @@
     }
   }
 
+  .addTransactionForm__currencyInput {
+    &::placeholder {
+      color: black;
+    }
+  }
+
   .addTransactionForm__categoryDescription {
     font-size: 90%;
     margin-bottom: 1rem;
     margin-left: 0.25rem;
     margin-top: -0.75rem;
   }
+
+  .addTransactionForm__inputDate {
+    min-width: calc(100% - 1rem);
+  } // estilização para que o input assuma 100% da width mesmo em telas mobile
 
   .addTransactionForm__notes {
     background: rgb(180, 180, 180);

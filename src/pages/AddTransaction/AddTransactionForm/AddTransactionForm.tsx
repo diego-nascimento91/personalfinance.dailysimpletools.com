@@ -19,7 +19,7 @@ const AddTransactionForm = () => {
   const [categories] = useCategories();
   const [accounts] = useAccounts();
   const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
-  
+
   // 👇 form states
   const [name, setName] = useState('');
   const [transactionType, setTransactionType] = useState<ITransactionType | null>(null);
@@ -161,8 +161,7 @@ const AddTransactionForm = () => {
       </div>
 
       <form onSubmit={handleFormSubmit}>
-        <label className={styles.addTransactionForm__label}>
-          How would you like to call this transaction?
+        <label className={styles.addTransactionForm__label}> How would you like to call this transaction?
           <input
             className={styles.addTransactionForm__input}
             required
@@ -172,34 +171,34 @@ const AddTransactionForm = () => {
           />
         </label>
 
-        <label htmlFor='transactionamount' className={styles.addTransactionForm__label}> How much was it? </label>
-        <div role='select' className={styles.addTransactionForm__typeOptions}>
-          <div
-            role='option'
-            className={classNames({
-              [styles.addTransactionForm__typeOption]: true,
-              [styles.addTransactionForm__typeOptionSelected]: transactionType === 'income'
-            })}
-            onClick={() => handleTypeTransactionOptionClick('income')}
-          >+ $</div>
-          <div
-            role='option'
-            className={classNames({
-              [styles.addTransactionForm__typeOption]: true,
-              [styles.addTransactionForm__typeOptionSelected]: transactionType === 'expense'
-            })}
-            onClick={() => handleTypeTransactionOptionClick('expense')}
-          >- $</div>
-        </div>
-        <input
-          id='transactionamount'
-          className={`${styles.addTransactionForm__input} ${styles.addTransactionForm__currencyInput}`}
-          required
-          type="text"
-          onChange={(e) => setAmount(unmaskCurrencyNumber(e.target.value))}
-          value={maskCurrencyNumber(amount)}
-          placeholder='0.00'
-        />
+        <label className={styles.addTransactionForm__label}> How much was it?
+          <div role='select' className={styles.addTransactionForm__typeOptions}>
+            <div
+              role='option'
+              className={classNames({
+                [styles.addTransactionForm__typeOption]: true,
+                [styles.addTransactionForm__typeOptionSelected]: transactionType === 'income'
+              })}
+              onClick={() => handleTypeTransactionOptionClick('income')}
+            >+ $</div>
+            <div
+              role='option'
+              className={classNames({
+                [styles.addTransactionForm__typeOption]: true,
+                [styles.addTransactionForm__typeOptionSelected]: transactionType === 'expense'
+              })}
+              onClick={() => handleTypeTransactionOptionClick('expense')}
+            >- $</div>
+          </div>
+          <input
+            className={`${styles.addTransactionForm__input} ${styles.addTransactionForm__currencyInput}`}
+            required
+            type="text"
+            onChange={(e) => setAmount(unmaskCurrencyNumber(e.target.value))}
+            value={maskCurrencyNumber(amount)}
+            placeholder='0.00'
+          />
+        </label>
 
         <label className={styles.addTransactionForm__label}> Which category?
           <select
@@ -227,21 +226,21 @@ const AddTransactionForm = () => {
                 : null
             }
           </select>
-        </label>
-        <p className={styles.addTransactionForm__categoryDescription}>
-          {
-            categoryDescription && categoryDescription.length > 0
-              ? (
-                categoryDescription
-              )
-              : null
-          }
-        </p>
 
-        <label className={styles.addTransactionForm__label}>
-          <span className={styles.addTransactionForm__labelDateText}>Which date?</span>
+          <p className={styles.addTransactionForm__categoryDescription}>
+            {
+              categoryDescription && categoryDescription.length > 0
+                ? (
+                  categoryDescription
+                )
+                : null
+            }
+          </p>
+        </label>
+
+        <label className={styles.addTransactionForm__label}> Which date?
           <input
-            className={`${styles.addTransactionForm__input} ${styles.addTransactionForm__inputdate}`}
+            className={`${styles.addTransactionForm__input} ${styles.addTransactionForm__inputDate}`}
             required
             type="date"
             onChange={(event) => setTransactionDate(event.target.value)}

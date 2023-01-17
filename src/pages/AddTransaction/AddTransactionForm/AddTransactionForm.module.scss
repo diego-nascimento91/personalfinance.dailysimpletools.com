@@ -1,0 +1,117 @@
+@import 'assets/styles/variables.scss';
+
+.addTransactionForm__container {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  
+  @media (min-width: $smallmob) and (max-width: $mobile) {
+    margin-bottom: 2rem;
+    max-width: 40rem;
+    width: 40rem;
+  }
+    
+  @media (min-width: $mobile) {
+    margin-bottom: 2rem;
+    max-width: 50rem;
+    width: 50rem;
+  }
+
+  .addTransactionForm__returnPage {
+    border-radius: 50%;
+    cursor: pointer;
+    height: 2.5rem;
+    position: absolute;
+    right: 2.5rem;
+    top: 1rem;
+    width: 2.5rem;
+  }
+
+  .addTransactionForm__label{
+    display: block;
+    width: 100%;
+  }
+
+  .addTransactionForm__input{
+    background: rgb(180, 180, 180);
+    border: none;
+    border-radius: 0.5rem;
+    color: black;
+    height: 2.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  .addTransactionForm__currencyInput {
+    &::placeholder {
+      color: black;
+    }
+  }
+
+  .addTransactionForm__labelDateText {
+    display: block;
+    width: 100%;
+  }
+
+  .addTransactionForm__inputdate {
+    min-width: calc(100% - 1rem);
+  }
+
+  .addTransactionForm__typeOptions{
+    background: $page-background;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem ;
+    margin-bottom: 0.4rem;
+    padding: 0.25rem;
+    width: min-content;
+
+    .addTransactionForm__typeOption{
+      white-space: nowrap;
+      transition: 100ms;
+      font-size: 70%;
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+    }
+    .addTransactionForm__typeOptionSelected{
+      transition: 100ms;
+      background: $typeSelectedForm-bgd;
+      border-radius: 0.5rem;
+    }
+  }
+
+  .addTransactionForm__categoryDescription {
+    font-size: 90%;
+    margin-bottom: 1rem;
+    margin-left: 0.25rem;
+    margin-top: -0.75rem;
+  }
+
+  .addTransactionForm__notes {
+    background: rgb(180, 180, 180);
+    display: block;
+    height: 7rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    resize: none;
+    width: 100%;
+
+    &::placeholder{
+      color: rgb(54, 54, 54);
+      font-size: 1rem;
+    }
+  }
+
+  .addTransactionForm__button {
+    background: $menuColor;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    height: 3rem;
+    width: 100%;
+  }
+}

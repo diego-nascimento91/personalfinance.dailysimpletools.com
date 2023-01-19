@@ -7,11 +7,7 @@ export interface ITransaction {
   amount: number,
   category: string,
   date: Date,
-  account: {
-    id: string,
-    name: string,
-    type: IAccountType
-  },
+  account: IAccount,
   note: string,
   publishDate: Date,
   type: ITransactionType;

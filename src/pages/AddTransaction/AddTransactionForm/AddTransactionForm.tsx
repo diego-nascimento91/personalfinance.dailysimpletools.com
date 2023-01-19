@@ -48,7 +48,7 @@ const AddTransactionForm = () => {
       if (categoryObj) setCategory(JSON.stringify(categoryObj));
 
       setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
-      setAccount(currentTransaction.account);
+      setAccount(JSON.stringify(currentTransaction.account));
       setNotes(currentTransaction.note);
     }
   };
@@ -78,7 +78,7 @@ const AddTransactionForm = () => {
       amount: amount,
       category: JSON.parse(category).value,
       date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
-      account: account,
+      account: JSON.parse(account),
       note: notes,
       publishDate: new Date(),
     };
@@ -232,7 +232,7 @@ const AddTransactionForm = () => {
                       )
                       : item.type === 'other'
                         ? (
-                          <option value={JSON.stringify(item)} key={item.id}> {item.value}</option>
+                          <option value={JSON.stringify(item)} key={item.id}>{item.value}</option>
                         )
                         : null
                   ))
@@ -276,7 +276,7 @@ const AddTransactionForm = () => {
               accounts && accounts.length > 0
                 ? (
                   accounts.map(item => (
-                    <option value={item.name} key={item.id}>{item.name}</option>
+                    <option value={JSON.stringify(item)} key={item.id}>{item.name}</option>
                   ))
                 )
                 : null

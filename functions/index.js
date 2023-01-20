@@ -53,10 +53,13 @@ exports.onChangeTransaction =
       const oldTransaction = change.before.exists ? change.before.data() : null;
 
       // function to update the account balance
-      const updateAccountBalance = (account, amount) => {
+      const updateAccountBalance = async (account, amount) => {
         // write code to update balance
         // **************************************************
         // const accountDoc = firestore.collection('users/{userId}/transactions').doc(transactionId);
+        const accountDocRef= firestore.collection('users/{userId}/transactions/').doc(account.id);
+        const accountDoc = await accountDocRef.get();
+        console.log(accountDoc);
       };
 
       const typeOfChange = newTransaction === null ? 'delete' : oldTransaction === null ? 'create' : 'update';
@@ -72,8 +75,8 @@ exports.onChangeTransaction =
         // the minus sign is to revert the transaction, as this is a delete operation
 
         updateAccountBalance(accountDeleted, amountDeleted);
-        console.log('**doc deleted - account', accountDeleted);
-        console.log('**doc deleted - account', amountDeleted);
+        // console.log('**doc deleted - account', accountDeleted);
+        // console.log('**doc deleted - account', amountDeleted);
       }
       // Transaction Created
       else if (typeOfChange === 'create') {
@@ -83,8 +86,8 @@ exports.onChangeTransaction =
         const amountCreated = typeTransactionCreated === 'income' ? +Math.abs(newTransaction.amount) : -Math.abs(newTransaction.amount);
 
         updateAccountBalance(accountCreated, amountCreated);
-        console.log('**doc created - account', accountCreated);
-        console.log('**doc created - amount', amountCreated);
+        // console.log('**doc created - account', accountCreated);
+        // console.log('**doc created - amount', amountCreated);
       }
       // Transaction Updated
       else {
@@ -103,19 +106,19 @@ exports.onChangeTransaction =
         if (newAccount.id === oldAccount.id) {
           amountDifference = newAmount + oldAmount; // its '+' because oldAmount has its sign already inverted in its own operation
           updateAccountBalance(newAccount, amountDifference);
-          console.log('**doc updated (without changing account) - account', newAccount);
-          console.log('**doc updated (without changing account) - amount', amountDifference);
+          // console.log('**doc updated (without changing account) - account', newAccount);
+          // console.log('**doc updated (without changing account) - amount', amountDifference);
 
         }
         // Account was updated
         else {
           updateAccountBalance(newAccount, newAmount);
           updateAccountBalance(oldAccount, oldAmount);
-          console.log('**doc updated (changing account) - newAccount', newAccount);
-          console.log('**doc updated (changing account) - newAmount', newAmount);
-          console.log('**');
-          console.log('**doc updated (changing account) - oldAccount', oldAccount);
-          console.log('**doc updated (changing account) - oldAmount', oldAmount);
+          // console.log('**doc updated (changing account) - newAccount', newAccount);
+          // console.log('**doc updated (changing account) - newAmount', newAmount);
+          // console.log('**');
+          // console.log('**doc updated (changing account) - oldAccount', oldAccount);
+          // console.log('**doc updated (changing account) - oldAmount', oldAmount);
         }
       }
     });

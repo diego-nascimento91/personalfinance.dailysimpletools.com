@@ -68,7 +68,7 @@ const TransactionReceipt = () => {
           ? (
             <div className={styles.receipt__background} >
               <section className={styles.receipt__container}>
-                <AiFillCloseCircle 
+                <AiFillCloseCircle
                   role='button'
                   className={styles.receipt__closebutton}
                   onClick={handleCloseButton}
@@ -91,7 +91,12 @@ const TransactionReceipt = () => {
                   </li>
                   <li className={styles.receipt__date}>
                     <span>Transaction&apos;s date: </span>
-                    {formatDateShort(currentTransaction.date)}</li>
+                    {formatDateShort(currentTransaction.date)}
+                  </li>
+                  <li className={styles.receipt__account}>
+                    <span>Account: </span>
+                    <span className={styles.receipt__accountSpan}>{currentTransaction.account.name}</span>
+                  </li>
                   <li className={styles.receipt__notes}>
                     <span>Notes: </span>
                     {currentTransaction.note}</li>

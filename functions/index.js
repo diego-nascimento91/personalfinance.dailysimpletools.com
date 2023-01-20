@@ -46,7 +46,7 @@ exports.onDeleteUser = functions.auth.user().onDelete(async (user) => {
 exports.onChangeTransaction =
   functions.firestore
     .document('users/{userId}/transactions/{transactionId}')
-    .onWrite((change, context) => {
+    .onWrite((change) => {
 
       // get current document
       const newTransaction = change.after.exists ? change.after.data() : null;
@@ -60,6 +60,12 @@ exports.onChangeTransaction =
         const accountDocRef= firestore.collection('users/{userId}/transactions/').doc(account.id);
         const accountDoc = await accountDocRef.get();
         console.log('accountDoc:', accountDoc);
+
+        if (accountDoc.exists) {
+          accountDocRef.update({ count: admin.firestore.FieldValue.increment(amount) });
+        } else {
+          console.log('** doc not found');
+        }
       };
 
       const typeOfChange = newTransaction === null ? 'delete' : oldTransaction === null ? 'create' : 'update';

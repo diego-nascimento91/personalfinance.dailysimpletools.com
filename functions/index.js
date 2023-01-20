@@ -65,48 +65,46 @@ exports.onChangeTransaction =
 
       // Transaction Deleted
       if (typeOfChange === 'delete') {
-        const account = oldTransaction.account;
-
-        // getting the value to add to the account
-        const typeTransaction = oldTransaction.type;
-        const amount = -(typeTransaction === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount));
+        // getting values of deleted transaction
+        const accountDeleted = oldTransaction.account;
+        const typeTransactionDeleted = oldTransaction.type;
+        const amountDeleted = -(typeTransactionDeleted === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount));
         // the minus sign is to revert the transaction, as this is a delete operation
 
-        updateAccountBalance(account, amount);
-        console.log('**doc deleted - account', account);
-        console.log('**doc deleted - account', amount);
-
+        updateAccountBalance(accountDeleted, amountDeleted);
+        console.log('**doc deleted - account', accountDeleted);
+        console.log('**doc deleted - account', amountDeleted);
       }
       // Transaction Created
       else if (typeOfChange === 'create') {
-        const account = newTransaction.account;
+        // getting value of created transaction 
+        const accountCreated = newTransaction.account;
+        const typeTransactionCreated = newTransaction.type;
+        const amountCreated = typeTransactionCreated === 'income' ? +Math.abs(newTransaction.amount) : -Math.abs(newTransaction.amount);
 
-        // getting the value to add to the account
-        const typeTransaction = newTransaction.type;
-        const amount = typeTransaction === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount);
-
-        updateAccountBalance(account, amount);
-        console.log('**doc created - account', account);
-        console.log('**doc created - amount', amount);
-
+        updateAccountBalance(accountCreated, amountCreated);
+        console.log('**doc created - account', accountCreated);
+        console.log('**doc created - amount', amountCreated);
       }
       // Transaction Updated
       else {
-        const newAccount = newTransaction.account;
+        // Getting previous values of updated transaction
         const oldAccount = oldTransaction.account;
-
-        // getting the value to add to the account
-        const newTypeTransaction = newTransaction.type;
         const oldTypeTransaction = oldTransaction.type;
+        const oldAmount = -(oldTypeTransaction === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount));
+        // the minus sign is to revert the transaction, as this is like a delete operation to the old account
+
+        // Getting new values of updated transaction
+        const newAccount = newTransaction.account;
+        const newTypeTransaction = newTransaction.type;
         const newAmount = newTypeTransaction === 'income' ? +Math.abs(newTransaction.amount) : -Math.abs(newTransaction.amount);
-        const oldAmount = oldTypeTransaction === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount);
 
         // Account was not updated
         if (newAccount.id === oldAccount.id) {
-          amount = newAmount - oldAmount;
-          updateAccountBalance(newAccount, amount);
+          amountDifference = newAmount + oldAmount; // its '+' because oldAmount has its sign already inverted in its own operation
+          updateAccountBalance(newAccount, amountDifference);
           console.log('**doc updated (without changing account) - account', newAccount);
-          console.log('**doc updated (without changing account) - amount', amount);
+          console.log('**doc updated (without changing account) - amount', amountDifference);
 
         }
         // Account was updated

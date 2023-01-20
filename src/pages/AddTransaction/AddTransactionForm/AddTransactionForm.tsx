@@ -43,12 +43,20 @@ const AddTransactionForm = () => {
       setName(currentTransaction.description);
       setTransactionType(currentTransaction.type);
       setAmount(currentTransaction.amount);
+
       //category
       const categoryObj = categories.find(item => (item.value === currentTransaction.category));
       if (categoryObj) setCategory(JSON.stringify(categoryObj));
+      //category
 
       setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
-      setAccount(JSON.stringify(currentTransaction.account));
+
+      //account
+      //Here the code is looking fo the object in account that is the same obj of currentTransaction.account. The reason it's doing this is because when doing sringify(currentTransaciton.account) and stringify(account), the strings the result of them are different and so the Account of current transaction doesn't load on the Edit Form because the sequence of the obj properties changes (not sure why this happens).
+      const accountObj = accounts.find(item => (item.name === currentTransaction.account.name));
+      if (accountObj) setAccount(JSON.stringify(accountObj));
+      //account 
+
       setNotes(currentTransaction.note);
     }
   };
@@ -107,7 +115,7 @@ const AddTransactionForm = () => {
   };
 
   const handleSetCategory = (value: string) => {
-    if(value === 'addcategory'){
+    if (value === 'addcategory') {
       nav('/newcategory');
       return;
     }
@@ -120,9 +128,9 @@ const AddTransactionForm = () => {
       setCategoryDescription('');
     }
   };
-  
+
   const handleSetAccount = (value: string) => {
-    if(value === 'addaccount') {
+    if (value === 'addaccount') {
       nav('/newaccount');
       return;
     }
@@ -161,7 +169,7 @@ const AddTransactionForm = () => {
     return parseFloat(value) / 100;
   };
 
-  
+
 
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.addTransactionForm__container}`}>
@@ -274,11 +282,9 @@ const AddTransactionForm = () => {
             <option value=""></option>
             {
               accounts && accounts.length > 0
-                ? (
-                  accounts.map(item => (
-                    <option value={JSON.stringify(item)} key={item.id}>{item.name}</option>
-                  ))
-                )
+                ? (accounts.map(item => (
+                  <option value={JSON.stringify(item)} key={item.id}>{item.name}</option>
+                )))
                 : null
             }
             <option value="">...</option>

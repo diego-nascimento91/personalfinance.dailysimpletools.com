@@ -23,7 +23,7 @@ const Overview = () => {
     if (user) {
       handleGetSumsPerType();
     }
-  }, [transactions, user]);
+  }, [accounts, transactions, user]);
 
   useEffect(() => {
     if (user) {
@@ -67,10 +67,17 @@ const Overview = () => {
         (previousValue, currentValue) => previousValue + currentValue, 0);
       setSumExpense(totalExpense);
 
+    } else {
+      setSumIncome(0);
+      setSumExpense(0);
+    }
+
+    if (accounts && accounts.length > 0 && accounts[0].id !== '') {
       //balance account
       const totalBalanceAccount = accounts.filter(item => (item.type === 'balance-account')).map(item => (item.balance)).reduce(
         (previousValue, currentValue) => previousValue + currentValue, 0);
       setSumCurrentBalance(totalBalanceAccount);
+      console.log(totalBalanceAccount);
 
       //credit account
       const totalCreditAccount = transactions.filter(item => (item.account.type === 'credit-account')).map(item => (item.amount)).reduce(
@@ -78,8 +85,6 @@ const Overview = () => {
       setSumProjectedBalance(totalBalanceAccount - totalCreditAccount);
 
     } else {
-      setSumIncome(0);
-      setSumExpense(0);
       setSumCurrentBalance(0);
       setSumProjectedBalance(0);
     }

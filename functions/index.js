@@ -59,7 +59,7 @@ exports.onChangeTransaction =
         // const accountDoc = firestore.collection('users/{userId}/transactions').doc(transactionId);
         const accountDocRef= firestore.collection('users/{userId}/transactions/').doc(account.id);
         const accountDoc = await accountDocRef.get();
-        console.log(accountDoc);
+        console.log('accountDoc:', accountDoc);
       };
 
       const typeOfChange = newTransaction === null ? 'delete' : oldTransaction === null ? 'create' : 'update';

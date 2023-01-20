@@ -60,8 +60,8 @@ exports.onChangeTransaction =
       };
 
       const typeOfChange = newTransaction === null ? 'delete' : oldTransaction === null ? 'create' : 'update';
-      console.log('type of change', typeOfChange);
-      console.log('');
+      console.log('**type of change', typeOfChange);
+      console.log('**');
 
       // Transaction Deleted
       if (typeOfChange === 'delete') {
@@ -73,8 +73,8 @@ exports.onChangeTransaction =
         // the minus sign is to revert the transaction, as this is a delete operation
 
         updateAccountBalance(account, amount);
-        console.log('doc deleted - account', account);
-        console.log('doc deleted - account', amount);
+        console.log('**doc deleted - account', account);
+        console.log('**doc deleted - account', amount);
 
       }
       // Transaction Created
@@ -86,8 +86,8 @@ exports.onChangeTransaction =
         const amount = typeTransaction === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount);
 
         updateAccountBalance(account, amount);
-        console.log('doc created - account', account);
-        console.log('doc created - amount', amount);
+        console.log('**doc created - account', account);
+        console.log('**doc created - amount', amount);
 
       }
       // Transaction Updated
@@ -105,19 +105,19 @@ exports.onChangeTransaction =
         if (newAccount.id === oldAccount.id) {
           amount = newAmount - oldAmount;
           updateAccountBalance(newAccount, amount);
-          console.log('doc updated (without changing account) - account', account);
-          console.log('doc updated (without changing account) - amount', amount);
+          console.log('**doc updated (without changing account) - account', newAccount);
+          console.log('**doc updated (without changing account) - amount', amount);
 
         }
         // Account was updated
         else {
           updateAccountBalance(newAccount, newAmount);
           updateAccountBalance(oldAccount, oldAmount);
-          console.log('doc updated (changing account) - newAccount', newAccount);
-          console.log('doc updated (changing account) - newAmount', newAmount);
-          console.log('');
-          console.log('doc updated (changing account) - oldAccount', oldAccount);
-          console.log('doc updated (changing account) - oldAmount', oldAmount);
+          console.log('**doc updated (changing account) - newAccount', newAccount);
+          console.log('**doc updated (changing account) - newAmount', newAmount);
+          console.log('**');
+          console.log('**doc updated (changing account) - oldAccount', oldAccount);
+          console.log('**doc updated (changing account) - oldAmount', oldAmount);
         }
       }
     });

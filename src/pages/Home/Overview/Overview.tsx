@@ -3,11 +3,16 @@ import { useAccounts, useTransactionsMonth, useUser } from 'assets/state/hooks/f
 import styles from './Overview.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import classNames from 'classnames';
+import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
+import { calcChartWidth } from './functions/calcChartWidth';
+import { setIncomeExpenseSums } from './functions/setIncomeExpenseSums';
+import { setBalancesSums } from './functions/setBalancesSums';
+import { handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
 
 const Overview = () => {
   const [user,] = useUser();
   const [transactions] = useTransactionsMonth();
-  const [accounts] = useAccounts();
+  const [accounts, setAccounts] = useAccounts();
 
   const [sumIncome, setSumIncome] = useState(0);
   const [sumExpense, setSumExpense] = useState(0);
@@ -20,74 +25,35 @@ const Overview = () => {
   const [projectedBalanceWidth, setProjectedBalanceWidth] = useState('100%');
 
   useEffect(() => {
-    if (user) {
-      handleGetSumsPerType();
-    }
-  }, [accounts, transactions, user]);
+    // calling firebase listener of the accounts with balance-account type.
+    if (user)
+      if (accounts && accounts.length > 0) {
+        accounts.map(item => {
+          if (item.type === 'balance-account')
+            FirebaseFirestoreService.docListener(`users/${user?.uid}/accounts`, item?.id as string, () => handleFetchAccounts(setAccounts, user.uid));
+        });
+      }
+  }, []);
 
   useEffect(() => {
     if (user) {
-      handleChartStyle();
+      handleChartConfig();
     }
-  }, [sumIncome, sumExpense, sumCurrentBalance, sumProjectedBalance]);
+  }, [accounts, transactions, user]);
 
-  const handleChartStyle = () => {
-    // incomes/ expenses
-    if (sumExpense > sumIncome) {
-      setExpenseWidth('100%');
-      const calcWidth = (100 * sumIncome / sumExpense).toString() + '%';
-      setIncomeWidth(calcWidth);
-    } else {
-      setIncomeWidth('100%');
-      const calcWidth = (100 * sumExpense / sumIncome).toString() + '%';
-      setExpenseWidth(calcWidth);
-    }
+  const handleChartConfig = () => {
+    // Getting bar totals for the charts
+    setIncomeExpenseSums(transactions, setSumIncome, setSumExpense);
+    setBalancesSums(accounts, transactions, setSumCurrentBalance, setSumProjectedBalance);
 
-    // Current/ Projected Balances
-    if (Math.abs(sumCurrentBalance) > Math.abs(sumProjectedBalance)) {
-      setCurrentBalanceWidth('100%');
-      const calcWidth = (100 * Math.abs(sumProjectedBalance / sumCurrentBalance)).toString() + '%';
-      setProjectedBalanceWidth(calcWidth);
-    } else {
-      setProjectedBalanceWidth('100%');
-      const calcWidth = (100 * Math.abs(sumCurrentBalance / sumProjectedBalance)).toString() + '%';
-      setCurrentBalanceWidth(calcWidth);
-    }
-  };
+    // Getting bar widths
+    const [incomeWidthCalc, expenseWidthCalc] = calcChartWidth(sumIncome, sumExpense);
+    setIncomeWidth(incomeWidthCalc);
+    setExpenseWidth(expenseWidthCalc);
 
-  const handleGetSumsPerType = () => {
-    if (transactions && transactions.length > 0 && transactions[0].id !== '') {
-      //income
-      const totalIncome = transactions.filter(item => (item.type === 'income')).map(item => (item.amount)).reduce(
-        (previousValue, currentValue) => previousValue + currentValue, 0);
-      setSumIncome(totalIncome);
-
-      //expense
-      const totalExpense = transactions.filter(item => (item.type === 'expense')).map(item => (item.amount)).reduce(
-        (previousValue, currentValue) => previousValue + currentValue, 0);
-      setSumExpense(totalExpense);
-
-    } else {
-      setSumIncome(0);
-      setSumExpense(0);
-    }
-
-    if (accounts && accounts.length > 0 && accounts[0].id !== '') {
-      //balance account
-      const totalBalanceAccount = accounts.filter(item => (item.type === 'balance-account')).map(item => (item.balance)).reduce(
-        (previousValue, currentValue) => previousValue + currentValue, 0);
-      setSumCurrentBalance(totalBalanceAccount);
-      console.log(totalBalanceAccount);
-
-      //credit account
-      const totalCreditAccount = transactions.filter(item => (item.account.type === 'credit-account')).map(item => (item.amount)).reduce(
-        (previousValue, currentValue) => previousValue + currentValue, 0);
-      setSumProjectedBalance(totalBalanceAccount - totalCreditAccount);
-
-    } else {
-      setSumCurrentBalance(0);
-      setSumProjectedBalance(0);
-    }
+    const [currentBalanceWidthCalc, projectedBalanceWidthCalc] = calcChartWidth(sumCurrentBalance, sumProjectedBalance);
+    setCurrentBalanceWidth(currentBalanceWidthCalc);
+    setProjectedBalanceWidth(projectedBalanceWidthCalc);
   };
 
   return (

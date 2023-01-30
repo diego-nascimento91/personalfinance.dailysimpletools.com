@@ -1,7 +1,7 @@
-import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, limit, QueryConstraint } from 'firebase/firestore';
-
+import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, limit, QueryConstraint, onSnapshot } from 'firebase/firestore';
 import { db } from 'assets/functions/FirebaseConfig';
 import { ITransaction, IQuery, ICategory, IOrderConfig, IAccount } from 'assets/interfaces/interfaces';
+import { SetterOrUpdater } from 'recoil';
 
 const readAllDocsFromCollection = async (collectionPath: string, orderConfigs: IOrderConfig[], queries?: IQuery[], limitDocs?: number) => {
   // get constraints array
@@ -67,8 +67,18 @@ const updateDocument = async (collectionPath: string, document: ITransaction | I
   return await setDoc(doc(db, collectionPath, id), document, { merge: true });
 };
 
+const docListener = (collectionPath: string, docKey: string, callback: () => void) => {
+  console.log('collectionPath: ', collectionPath);
+  console.log('docKey', docKey);
+  return onSnapshot(doc(db, collectionPath, docKey), (docRetrieved) => {
+    console.log('Current Balance: ', docRetrieved.data()?.balance);
+    callback();
+  });
+};
+
 const FirebaseFirestoreService = {
   createDocument,
+  docListener,
   readDocument,
   readAllDocsFromCollection,
   updateDocument,

@@ -67,13 +67,14 @@ describe('Register', () => {
       );
       const inputName = screen.getByPlaceholderText('Full Name');
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
+      const repeatedPasswordInput = screen.getByPlaceholderText('Repeat Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(inputName, { target: { value: validName } });
       fireEvent.change(emailInput, { target: { value: validEmail } });
-      fireEvent.change(passwordInput, { target: { value: validPassword }
-      });
+      fireEvent.change(passwordInput, { target: { value: validPassword } });
+      fireEvent.change(repeatedPasswordInput, { target: { value: validPassword } });
       fireEvent.click(submitButton);
 
       expect(FirebaseAuthService.createNewUserWithEmailAndPassword).toBeCalled();
@@ -87,7 +88,7 @@ describe('Register', () => {
         </BrowserRouter>
       );
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(emailInput, { target: { value: validEmail } });
@@ -105,7 +106,7 @@ describe('Register', () => {
         </BrowserRouter>
       );
       const inputName = screen.getByPlaceholderText('Full Name');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(inputName, { target: { value: validName } });
@@ -124,7 +125,7 @@ describe('Register', () => {
       );
       const inputName = screen.getByPlaceholderText('Full Name');
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(inputName, { target: { value: validName } });
@@ -164,7 +165,7 @@ describe('Register', () => {
       );
       const inputName = screen.getByPlaceholderText('Full Name');
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(inputName, { target: { value: validName } });
@@ -176,6 +177,28 @@ describe('Register', () => {
       expect(alert.textContent).toContain('Password not valid');
     });
 
+    it('should show an alert for different repeated password', () => {
+      render(
+        <BrowserRouter>
+          <Register />
+        </BrowserRouter>
+      );
+      const inputName = screen.getByPlaceholderText('Full Name');
+      const emailInput = screen.getByPlaceholderText('youremail@domain.com');
+      const passwordInput = screen.getByPlaceholderText('Password');
+      const repeatedPasswordInput = screen.getByPlaceholderText('Repeat Password');
+      const submitButton = screen.getByText('Submit');
+
+      fireEvent.change(inputName, { target: { value: validName } });
+      fireEvent.change(emailInput, { target: { value: validEmail } });
+      fireEvent.change(passwordInput, { target: { value: validPassword } });
+      fireEvent.change(repeatedPasswordInput, { target: { value: ' ' } });
+      fireEvent.click(submitButton);
+
+      const alert = screen.getByRole('alert');
+      expect(alert.textContent).toContain('Passwords should be identical');
+    });
+
     it('should show an alert for incorrect email or password (failed register)', async () => {
       (FirebaseAuthService.createNewUserWithEmailAndPassword as jest.Mock).mockReturnValue(new Error('email-already-in-use'));
       render(
@@ -185,13 +208,14 @@ describe('Register', () => {
       );
       const inputName = screen.getByPlaceholderText('Full Name');
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
+      const repeatedPasswordInput = screen.getByPlaceholderText('Repeat Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(inputName, { target: { value: validName } });
       fireEvent.change(emailInput, { target: { value: validEmail } });
-      fireEvent.change(passwordInput, { target: { value: validPassword }
-      });
+      fireEvent.change(passwordInput, { target: { value: validPassword } });
+      fireEvent.change(repeatedPasswordInput, { target: { value: validPassword } });
       fireEvent.click(submitButton);
 
       const alert = await screen.findByRole('alert');
@@ -207,13 +231,14 @@ describe('Register', () => {
       );
       const inputName = screen.getByPlaceholderText('Full Name');
       const emailInput = screen.getByPlaceholderText('youremail@domain.com');
-      const passwordInput = screen.getByPlaceholderText('password');
+      const passwordInput = screen.getByPlaceholderText('Password');
+      const repeatedPasswordInput = screen.getByPlaceholderText('Repeat Password');
       const submitButton = screen.getByText('Submit');
 
       fireEvent.change(inputName, { target: { value: validName } });
-      fireEvent.change(emailInput, { target: { value: validEmail } });
-      fireEvent.change(passwordInput, { target: { value: validPassword }
-      });
+      fireEvent.change(emailInput, { target: { value: validEmail }});
+      fireEvent.change(passwordInput, { target: { value: validPassword }});
+      fireEvent.change(repeatedPasswordInput, { target: { value: validPassword }});
       fireEvent.click(submitButton);
 
       const alert = await screen.findByRole('alert');

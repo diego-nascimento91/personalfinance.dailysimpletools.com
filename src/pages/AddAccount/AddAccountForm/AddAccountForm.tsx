@@ -19,10 +19,10 @@ const AddAccountForm = () => {
   // 👇 useState form
   const [name, setName] = useState('');
   const [isNameValid, setIsNameValid] = useState(true);
-  const [initialBalance, setInitialBalance] = useState(0);
-  const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
   const [type, setType] = useState<IAccountType | ''>('');
   const [typeDescription, setTypeDescription] = useState('');
+  const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
+  const [initialBalance, setInitialBalance] = useState(0);
   const [description, setDescription] = useState('');
   // ☝️ useState form
 
@@ -69,7 +69,7 @@ const AddAccountForm = () => {
   const getAccountObj = () => {
     const accountObj: IAccount = {
       name: name,
-      balance: initialBalance,
+      balance: type === 'balance-account' ? initialBalance : 0,
       type: type as IAccountType,
       description: description,
     };
@@ -130,11 +130,11 @@ const AddAccountForm = () => {
 
   const handleSetType = (value: string) => {
 
-    if(value === '') {
+    if (value === '') {
       setTypeDescription('');
       return;
     }
-    if(value === 'credit-account'){
+    if (value === 'credit-account') {
       setTypeDescription('A credit card account will accept expenses and it will show the sum of all the expenses through each month. It may also receive an income transaction as a way of making a reverse transaction.');
     } else {
       setTypeDescription('This type of account accepts incomes and expenses that will be added to the account as deposits or withdraws. The balance will be upated after adding each transaction that uses this account.');
@@ -182,36 +182,6 @@ const AddAccountForm = () => {
           }
         </label>
 
-        <label className={styles.addAccountform__labels}> Current balance:
-          <div id='number-sing-options' role='select' className={styles.addAccountForm__numberSignOptions}>
-            <div
-              role='option'
-              className={classNames({
-                [styles.addAccountForm__numberSign]: true,
-                [styles.addAccountForm__numberSignSelected]: numberSign === '+'
-              })}
-              onClick={() => handleNumberSignClick('+')}
-            >+ $</div>
-            <div
-              role='option'
-              className={classNames({
-                [styles.addAccountForm__numberSign]: true,
-                [styles.addAccountForm__numberSignSelected]: numberSign === '-'
-              })}
-              onClick={() => handleNumberSignClick('-')}
-            >- $</div>
-          </div>
-          <input
-            className={styles.addAccountForm__inputs}
-            required
-            type="text"
-            onKeyUp={(e) => handleNumberSignOnKeyUp(e.key)}
-            onChange={(e) => unmaskCurrencyNumber(e.target.value)}
-            value={maskCurrencyNumber(initialBalance)}
-            placeholder='0.00'
-          />
-        </label>
-
         <label className={styles.addAccountForm__labels}> Type of account:
           <select
             className={styles.addAccountForm__selects}
@@ -233,6 +203,44 @@ const AddAccountForm = () => {
             }
           </p>
         </label>
+
+        <div id='current-balance'>
+          {
+            type === 'balance-account'
+              ? (
+                <label className={styles.addAccountform__labels}> Current balance:
+                  <div id='number-sing-options' role='select' className={styles.addAccountForm__numberSignOptions}>
+                    <div
+                      role='option'
+                      className={classNames({
+                        [styles.addAccountForm__numberSign]: true,
+                        [styles.addAccountForm__numberSignSelected]: numberSign === '+'
+                      })}
+                      onClick={() => handleNumberSignClick('+')}
+                    >+ $</div>
+                    <div
+                      role='option'
+                      className={classNames({
+                        [styles.addAccountForm__numberSign]: true,
+                        [styles.addAccountForm__numberSignSelected]: numberSign === '-'
+                      })}
+                      onClick={() => handleNumberSignClick('-')}
+                    >- $</div>
+                  </div>
+                  <input
+                    className={styles.addAccountForm__inputs}
+                    required
+                    type="text"
+                    onKeyUp={(e) => handleNumberSignOnKeyUp(e.key)}
+                    onChange={(e) => unmaskCurrencyNumber(e.target.value)}
+                    value={maskCurrencyNumber(initialBalance)}
+                    placeholder='0.00'
+                  />
+                </label>
+              ) 
+              : null
+          }
+        </div>
 
         <label className={styles.addAccountForm__labels}> Description:
           <textarea

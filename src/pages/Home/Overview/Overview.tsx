@@ -8,6 +8,7 @@ import { calcChartWidth } from './functions/calcChartWidth';
 import { setIncomeExpenseSums } from './functions/setIncomeExpenseSums';
 import { setBalancesSums } from './functions/setBalancesSums';
 import { handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
+import InfoProjectedBalance from './InfoProjectedBalance/InfoProjectedBalance';
 
 const Overview = () => {
   const [user,] = useUser();
@@ -105,7 +106,7 @@ const Overview = () => {
             </div>
           </div>
           <div className={styles.overview__graphBar}>
-            <div className={styles.overview__type}>Projected Balance:</div>
+            <div className={styles.overview__type}>Projected Balance: <InfoProjectedBalance/></div>
             <div className={styles.overview__chart__container}>
               <div
                 className={styles.overview__chart}

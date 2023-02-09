@@ -67,10 +67,7 @@ const updateDocument = async (collectionPath: string, document: ITransaction | I
 };
 
 const docListener = (collectionPath: string, docKey: string, callback: () => void) => {
-  console.log('collectionPath: ', collectionPath);
-  console.log('docKey', docKey);
-  return onSnapshot(doc(db, collectionPath, docKey), (docRetrieved) => {
-    console.log('Current Balance: ', docRetrieved.data()?.balance);
+  return onSnapshot(doc(db, collectionPath, docKey), () => {
     callback();
   });
 };

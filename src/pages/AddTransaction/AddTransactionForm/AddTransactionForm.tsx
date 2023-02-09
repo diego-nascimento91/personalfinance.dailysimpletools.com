@@ -73,7 +73,6 @@ const AddTransactionForm = () => {
       }
       resetForm();
       setCurrentTransaction(null);
-      handleReturnButton();
       handleFetchRecentTransactions(user.uid, setRecentTransactions);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }

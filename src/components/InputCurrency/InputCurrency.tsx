@@ -15,7 +15,9 @@ const InputCurrency = (props: Props) => {
   //use effect is to load the correct number sign in case of editting a current account.
   //if creating an account, number sign will be the default + with moneyAmount 0.
   useEffect(() => {
-    if (moneyAmount > 0)
+    if (moneyAmount === 0)
+      return;
+    else if (moneyAmount > 0)
       setNumberSign('+');
     else
       setNumberSign('-');

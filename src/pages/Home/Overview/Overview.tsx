@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAccounts, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
-import styles from './Overview.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import { calcChartWidth } from './functions/calcChartWidth';
+import { getIncomeExpenseSums } from './functions/getIncomeExpenseSums';
+import { getBalancesSum } from './functions/getBalancesSum';
+import { handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
 import classNames from 'classnames';
 import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
-import { calcChartWidth } from './functions/calcChartWidth';
-import { setIncomeExpenseSums } from './functions/setIncomeExpenseSums';
-import { setBalancesSums } from './functions/setBalancesSums';
-import { handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
+import styles from './Overview.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import InfoProjectedBalance from './InfoProjectedBalance/InfoProjectedBalance';
 
 const Overview = () => {
@@ -30,29 +30,35 @@ const Overview = () => {
     if (user)
       if (accounts && accounts.length > 0) {
         accounts.map(item => {
-          if (item.type === 'balance-account')
-            FirebaseFirestoreService.docListener(`users/${user?.uid}/accounts`, item?.id as string, () => handleFetchAccounts(setAccounts, user.uid));
+          FirebaseFirestoreService.docListener(`users/${user?.uid}/accounts`, item?.id as string, () => handleFetchAccounts(setAccounts, user.uid));
         });
       }
   }, []);
 
   useEffect(() => {
     if (user) {
+      console.log('***useEffect***');
       handleChartConfig();
     }
   }, [accounts, transactions, user]);
 
   const handleChartConfig = () => {
     // Getting bar totals for the charts
-    setIncomeExpenseSums(transactions, setSumIncome, setSumExpense);
-    setBalancesSums(accounts, transactions, setSumCurrentBalance, setSumProjectedBalance);
+    const [incomeTotal, expenseTotal] = getIncomeExpenseSums(transactions);
+    setSumIncome(incomeTotal);
+    setSumExpense(expenseTotal);
+
+    const [currentBalanceTotal, projectedBalanceTotal] = getBalancesSum(accounts, transactions);
+    setSumCurrentBalance(currentBalanceTotal);
+    setSumProjectedBalance(projectedBalanceTotal);
+
 
     // Getting bar widths
-    const [incomeWidthCalc, expenseWidthCalc] = calcChartWidth(sumIncome, sumExpense);
+    const [incomeWidthCalc, expenseWidthCalc] = calcChartWidth(incomeTotal, expenseTotal);
     setIncomeWidth(incomeWidthCalc);
     setExpenseWidth(expenseWidthCalc);
 
-    const [currentBalanceWidthCalc, projectedBalanceWidthCalc] = calcChartWidth(sumCurrentBalance, sumProjectedBalance);
+    const [currentBalanceWidthCalc, projectedBalanceWidthCalc] = calcChartWidth(currentBalanceTotal, projectedBalanceTotal);
     setCurrentBalanceWidth(currentBalanceWidthCalc);
     setProjectedBalanceWidth(projectedBalanceWidthCalc);
   };

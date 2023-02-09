@@ -1,21 +1,24 @@
 import { IAccount, ITransaction } from 'assets/interfaces/interfaces';
-import { SetterOrUpdater } from 'recoil';
 
-export const setBalancesSums = (accounts: IAccount[], transactions: ITransaction[],setSumCurrentBalance: SetterOrUpdater<number>, setSumProjectedBalance: SetterOrUpdater<number>) => {
+export const getBalancesSum = (accounts: IAccount[], transactions: ITransaction[]) => {
+  let currentBalanceSum;
+  let projectedBalanceSum;
 
   if (accounts && accounts.length > 0 && accounts[0].id !== '') {
     //balance account
     const totalBalanceAccount = accounts.filter(item => (item.type === 'balance-account')).map(item => (item.balance)).reduce(
       (previousValue, currentValue) => previousValue + currentValue, 0);
-    setSumCurrentBalance(totalBalanceAccount);
+    currentBalanceSum = totalBalanceAccount;
 
     //credit account
     const totalCreditAccount = transactions.filter(item => (item.account.type === 'credit-account')).map(item => (item.amount)).reduce(
       (previousValue, currentValue) => previousValue + currentValue, 0);
-    setSumProjectedBalance(totalBalanceAccount - totalCreditAccount);
+    projectedBalanceSum = totalBalanceAccount - totalCreditAccount;
 
   } else {
-    setSumCurrentBalance(0);
-    setSumProjectedBalance(0);
+    currentBalanceSum = 0;
+    projectedBalanceSum = 0;
   }
+
+  return [currentBalanceSum, projectedBalanceSum];
 };

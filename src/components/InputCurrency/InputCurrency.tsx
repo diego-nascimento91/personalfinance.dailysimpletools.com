@@ -21,7 +21,7 @@ const InputCurrency = (props: Props) => {
       setNumberSign('+');
     else
       setNumberSign('-');
-  }, []);
+  }, [moneyAmount]);
 
   const callParentOnChange = (value: number) => {
     if (onChange) // calls the onChange prop's function with the finalValue in case onChange exists

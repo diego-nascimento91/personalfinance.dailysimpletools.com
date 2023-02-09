@@ -42,7 +42,7 @@ const AddTransactionForm = () => {
     if (currentTransaction) {
       setName(currentTransaction.description);
       setTransactionType(currentTransaction.type);
-      setAmount(currentTransaction.amount);
+      setAmount(currentTransaction.type === 'expense' ? -currentTransaction.amount : + currentTransaction.amount);
 
       //category
       const categoryObj = categories.find(item => (item.value === currentTransaction.category));
@@ -82,7 +82,7 @@ const AddTransactionForm = () => {
     const transaction: ITransaction = {
       description: name,
       type: transactionType as ITransactionType,
-      amount: amount,
+      amount: Math.abs(amount),
       category: JSON.parse(category).value,
       date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
       account: JSON.parse(account),
@@ -150,8 +150,6 @@ const AddTransactionForm = () => {
       setTransactionType('income');
     else
       setTransactionType('expense');
-    setCategory('');
-    setCategoryDescription(''); // to reset the category so the full description does not keep on the screen
   };
 
 

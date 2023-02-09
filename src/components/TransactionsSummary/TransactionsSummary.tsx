@@ -18,7 +18,7 @@ const TransactionsSummary = (props: Props) => {
 
   useEffect(() => {
     filterTransactions();
-  }, [filteredCategory, filteredTransactionType]);
+  }, [filteredCategory, filteredTransactionType, transactions]);
 
   const filterTransactions = () => {
     let thisFilteredTransactions: ITransaction[] = [];

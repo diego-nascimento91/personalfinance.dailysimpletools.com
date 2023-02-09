@@ -1,7 +1,6 @@
 import { addDoc, deleteDoc, collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, WhereFilterOp, limit, QueryConstraint, onSnapshot } from 'firebase/firestore';
 import { db } from 'assets/functions/FirebaseConfig';
 import { ITransaction, IQuery, ICategory, IOrderConfig, IAccount } from 'assets/interfaces/interfaces';
-import { SetterOrUpdater } from 'recoil';
 
 const readAllDocsFromCollection = async (collectionPath: string, orderConfigs: IOrderConfig[], queries?: IQuery[], limitDocs?: number) => {
   // get constraints array

@@ -40,8 +40,8 @@ const TotalsPerCategory = (props: Props) => {
 
   const getTotalPerCategory = () => {
     // get unique values of the categories in the transactions
-    const allCategories = transactions.map(transaction => {
-      return transaction.category;
+    const allCategories = transactions.filter(item => (item.category !== 'Credit Card Bill')).map(item => {
+      return item.category;
     });
     //removing duplicates
     const uniqueCategories = allCategories.filter((value, index, array) => {

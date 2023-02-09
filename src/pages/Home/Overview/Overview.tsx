@@ -37,7 +37,6 @@ const Overview = () => {
 
   useEffect(() => {
     if (user) {
-      console.log('***useEffect***');
       handleChartConfig();
     }
   }, [accounts, transactions, user]);

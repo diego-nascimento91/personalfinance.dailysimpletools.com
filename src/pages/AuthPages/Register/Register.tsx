@@ -27,9 +27,9 @@ const Register = () => {
   const [spanMessageFinal, setSpanMessageFinal] = useState('');
   
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [passwordInputType, setPasswordInputType] = useState('');
+  const [passwordInputType, setPasswordInputType] = useState('password');
   const [isRepeatedPasswordVisible, setIsRepeatedPasswordVisible] = useState(false);
-  const [RepeatedPasswordInputType, setRepeatedPasswordInputType] = useState('');
+  const [RepeatedPasswordInputType, setRepeatedPasswordInputType] = useState('password');
 
   const nav = useNavigate();
   useEffect(() => {

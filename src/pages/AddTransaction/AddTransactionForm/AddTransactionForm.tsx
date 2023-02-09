@@ -144,7 +144,6 @@ const AddTransactionForm = () => {
   };
 
   const setTypeTransactionOnAmountChange = (amount: number) => {
-    console.log(amount);
     if (amount === 0) 
       setTransactionType(null);
     else if(amount > 0)

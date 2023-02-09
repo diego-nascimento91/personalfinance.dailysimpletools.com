@@ -9,7 +9,7 @@ export const setIncomeExpenseSums = (transactions: ITransaction[], setSumIncome:
     setSumIncome(totalIncome);
 
     //expense
-    const totalExpense = transactions.filter(item => (item.type === 'expense')).map(item => (item.amount)).reduce(
+    const totalExpense = transactions.filter(item => (item.type === 'expense' && item.category !== 'Credit Card Bill')).map(item => (item.amount)).reduce(
       (previousValue, currentValue) => previousValue + currentValue, 0);
     setSumExpense(totalExpense);
 

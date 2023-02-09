@@ -84,7 +84,14 @@
 
   .addTransactionForm__inputDate {
     min-width: calc(100% - 1rem);
-  } // estilização para que o input assuma 100% da width mesmo em telas mobile
+  } // styling to force the width to be 100% even in mobile screens
+
+  .addTransactionForm__accountDeletedAlert {
+    color: rgb(243, 102, 102);
+    font-size: 80%;
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+  }
 
   .addTransactionForm__notes {
     background: rgb(180, 180, 180);

@@ -71,9 +71,9 @@ const AddTransactionForm = () => {
       } else {
         await handleCreateDocFunction('transactions', user.uid, transaction);
       }
-      
+
       resetForm();
-      if(currentTransaction){
+      if (currentTransaction) {
         setCurrentTransaction(null);
         handleReturnButton();
       }
@@ -148,9 +148,9 @@ const AddTransactionForm = () => {
   };
 
   const setTypeTransactionOnAmountChange = (amount: number) => {
-    if (amount === 0) 
+    if (amount === 0)
       setTransactionType(null);
-    else if(amount > 0)
+    else if (amount > 0)
       setTransactionType('income');
     else
       setTransactionType('expense');
@@ -180,8 +180,8 @@ const AddTransactionForm = () => {
         </label>
 
         <label className={styles.addTransactionForm__label}> How much was it?
-          <InputCurrency 
-            setMoneyAmount={setAmount} 
+          <InputCurrency
+            setMoneyAmount={setAmount}
             moneyAmount={amount}
             onChange={setTypeTransactionOnAmountChange}
           />
@@ -255,6 +255,15 @@ const AddTransactionForm = () => {
             <option value="">...</option>
             <option value="addaccount">Add a new account</option>
           </select>
+          {
+            currentTransaction && !(accounts.map(item => (item.id)).includes(currentTransaction.account.id))
+              ? (
+                <div role='alert' className={styles.addTransactionForm__accountDeletedAlert}>
+                  The account linked to this transaction has been deleted. To update this transaction, you have to choose another account. Note that this transaction&apos;s amount will be added to the balance of the new account chosen.
+                </div>
+              )
+              : null
+          }
         </label>
 
         <label className={styles.addTransactionForm__label}> Notes:

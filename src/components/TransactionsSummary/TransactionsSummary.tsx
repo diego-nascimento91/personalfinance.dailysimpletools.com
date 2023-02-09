@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
+import { useFilteredCategory, useFilteredTransactionType } from 'assets/state/hooks/filterTransactionsHooks';
 import { useEffect, useState } from 'react';
 import styles from './TransactionsSummary.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
@@ -14,19 +14,25 @@ const TransactionsSummary = (props: Props) => {
   const {transactions, allTransactions = false} = props;
   const [filteredCategory] = useFilteredCategory();
   const [filteredTransactions, setFilteredTransactions] = useState<ITransaction[]>();
+  const [filteredTransactionType] = useFilteredTransactionType();
 
   useEffect(() => {
     filterTransactions();
-  }, [filteredCategory]);
+  }, [filteredCategory, filteredTransactionType]);
 
   const filterTransactions = () => {
     let thisFilteredTransactions: ITransaction[] = [];
 
     if(!allTransactions) {
       thisFilteredTransactions = transactions.slice(0, 4);
-    } else {
+    } 
+    else {
       if (filteredCategory) {
-        thisFilteredTransactions = transactions.filter(item => (item.category === filteredCategory.name));
+        thisFilteredTransactions = transactions.filter(item => (
+          item.category === filteredCategory.name 
+            && item.type === filteredTransactionType
+            
+        ));
       } else {
         thisFilteredTransactions = transactions;
       }

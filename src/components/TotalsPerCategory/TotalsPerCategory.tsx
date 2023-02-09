@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ITotalsCategories, ITransaction } from 'assets/interfaces/interfaces';
+import { ITotalsCategories, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useUser } from 'assets/state/hooks/firebaseHooks';
-import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
+import { useFilteredCategory, useFilteredTransactionType } from 'assets/state/hooks/filterTransactionsHooks';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
@@ -16,7 +16,7 @@ const TotalsPerCategory = (props: Props) => {
   const [user,] = useUser();
   const [totalsCategories, setTotalsCategories] = useState<ITotalsCategories[]>([]);
   const [higherTotal, setHigherTotal] = useState(1);
-  const [typeTransaction, setTypeTransaction] = useState('expense');
+  const [typeTransaction, setTypeTransaction] = useFilteredTransactionType();
   const [, setFilteredCategory] = useFilteredCategory();
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const TotalsPerCategory = (props: Props) => {
         <select 
           value={typeTransaction} 
           className={styles.totalsPerCategory__typeTransactionSelect}
-          onChange={e => setTypeTransaction(e.target.value)}
+          onChange={e => setTypeTransaction(e.target.value as ITransactionType)}
         >
           <option value="income">Income</option>
           <option value="expense">Expense</option>

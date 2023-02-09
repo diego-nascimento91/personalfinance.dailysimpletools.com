@@ -7,7 +7,7 @@ import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './AddTransactionForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
-import classNames from 'classnames';
+import InputCurrency from 'components/InputCurrency/InputCurrency';
 
 
 const AddTransactionForm = () => {
@@ -143,31 +143,17 @@ const AddTransactionForm = () => {
     return 'Add a new Transaction';
   };
 
-  const handleTypeTransactionOptionClick = (type: ITransactionType) => {
-    if (type === transactionType) {
+  const setTypeTransactionOnAmountChange = (amount: number) => {
+    console.log(amount);
+    if (amount === 0) 
       setTransactionType(null);
-    } else {
-      setTransactionType(type);
-    }
+    else if(amount > 0)
+      setTransactionType('income');
+    else
+      setTransactionType('expense');
     setCategory('');
     setCategoryDescription(''); // to reset the category so the full description does not keep on the screen
   };
-
-  const maskCurrencyNumber = (value: number) => {
-    const options = { minimumFractionDigits: 2 };
-    const maskedNumber = (new Intl.NumberFormat('en-US', options).format(value)).toLocaleString().replace(/,/g, ' ');
-
-    const currency = transactionType === 'income' ? '+ $'
-      : transactionType === 'expense' ? '- $' : '$';
-
-    return currency + ' ' + maskedNumber;
-  };
-
-  const unmaskCurrencyNumber = (value: string) => {
-    value = value.replace('.', '').replace(',', '').replace(/\D/g, '');
-    return parseFloat(value) / 100;
-  };
-
 
 
   return (
@@ -193,31 +179,10 @@ const AddTransactionForm = () => {
         </label>
 
         <label className={styles.addTransactionForm__label}> How much was it?
-          <div role='select' className={styles.addTransactionForm__typeOptions}>
-            <div
-              role='option'
-              className={classNames({
-                [styles.addTransactionForm__typeOption]: true,
-                [styles.addTransactionForm__typeOptionSelected]: transactionType === 'income'
-              })}
-              onClick={() => handleTypeTransactionOptionClick('income')}
-            >+ $</div>
-            <div
-              role='option'
-              className={classNames({
-                [styles.addTransactionForm__typeOption]: true,
-                [styles.addTransactionForm__typeOptionSelected]: transactionType === 'expense'
-              })}
-              onClick={() => handleTypeTransactionOptionClick('expense')}
-            >- $</div>
-          </div>
-          <input
-            className={`${styles.addTransactionForm__input} ${styles.addTransactionForm__currencyInput}`}
-            required
-            type="text"
-            onChange={(e) => setAmount(unmaskCurrencyNumber(e.target.value))}
-            value={maskCurrencyNumber(amount)}
-            placeholder='0.00'
+          <InputCurrency 
+            setMoneyAmount={setAmount} 
+            moneyAmount={amount}
+            onChange={setTypeTransactionOnAmountChange}
           />
         </label>
 

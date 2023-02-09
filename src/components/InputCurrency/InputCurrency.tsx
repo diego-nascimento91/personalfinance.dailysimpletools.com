@@ -5,10 +5,11 @@ import styles from './InputCurrency.module.scss';
 
 interface Props {
   moneyAmount: number,
-  setMoneyAmount: SetterOrUpdater<number>
+  setMoneyAmount: SetterOrUpdater<number>,
+  onChange?: (amount: number) => void // optional to be used in case the parent component wants to trigger a function with the amount the user entered.
 }
 const InputCurrency = (props: Props) => {
-  const { moneyAmount, setMoneyAmount } = props;
+  const { moneyAmount, setMoneyAmount, onChange } = props;
   const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
 
   //use effect is to load the correct number sign in case of editting a current account.
@@ -19,6 +20,11 @@ const InputCurrency = (props: Props) => {
     else
       setNumberSign('-');
   }, []);
+
+  const callParentOnChange = (value: number) => {
+    if (onChange) // calls the onChange prop's function with the finalValue in case onChange exists
+      onChange(value);
+  };
 
   const maskCurrencyNumber = (value: number) => {
     const currency = numberSign === '+' ? '+ $' : '- $';
@@ -33,17 +39,23 @@ const InputCurrency = (props: Props) => {
     const valueOnlyNumbers = value.replace('.', '').replace(',', '').replace(/\D/g, '');
     const valueToFloat = parseFloat(valueOnlyNumbers) / 100;
     const finalValue = isNaN(valueToFloat) ? 0 : numberSign === '+' ? valueToFloat : - valueToFloat;
+    
     setMoneyAmount(finalValue);
+    callParentOnChange(finalValue);
   };
 
   const handleNumberSignClick = (input: '+' | '-') => {
+    let finalValue;
     if (input === '+') {
       setNumberSign('+');
-      setMoneyAmount(Math.abs(moneyAmount));
+      finalValue = Math.abs(moneyAmount);
     } else {
       setNumberSign('-');
-      setMoneyAmount(-Math.abs(moneyAmount));
+      finalValue = -Math.abs(moneyAmount);
     }
+
+    setMoneyAmount(finalValue);
+    callParentOnChange(finalValue);
   };
 
   const handleNumberSignOnKeyUp = (key: string) => {

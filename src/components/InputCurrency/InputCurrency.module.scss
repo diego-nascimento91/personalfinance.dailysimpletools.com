@@ -1,0 +1,41 @@
+@import 'assets/styles/variables.scss';
+
+.inputCurrency__container {
+
+  .inputCurrency__numberSignOptions {
+    background: $page-background;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
+    padding: 0.25rem;
+    width: min-content;
+
+    .inputCurrency__numberSign {
+      white-space: nowrap;
+      transition: 100ms;
+      font-size: 70%;
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+    }
+
+    .inputCurrency__numberSignSelected {
+      transition: 100ms;
+      background: $typeSelectedForm-bgd;
+      border-radius: 0.5rem;
+    }
+  }
+
+  .inputCurrency__input {
+    background: rgb(180, 180, 180);
+    border: none;
+    border-radius: 0.5rem;
+    color: black;
+    height: 2.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}

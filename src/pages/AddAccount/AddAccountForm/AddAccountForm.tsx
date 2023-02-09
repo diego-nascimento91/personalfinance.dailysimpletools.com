@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
 import { IAccount, IAccountType } from 'assets/interfaces/interfaces';
 import { useAccounts, useSelectedAccount, useUser } from 'assets/state/hooks/firebaseHooks';
-import styles from './AddAccountForm.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import { isAccountNameValid } from './isAccountNameValid';
 import { handleCreateDocFunction, handleFetchAccounts, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
-import classNames from 'classnames';
+import styles from './AddAccountForm.module.scss';
+import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import InputCurrency from 'components/InputCurrency/InputCurrency';
 
 
 const AddAccountForm = () => {
@@ -21,7 +21,6 @@ const AddAccountForm = () => {
   const [isNameValid, setIsNameValid] = useState(true);
   const [type, setType] = useState<IAccountType | ''>('');
   const [typeDescription, setTypeDescription] = useState('');
-  const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
   const [initialBalance, setInitialBalance] = useState(0);
   const [description, setDescription] = useState('');
   // ☝️ useState form
@@ -39,7 +38,6 @@ const AddAccountForm = () => {
       const editDescription = selectedAccount.description;
       setName(editName);
       setInitialBalance(editBalance);
-      setNumberSign(editBalance >= 0 ? '+' : '-');
       setType(editType);
       setDescription(editDescription);
     }
@@ -91,40 +89,6 @@ const AddAccountForm = () => {
       nav(-1);
     } else {
       nav('/', { replace: true }); // return to home if there is no back page history
-    }
-  };
-
-  const maskCurrencyNumber = (value: number) => {
-    const currency = numberSign === '+' ? '+ $' : '- $';
-
-    const options = { minimumFractionDigits: 2 };
-    const maskedNumber = currency + ' ' + (new Intl.NumberFormat('en-US', options).format(Math.abs(value))).toLocaleString().replace(/,/g, ' ');
-
-    return maskedNumber;
-  };
-
-  const unmaskCurrencyNumber = (value: string) => {
-    const valueOnlyNumbers = value.replace('.', '').replace(',', '').replace(/\D/g, '');
-    const valueToFloat = parseFloat(valueOnlyNumbers) / 100;
-    const finalValue = numberSign === '+' ? valueToFloat : - valueToFloat;
-    setInitialBalance(finalValue);
-  };
-
-  const handleNumberSignClick = (input: '+' | '-') => {
-    if (input === '+') {
-      setNumberSign('+');
-      setInitialBalance(Math.abs(initialBalance));
-    } else {
-      setNumberSign('-');
-      setInitialBalance(-Math.abs(initialBalance));
-    }
-  };
-
-  const handleNumberSignOnKeyUp = (key: string) => {
-    if (key === '-') {
-      handleNumberSignClick('-');
-    } else if (key === '+') {
-      handleNumberSignClick('+');
     }
   };
 
@@ -209,33 +173,7 @@ const AddAccountForm = () => {
             type === 'balance-account'
               ? (
                 <label className={styles.addAccountform__labels}> Current balance:
-                  <div id='number-sing-options' role='select' className={styles.addAccountForm__numberSignOptions}>
-                    <div
-                      role='option'
-                      className={classNames({
-                        [styles.addAccountForm__numberSign]: true,
-                        [styles.addAccountForm__numberSignSelected]: numberSign === '+'
-                      })}
-                      onClick={() => handleNumberSignClick('+')}
-                    >+ $</div>
-                    <div
-                      role='option'
-                      className={classNames({
-                        [styles.addAccountForm__numberSign]: true,
-                        [styles.addAccountForm__numberSignSelected]: numberSign === '-'
-                      })}
-                      onClick={() => handleNumberSignClick('-')}
-                    >- $</div>
-                  </div>
-                  <input
-                    className={styles.addAccountForm__inputs}
-                    required
-                    type="text"
-                    onKeyUp={(e) => handleNumberSignOnKeyUp(e.key)}
-                    onChange={(e) => unmaskCurrencyNumber(e.target.value)}
-                    value={maskCurrencyNumber(initialBalance)}
-                    placeholder='0.00'
-                  />
+                  <InputCurrency setMoneyAmount={setInitialBalance} moneyAmount={initialBalance}/>
                 </label>
               ) 
               : null

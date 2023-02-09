@@ -71,8 +71,12 @@ const AddTransactionForm = () => {
       } else {
         await handleCreateDocFunction('transactions', user.uid, transaction);
       }
+      
       resetForm();
-      setCurrentTransaction(null);
+      if(currentTransaction){
+        setCurrentTransaction(null);
+        handleReturnButton();
+      }
       handleFetchRecentTransactions(user.uid, setRecentTransactions);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }

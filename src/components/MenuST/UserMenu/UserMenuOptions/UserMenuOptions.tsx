@@ -8,6 +8,7 @@ const UserMenuOptions = () => {
   const handleSightOutClick = () => {
     setUserMenuStatus(false);
     FirebaseAuthService.signOutofAccount();
+    window.location.reload(); 
   };
 
   const handleDeleteUserClick = () => {
@@ -16,6 +17,7 @@ const UserMenuOptions = () => {
       if (deleteConfirmation) {
         setUserMenuStatus(false);
         FirebaseAuthService.deleteAccount();
+        window.location.reload();
       } else {
         throw new Error('User deletion cancelled.');
       }

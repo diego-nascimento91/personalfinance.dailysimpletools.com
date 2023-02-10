@@ -121,6 +121,20 @@ export const handleCreateDocFunction = async (collectionName: string, userId: st
   }
 };
 
+export const handleCreateDocsTransferFunction = async (collectionName: string, userId: string, documentFrom: ITransaction, documentTo: ITransaction) => {
+  try {
+    const collectionPath = `users/${userId}/${collectionName}`;
+    await FirebaseFirestoreService.createDocument(collectionPath, documentTo);
+    await FirebaseFirestoreService.createDocument(collectionPath, documentFrom);
+    alert('Transfer transaction added successfully!');
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+      throw error;
+    }
+  }
+};
+
 export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory | IAccount) => {
   try {
     const collectionPath = `users/${userId}/${collectionName}`;

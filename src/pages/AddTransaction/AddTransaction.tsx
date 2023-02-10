@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import stylesPadding from 'assets/styles/padding.module.scss';
-import stylesPages from 'assets/styles/pages.module.scss';
 import { useAccounts, useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
 import { handleFetchAccounts, handleFetchCategories } from 'assets/functions/handleDatabaseFunctions';
+import stylesPages from 'assets/styles/pages.module.scss';
+import stylesPadding from 'assets/styles/padding.module.scss';
 import AddTransactionForm from './AddTransactionForm/AddTransactionForm';
 
 

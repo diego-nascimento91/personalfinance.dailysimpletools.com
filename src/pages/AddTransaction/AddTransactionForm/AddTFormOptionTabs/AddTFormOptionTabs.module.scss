@@ -1,0 +1,18 @@
+.addTFormOptionTabs__container {
+
+  .addTFormOptionTabs__formOption {
+    cursor: pointer;
+    display: inline-block;
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+    font-size: 90%;
+    text-align: center;
+    width: 50%;
+  }
+
+  .addTFormOptionTabs__formOptionChosen {
+    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+    background: rgb(0, 0, 66);
+  }
+}

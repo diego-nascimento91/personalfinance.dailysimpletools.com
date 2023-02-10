@@ -6,7 +6,7 @@ export const getTransactionDoc = (name: string, transactionType: ITransactionTyp
     description: name,
     type: transactionType,
     amount: amount,
-    category: category ? JSON.parse(category).value : 'withdraw',
+    category: category ? JSON.parse(category).value : 'transfer',
     date: new Date(transactionDate.replace(/-/g, '/')), //replace '-' per '/' makes the date to be created in the user timezone, instead of UTC
     account: JSON.parse(account),
     note: notes,

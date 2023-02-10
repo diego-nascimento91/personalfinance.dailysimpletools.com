@@ -82,10 +82,10 @@ const AddTFormInputs = (props: Props) => {
           await handleCreateDocFunction('transactions', user.uid, transaction);
         }
       } else {
-        const nameFrom = `Transfer to ${JSON.parse(accountTo).name}: ` + name;
+        const nameFrom = `Transfer sent to ${JSON.parse(accountTo).name}: ` + name;
         const transactionFrom = getTransactionDoc(nameFrom, 'transfer', -Math.abs(amount), transactionDate, account, notes);
         
-        const nameTo = `Transfer from ${JSON.parse(account).name}: ` + name;
+        const nameTo = `Transfer received from ${JSON.parse(account).name}: ` + name;
         const transactionTo = getTransactionDoc(nameTo, 'transfer', Math.abs(amount), transactionDate, accountTo, notes);
 
         await handleCreateDocsTransferFunction('transactions', user.uid, transactionFrom, transactionTo);

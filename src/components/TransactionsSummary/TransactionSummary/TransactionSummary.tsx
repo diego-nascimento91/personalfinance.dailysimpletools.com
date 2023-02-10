@@ -83,10 +83,10 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
           <p className={
             classNames({
               [styles.transaction__amount]: true,
-              [styles.transaction__amount__positive]: transaction.type === 'income',
-              [styles.transaction__amount__negative]: transaction.type === 'expense'
+              [styles.transaction__amount__positive]: transaction.amount >= 0,
+              [styles.transaction__amount__negative]: transaction.amount < 0
             })}>
-            {transaction.type === 'expense' ? '- ' : '+ '} $ {(+transaction.amount).toFixed(2)}
+            {transaction.amount >= 0 ? '+ ' : '- '} $ {(Math.abs(transaction.amount)).toFixed(2)}
           </p>
         </div>
         <p className={styles.transaction__date}>{formatDate(transaction.date)}</p>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
+import { ICategory, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { returnPage } from 'assets/functions/returnPage';
 import { handleCreateDocFunction, handleCreateDocsTransferFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
@@ -25,7 +25,7 @@ const AddTFormInputs = (props: Props) => {
   const [accounts] = useAccounts();
   const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
   const [, setRecentTransactions] = useRecentTransactions();
-  const [, setTransactionsMonth] = useTransactionsMonth();
+  const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
   // ☝️ recoil states
 
   // 👇 form states
@@ -39,6 +39,10 @@ const AddTFormInputs = (props: Props) => {
   const [notes, setNotes] = useState('');
   // ☝️ form states
 
+  // states to get the ID of a transfer transaction atualization
+  const [transactionIDFrom, setTransactionIDFrom] = useState('');
+  const [transactionIDTo, setTransactionIDTo] = useState('');
+
   const nav = useNavigate();
   useEffect(() => {
     if (user && currentTransaction) {
@@ -48,9 +52,9 @@ const AddTFormInputs = (props: Props) => {
 
   const handleCurrentTransactionFormLoad = () => {
     if (currentTransaction) {
-      setName(currentTransaction.description);
+
       setTransactionType(currentTransaction.type);
-      setAmount(currentTransaction.type === 'expense' ? -currentTransaction.amount : + currentTransaction.amount);
+
 
       //category
       const categoryObj = categories.find(item => (item.value === currentTransaction.category));
@@ -60,10 +64,40 @@ const AddTFormInputs = (props: Props) => {
       setTransactionDate(currentTransaction.date.toISOString().split('T')[0]);
 
       //account
-      //Here the code is looking fo the object in account that is the same obj of currentTransaction.account. The reason it's doing this is because when doing sringify(currentTransaciton.account) and stringify(account), the strings the result of them are different and so the Account of current transaction doesn't load on the Edit Form because the sequence of the obj properties changes (not sure why this happens).
-      const accountObj = accounts.find(item => (item.name === currentTransaction.account.name));
-      if (accountObj) setAccount(JSON.stringify(accountObj));
-      //account 
+      if (currentTransaction.type === 'transfer') {
+        setAmount(-Math.abs(currentTransaction.amount));
+        setName(currentTransaction.description.split(': ')[1]);
+        let transactionFrom: ITransaction;
+        let transactionTo: ITransaction;
+        const otherTransaction = transactionsMonth.find(transaction => (transaction.id === currentTransaction.transferedTransactionID));
+
+        if (currentTransaction.amount >= 0) {
+          transactionFrom = otherTransaction as ITransaction;
+          transactionTo = currentTransaction;
+        } else {
+          transactionFrom = currentTransaction;
+          transactionTo = otherTransaction as ITransaction;
+        }
+        if (transactionFrom) {
+          setTransactionIDFrom(transactionFrom.id as string);
+          const accountFrom = accounts.find(account => (account.name === transactionFrom.account.name));
+          if (accountFrom) setAccount(JSON.stringify(accountFrom));
+        }
+        if (transactionTo) {
+          setTransactionIDTo(transactionTo.id as string);
+          const accountTo = accounts.find(account => (account.name === transactionTo.account.name));
+          if (accountTo) setAccountTo(JSON.stringify(accountTo));
+        }
+      }
+
+      else {
+        setAmount(currentTransaction.amount);
+        setName(currentTransaction.description);
+        //Here the code is looking fo the object in account that is the same obj of currentTransaction.account. The reason it's doing this is because when doing sringify(currentTransaciton.account) and stringify(account), the strings the result of them are different and so the Account of current transaction doesn't load on the Edit Form because the sequence of the obj properties changes (not sure why this happens).
+        const accountObj = accounts.find(item => (item.name === currentTransaction.account.name));
+        if (accountObj) setAccount(JSON.stringify(accountObj));
+        //account
+      }
 
       setNotes(currentTransaction.note);
     }
@@ -73,8 +107,8 @@ const AddTFormInputs = (props: Props) => {
     event.preventDefault();
 
     if (user) {
-      
-      if(tabTransactionOption === 'income-expense') {
+
+      if (tabTransactionOption === 'income-expense') {
         const transaction = getTransactionDoc(name, transactionType as ITransactionType, amount, transactionDate, account, notes, category);
         if (currentTransaction) {
           await handleUpdateDocFunction('transactions', user.uid, { ...transaction, id: currentTransaction.id });
@@ -83,12 +117,17 @@ const AddTFormInputs = (props: Props) => {
         }
       } else {
         const nameFrom = `Transfer sent to ${JSON.parse(accountTo).name}: ` + name;
-        const transactionFrom = getTransactionDoc(nameFrom, 'transfer', -Math.abs(amount), transactionDate, account, notes);
-        
-        const nameTo = `Transfer received from ${JSON.parse(account).name}: ` + name;
-        const transactionTo = getTransactionDoc(nameTo, 'transfer', Math.abs(amount), transactionDate, accountTo, notes);
+        const transactionFrom = getTransactionDoc(nameFrom, 'transfer', -Math.abs(amount), transactionDate, account, notes, undefined, transactionIDTo);
 
-        await handleCreateDocsTransferFunction('transactions', user.uid, transactionFrom, transactionTo);
+        const nameTo = `Transfer received from ${JSON.parse(account).name}: ` + name;
+        const transactionTo = getTransactionDoc(nameTo, 'transfer', Math.abs(amount), transactionDate, accountTo, notes, undefined, transactionIDFrom);
+
+        if (currentTransaction) {
+          await handleUpdateDocFunction('transactions', user.uid, { ...transactionFrom, id: transactionIDFrom }, true);
+          await handleUpdateDocFunction('transactions', user.uid, { ...transactionTo, id: transactionIDTo });
+        } else {
+          await handleCreateDocsTransferFunction('transactions', user.uid, transactionFrom, transactionTo);
+        }
       }
 
       resetForm();
@@ -110,6 +149,8 @@ const AddTFormInputs = (props: Props) => {
     setTransactionDate((new Date(Date.now() - new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0]);
     setAccount('');
     setNotes('');
+    setTransactionIDFrom('');
+    setTransactionIDTo('');
   };
 
   const setTypeTransactionOnAmountChange = (amount: number) => {
@@ -153,6 +194,7 @@ const AddTFormInputs = (props: Props) => {
           setMoneyAmount={setAmount}
           moneyAmount={amount}
           onChange={setTypeTransactionOnAmountChange}
+          allowNumbers={tabTransactionOption === 'transfer-withdraw' ? 'negative' : undefined}
         />
       </label>
 

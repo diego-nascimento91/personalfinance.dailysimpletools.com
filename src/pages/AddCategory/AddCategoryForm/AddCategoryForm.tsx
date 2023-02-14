@@ -20,7 +20,7 @@ const AddCategoryForm = () => {
 
   // 👇 useState forms
   const [name, setName] = useState('');
-  const [type, setType] = useState<ITransactionType | ''>('');
+  const [type, setType] = useState<ITransactionType | 'other' | ''>('');
   const [description, setDescription] = useState('');
   const [icon, setIcon] = useState('');
   // ☝️ useState forms

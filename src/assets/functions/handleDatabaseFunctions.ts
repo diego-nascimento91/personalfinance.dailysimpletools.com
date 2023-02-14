@@ -6,12 +6,12 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
   try {
     // default categories
     const collectionPathDefault = 'categories';
-    const orderConfigDefault: IOrderConfig[] = [{fieldName: 'ordering', orderDirection: 'asc'}];
+    const orderConfigDefault: IOrderConfig[] = [{ fieldName: 'ordering', orderDirection: 'asc' }];
     const categoriesDefault = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathDefault, orderConfigDefault);
-    
+
     // user categories
     const collectionPathUser = `users/${userId}/categories`;
-    const orderConfigUser: IOrderConfig[] = [{fieldName: 'value', orderDirection: 'asc'}];
+    const orderConfigUser: IOrderConfig[] = [{ fieldName: 'value', orderDirection: 'asc' }];
     const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
 
     const categoriesDB = [...categoriesUser, ...categoriesDefault];
@@ -25,12 +25,12 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
 };
 
 export const handleFetchOnlyUserCategories = async (setCategories: SetterOrUpdater<ICategory[]>, userId: string) => {
-  try {   
+  try {
     // user categories
     const collectionPathUser = `users/${userId}/categories`;
     const orderConfigUser: IOrderConfig[] = [
-      {fieldName: 'value', orderDirection: 'asc'},
-      {fieldName: 'type', orderDirection: 'desc'}];
+      { fieldName: 'value', orderDirection: 'asc' },
+      { fieldName: 'type', orderDirection: 'desc' }];
     const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
 
     setCategories(categoriesUser as ICategory[]);
@@ -45,7 +45,7 @@ export const handleFetchOnlyUserCategories = async (setCategories: SetterOrUpdat
 export const handleFetchAccounts = async (setAccounts: SetterOrUpdater<IAccount[]>, userId: string) => {
   try {
     const collectionPath = `users/${userId}/accounts`;
-    const orderConfig: IOrderConfig[] = [{fieldName: 'name', orderDirection: 'asc'}];
+    const orderConfig: IOrderConfig[] = [{ fieldName: 'name', orderDirection: 'asc' }];
     const accountsDB = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderConfig);
     setAccounts(accountsDB as IAccount[]);
   } catch (error) {
@@ -60,11 +60,11 @@ export const handleFetchRecentTransactions = async (userId: string, setRecentTra
   const collectionPath = `users/${userId}/transactions`;
   const orderConfig: IOrderConfig[] = [
     {
-      fieldName: 'date', 
+      fieldName: 'date',
       orderDirection: 'desc'
     },
     {
-      fieldName: 'publishDate', 
+      fieldName: 'publishDate',
       orderDirection: 'desc'
     },
   ];
@@ -72,7 +72,7 @@ export const handleFetchRecentTransactions = async (userId: string, setRecentTra
   const limitDocs = 4;
 
   try {
-    const recentTransactions = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderConfig, queries,limitDocs);
+    const recentTransactions = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderConfig, queries, limitDocs);
     setRecentTransactions(recentTransactions as ITransaction[]);
   } catch (error) {
     if (error instanceof Error) {
@@ -86,16 +86,16 @@ export const handleFetchTransactionsMonth = async (userId: string, setTransactio
   const collectionPath = `users/${userId}/transactions`;
   const orderConfig: IOrderConfig[] = [
     {
-      fieldName: 'date', 
+      fieldName: 'date',
       orderDirection: 'desc'
     },
     {
-      fieldName: 'publishDate', 
+      fieldName: 'publishDate',
       orderDirection: 'desc'
     },
   ];
   const { firstDay, lastDay } = getFormatDate(month);
-  const  queries = getQueries(firstDay, lastDay);
+  const queries = getQueries(firstDay, lastDay);
 
   try {
     const transactionsMonth = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPath, orderConfig, queries);
@@ -124,8 +124,12 @@ export const handleCreateDocFunction = async (collectionName: string, userId: st
 export const handleCreateDocsTransferFunction = async (collectionName: string, userId: string, documentFrom: ITransaction, documentTo: ITransaction) => {
   try {
     const collectionPath = `users/${userId}/${collectionName}`;
-    await FirebaseFirestoreService.createDocument(collectionPath, documentTo);
-    await FirebaseFirestoreService.createDocument(collectionPath, documentFrom);
+    const documentFromRef = await FirebaseFirestoreService.createDocument(collectionPath, documentFrom);
+    if (documentFromRef) {
+      const documentToRef = await FirebaseFirestoreService.createDocument(collectionPath, { ...documentTo, transferedTransactionID: documentFromRef.id });
+      if (documentToRef)
+        await FirebaseFirestoreService.createDocument(collectionPath, { ...documentFrom, transferedTransactionID: documentToRef.id }, documentFromRef.id);
+    }
     alert('Transfer transaction added successfully!');
   } catch (error) {
     if (error instanceof Error) {
@@ -135,14 +139,15 @@ export const handleCreateDocsTransferFunction = async (collectionName: string, u
   }
 };
 
-export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory | IAccount) => {
+export const handleUpdateDocFunction = async (collectionName: string, userId: string, document: ITransaction | ICategory | IAccount, dontShowAlert?: boolean) => {
+
   try {
     const collectionPath = `users/${userId}/${collectionName}`;
     if (document.id) {
       const docId = document.id;
       delete document.id;
       await FirebaseFirestoreService.updateDocument(collectionPath, document, docId);
-      alert('Document updated successfully!');
+      if (!dontShowAlert) alert('Document updated successfully!');
     } else {
       throw new Error('Missing document ID');
     }
@@ -172,6 +177,24 @@ export const handleDeleteDocFunction = async (collectionName: string, userId: st
     if (error instanceof Error) {
       alert(error.message);
       throw error;
+    }
+  }
+};
+
+export const handleDeleteDocsTransferFunction = async (collectionName: string, userId: string, docFromID: string, docToID: string) => {
+  const deleteConfirmation = window.confirm('Are you sure you want to delete this transfer transaction? Ok for Yes. Cancel for No. This action will delete the two transactions related.');
+  if (deleteConfirmation) {
+    try {
+      const collectionPath = `users/${userId}/${collectionName}`;
+      await FirebaseFirestoreService.deleteDocument(collectionPath, docFromID);
+      await FirebaseFirestoreService.deleteDocument(collectionPath, docToID);
+      alert('Transactions deleted successfully!');
+
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+        throw error;
+      }
     }
   }
 };

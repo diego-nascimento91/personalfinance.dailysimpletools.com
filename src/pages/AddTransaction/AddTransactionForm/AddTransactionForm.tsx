@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ITransactionType } from 'assets/interfaces/interfaces';
 import styles from './AddTransactionForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import AddTFormHeader from './AddTFormHeader/AddTFormHeader';
 import AddTFormOptionTabs from './AddTFormOptionTabs/AddTFormOptionTabs';
 import AddTFormInputs from './AddTFormInputs/AddTFormInputs';
+import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 
 
 const AddTransactionForm = () => {
   const [tabTransactionOption, setTabTransactionOption] = useState<'income-expense' | 'transfer-withdraw'>('income-expense');
   const [transactionType, setTransactionType] = useState<ITransactionType | null>(null);
+  const [currentTransaction] = useCurrentTransaction();
+
+  useEffect(() => {
+    if(currentTransaction?.type === 'transfer'){
+      setTabTransactionOption('transfer-withdraw');
+    }
+  },[]);
 
 
   return (

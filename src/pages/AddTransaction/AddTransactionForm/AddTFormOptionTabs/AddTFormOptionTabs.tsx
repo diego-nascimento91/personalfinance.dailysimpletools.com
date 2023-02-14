@@ -14,19 +14,25 @@ const AddTFormOptionTabs = (props: Props) => {
 
   return (
     <div className={styles.addTFormOptionTabs__container} >
-      <div id='option-tab1'
-        className={classNames({
-          [styles.addTFormOptionTabs__formOption]: true,
-          [styles.addTFormOptionTabs__formOptionChosen]: tabTransactionOption === 'income-expense',
-        })}
-        role='option'
-        onClick={() => setTabTransactionOption('income-expense')}
-      >
-        Income/Expense
-      </div>
+      {
+        !currentTransaction || (currentTransaction?.type !== 'transfer')
+          ? (
+            <div id='option-tab1'
+              className={classNames({
+                [styles.addTFormOptionTabs__formOption]: true,
+                [styles.addTFormOptionTabs__formOptionChosen]: tabTransactionOption === 'income-expense',
+              })}
+              role='option'
+              onClick={() => setTabTransactionOption('income-expense')}
+            >
+              Income/Expense
+            </div>
+          )
+          : null
+      }
 
       {
-        !currentTransaction
+        !currentTransaction || (currentTransaction.type === 'transfer')
           ? (
             <div id='option-tab2'
               className={classNames({

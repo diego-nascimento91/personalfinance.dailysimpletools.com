@@ -1,6 +1,6 @@
 import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
 
-export const getTransactionDoc = (name: string, transactionType: ITransactionType, amount: number, transactionDate: string, account: string, notes: string, category?: string) => {
+export const getTransactionDoc = (name: string, transactionType: ITransactionType, amount: number, transactionDate: string, account: string, notes: string,category?: string, transferedTransactionID?: string) => {
 
   const transaction: ITransaction = {
     description: name,
@@ -11,6 +11,7 @@ export const getTransactionDoc = (name: string, transactionType: ITransactionTyp
     account: JSON.parse(account),
     note: notes,
     publishDate: new Date(),
+    transferedTransactionID: transferedTransactionID ? transferedTransactionID : ''
   };
 
   return transaction;

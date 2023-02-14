@@ -1,5 +1,5 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { handleDeleteDocFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
+import { handleDeleteDocFunction, handleDeleteDocsTransferFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './TransactionReceipt.module.scss';
@@ -34,7 +34,11 @@ const TransactionReceipt = () => {
 
   const handleDeleteButtonClick = async () => {
     if (user && currentTransaction) {
-      await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
+      if (currentTransaction.type === 'transfer')
+        await handleDeleteDocsTransferFunction('transactions', user.uid, currentTransaction?.id as string, currentTransaction.transferedTransactionID);
+      else
+        await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
+        
       handleCloseButton();
       handleFetchRecentTransactions(user.uid, setRecentTransactions);
       handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);

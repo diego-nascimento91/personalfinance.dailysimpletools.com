@@ -67,46 +67,23 @@ exports.onChangeTransaction = functions.firestore.document('users/{userId}/trans
 
   // Transaction Deleted
   if (typeOfChange === 'delete') {
-    // getting values of deleted transaction
-    const accountDeleted = oldTransaction.account;
-    const typeTransactionDeleted = oldTransaction.type;
-    const amountDeleted = -(typeTransactionDeleted === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount));
-    // the minus sign is to revert the transaction, as this is a delete operation
-
-    await updateAccountBalance(accountDeleted, amountDeleted);
+    await updateAccountBalance(oldTransaction.account, -oldTransaction.amount);
   }
   // Transaction Created
   else if (typeOfChange === 'create') {
-    // getting value of created transaction 
-    const accountCreated = newTransaction.account;
-    const typeTransactionCreated = newTransaction.type;
-    const amountCreated = typeTransactionCreated === 'income' ? +Math.abs(newTransaction.amount) : -Math.abs(newTransaction.amount);
-
-    await updateAccountBalance(accountCreated, amountCreated);
+    await updateAccountBalance(newTransaction.account, newTransaction.amount);
   }
   // Transaction Updated
   else {
-    // Getting previous values of updated transaction
-    const oldAccount = oldTransaction.account;
-    const oldTypeTransaction = oldTransaction.type;
-    const oldAmount = -(oldTypeTransaction === 'income' ? +Math.abs(oldTransaction.amount) : -Math.abs(oldTransaction.amount));
-    // the minus sign is to revert the transaction, as this is like a delete operation to the old account
-
-    // Getting new values of updated transaction
-    const newAccount = newTransaction.account;
-    const newTypeTransaction = newTransaction.type;
-    const newAmount = newTypeTransaction === 'income' ? +Math.abs(newTransaction.amount) : -Math.abs(newTransaction.amount);
-
-    // Account was not updated
-    if (newAccount.id === oldAccount.id) {
-      amountDifference = newAmount + oldAmount; // its '+' because oldAmount has its sign already inverted in its own operation
-      await updateAccountBalance(newAccount, amountDifference);
-
+    // Account was not changed
+    if (newTransaction.account.id === oldTransaction.account.id) {
+      amountChange = newTransaction.amount - oldTransaction.amount;
+      await updateAccountBalance(newTransaction.account, amountChange);
     }
-    // Account was updated
+    // Account was changes
     else {
-      await updateAccountBalance(newAccount, newAmount);
-      await updateAccountBalance(oldAccount, oldAmount);
+      await updateAccountBalance(newTransaction.account, newTransaction.amount);
+      await updateAccountBalance(oldTransaction.account, -oldTransaction.amount);
     }
   }
 });

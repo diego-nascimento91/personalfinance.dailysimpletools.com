@@ -6,11 +6,21 @@ import styles from './InputCurrency.module.scss';
 interface Props {
   moneyAmount: number,
   setMoneyAmount: SetterOrUpdater<number>,
-  onChange?: (amount: number) => void // optional to be used in case the parent component wants to trigger a function with the amount the user entered.
+  onChange?: (amount: number) => void, // optional to be used in case the parent component wants to trigger a function with the amount the user entered.
+  allowNumbers?: 'positive' | 'negative'
 }
 const InputCurrency = (props: Props) => {
-  const { moneyAmount, setMoneyAmount, onChange } = props;
+  const { moneyAmount, setMoneyAmount, onChange, allowNumbers } = props;
   const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
+
+  //useEffect to set correctly the numberSign according to the allowNumbers variable.
+  useEffect(() => {
+    if (allowNumbers === 'positive') {
+      setNumberSign('+');
+    }
+    else if (allowNumbers === 'negative')
+      setNumberSign('-');
+  }, [allowNumbers]);
 
   //use effect is to load the correct number sign in case of editting a current account.
   //if creating an account, number sign will be the default + with moneyAmount 0.
@@ -30,7 +40,6 @@ const InputCurrency = (props: Props) => {
 
   const maskCurrencyNumber = (value: number) => {
     const currency = numberSign === '+' ? '+ $' : '- $';
-
     const options = { minimumFractionDigits: 2 };
     const maskedNumber = currency + ' ' + (new Intl.NumberFormat('en-US', options).format(Math.abs(value))).toLocaleString().replace(/,/g, ' ');
 
@@ -41,7 +50,7 @@ const InputCurrency = (props: Props) => {
     const valueOnlyNumbers = value.replace('.', '').replace(',', '').replace(/\D/g, '');
     const valueToFloat = parseFloat(valueOnlyNumbers) / 100;
     const finalValue = isNaN(valueToFloat) ? 0 : numberSign === '+' ? valueToFloat : - valueToFloat;
-    
+
     setMoneyAmount(finalValue);
     callParentOnChange(finalValue);
   };
@@ -61,6 +70,9 @@ const InputCurrency = (props: Props) => {
   };
 
   const handleNumberSignOnKeyUp = (key: string) => {
+    if (allowNumbers)
+      return;
+
     if (key === '-') {
       handleNumberSignClick('-');
     } else if (key === '+') {
@@ -70,23 +82,32 @@ const InputCurrency = (props: Props) => {
 
   return (
     <div className={styles.inputCurrency__container}>
-      <div id='number-sing-options' role='select' className={styles.inputCurrency__numberSignOptions}>
-        <div
-          role='option'
-          className={classNames({
-            [styles.inputCurrency__numberSign]: true,
-            [styles.inputCurrency__numberSignSelected]: numberSign === '+'
-          })}
-          onClick={() => handleNumberSignClick('+')}
-        >+ $</div>
-        <div
-          role='option'
-          className={classNames({
-            [styles.inputCurrency__numberSign]: true,
-            [styles.inputCurrency__numberSignSelected]: numberSign === '-'
-          })}
-          onClick={() => handleNumberSignClick('-')}
-        >- $</div>
+
+      <div id='number-sign-options'>
+        {
+          !allowNumbers
+            ? (
+              <div id='number-sing-options' role='select' className={styles.inputCurrency__numberSignOptions}>
+                <div
+                  role='option'
+                  className={classNames({
+                    [styles.inputCurrency__numberSign]: true,
+                    [styles.inputCurrency__numberSignSelected]: numberSign === '+'
+                  })}
+                  onClick={() => handleNumberSignClick('+')}
+                >+ $</div>
+                <div
+                  role='option'
+                  className={classNames({
+                    [styles.inputCurrency__numberSign]: true,
+                    [styles.inputCurrency__numberSignSelected]: numberSign === '-'
+                  })}
+                  onClick={() => handleNumberSignClick('-')}
+                >- $</div>
+              </div>
+            )
+            : null
+        }
       </div>
 
       <input

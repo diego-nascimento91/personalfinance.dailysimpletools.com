@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { ITransactionType } from 'assets/interfaces/interfaces';
+import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import styles from './AddTransactionForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import AddTFormHeader from './AddTFormHeader/AddTFormHeader';
 import AddTFormOptionTabs from './AddTFormOptionTabs/AddTFormOptionTabs';
 import AddTFormInputs from './AddTFormInputs/AddTFormInputs';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 
 
 const AddTransactionForm = () => {

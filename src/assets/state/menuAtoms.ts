@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import db from 'components/MenuST/assets/languageDB.json';
+import db from 'components/MenuST/_assets/languageDB.json';
 
 const languageDB = db.languages;
 export const languagesAtom = atom<typeof languageDB> ({

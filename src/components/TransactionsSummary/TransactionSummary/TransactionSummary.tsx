@@ -8,7 +8,7 @@ import styles from './TransactionSummary.module.scss';
 import stylesImgError from 'assets/styles/imgError.module.scss';
 
 
-const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => {
+const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
   const [, setCurrentTransaction] = useCurrentTransaction();
   const [showChooseTypeTransactionPopUp] = useShowChooseTypeTransactionPopUp();
@@ -18,7 +18,7 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
   const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       getCategoryURL();
     }
   }, [categories, user]);
@@ -43,16 +43,16 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
   };
 
   const getCategoryURL = () => {
-    if(transaction.category) setImageURL(transaction.category.icon);
+    if (transaction.category) setImageURL(transaction.category.icon);
     else setImageURL('');
   };
 
   return (
     <>
-      <div className={styles.transaction__container} onClick={handleTransactionClick}>
+      <div className={styles.transaction} onClick={handleTransactionClick}>
         <div className={styles.transaction__category}>
           {
-            imageURL && imageURL.length > 0 
+            imageURL && imageURL.length > 0
               ? (
                 <>
                   <img className={styles['transaction__category--icon']} src={imageURL} alt="icon"
@@ -67,22 +67,23 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
               )
               : (
                 <span className={styles['transaction__category--iconText']} >{
-                  transaction.category && transaction.category.name ? transaction.category.name[0] : 'T' }</span>
+                  transaction.category && transaction.category.name ? transaction.category.name[0] : 'T'}</span>
               )
           }
         </div>
         <div className={styles.transaction__body}>
-          <p className={styles.transaction__description}>{transaction.name}</p>
+          <p className={styles['transaction__body--name']}>{transaction.name}</p>
+          <p className={styles['transaction__body--account']}>{transaction.account.name}</p>
+          <p className={styles['transaction__body--date']}>{formatDate(transaction.date)}</p>
           <p className={
             classNames({
-              [styles.transaction__amount]: true,
-              [styles.transaction__amount__positive]: transaction.amount >= 0,
-              [styles.transaction__amount__negative]: transaction.amount < 0
+              [styles['transaction__body--amount']]: true,
+              [styles['transaction__body--amountPositive']]: transaction.amount >= 0,
+              [styles['transaction__body--amountNegative']]: transaction.amount < 0
             })}>
             {transaction.amount >= 0 ? '+ ' : '- '} $ {(Math.abs(transaction.amount)).toFixed(2)}
           </p>
         </div>
-        <p className={styles.transaction__date}>{formatDate(transaction.date)}</p>
       </div>
       {
         showReceipt

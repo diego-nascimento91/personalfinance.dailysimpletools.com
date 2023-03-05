@@ -72,6 +72,7 @@ const AddTFormInputs = (props: Props) => {
                 account={accountTo}
                 accountID={accountIDTo}
                 label='To account:'
+                error= { {message: 'Accounts cannot be the same!', status: account === accountTo} }
                 setAccount={(accountTo: string) => updateFields({ accountTo: accountTo })}
               />
             </>
@@ -87,7 +88,7 @@ const AddTFormInputs = (props: Props) => {
         />
       </label>
 
-      <button className={styles.addTFormInputs__button} type='submit'>{buttonTxt}</button>
+      <button disabled={account === accountTo} className={styles.addTFormInputs__button} type='submit'>{buttonTxt}</button>
     </>
   );
 };

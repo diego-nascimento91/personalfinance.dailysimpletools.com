@@ -45,4 +45,8 @@
   color: white;
   height: 3rem;
   width: 100%;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }

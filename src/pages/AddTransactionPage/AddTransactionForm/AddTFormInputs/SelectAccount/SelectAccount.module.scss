@@ -14,8 +14,9 @@
     width: 100%;
   }
   
-  &__accountDeletedAlert {
+  &__accountAlert {
     color: rgb(229, 114, 114);
+    display: block;
     font-size: 90%;
     line-height: 1.4rem;
     margin-top: -0.75rem;

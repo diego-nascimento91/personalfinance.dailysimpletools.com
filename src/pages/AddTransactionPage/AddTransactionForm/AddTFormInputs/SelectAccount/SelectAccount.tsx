@@ -7,11 +7,15 @@ import styles from './SelectAccount.module.scss';
 interface Props {
   account: string,
   accountID: string,
+  error?: {
+    message: string,
+    status: boolean,
+  },
   label: string,
   setAccount: (account: string) => void,
 }
 const SelectAccount = (props: Props) => {
-  const { account, accountID, label, setAccount } = props;
+  const { account, accountID, error, label, setAccount } = props;
   const nav = useNavigate();
   const [accounts] = useAccounts();
   const [currentTransaction] = useCurrentTransaction();
@@ -50,10 +54,13 @@ const SelectAccount = (props: Props) => {
       </select>
 
       {!accountExists() && currentTransaction && (
-        <div role='alert' className={styles.selectAccount__accountDeletedAlert}>
+        <span role='alert' className={styles.selectAccount__accountAlert}>
           The account linked to this transaction has been deleted. To update this transaction, you have to choose another account. Note that this transaction&apos;s amount will be added to the balance of the new account chosen.
-        </div>
+        </span>
       )}
+      { error && error.status && account !== '' && 
+        <span role='alert' className={styles.selectAccount__accountAlert}>{error.message}</span> 
+      }
     </label>
   );
 };

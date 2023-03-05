@@ -13,7 +13,7 @@ export const getBalancesSum = (accounts: IAccount[], transactions: ITransaction[
     //credit account
     const totalCreditAccount = transactions.filter(item => (item.account.type === 'credit-account')).map(item => (item.amount)).reduce(
       (previousValue, currentValue) => previousValue + currentValue, 0);
-    projectedBalanceSum = totalBalanceAccount - totalCreditAccount;
+    projectedBalanceSum = totalBalanceAccount + totalCreditAccount;
 
   } else {
     currentBalanceSum = 0;

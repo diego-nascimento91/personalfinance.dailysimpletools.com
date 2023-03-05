@@ -3,9 +3,9 @@ import { OrderByDirection } from 'firebase/firestore';
 //Transactions
 export type ITransactionType = 'income' | 'expense' | 'transfer';
 export interface ITransaction {
-  description: string,
+  name: string,
   amount: number,
-  category: string,
+  category: ICategory | null,
   date: Date,
   account: IAccount,
   note: string,
@@ -18,7 +18,7 @@ export interface ITransaction {
 // Categories
 export interface ICategory {
   description: string,
-  value: string,
+  name: string,
   type: ITransactionType | 'other',
   icon: string,
   id?: string,

@@ -1,0 +1,38 @@
+@import 'assets/styles/variables.scss';
+
+.graphBar {
+  align-items: center;
+  display: flex;
+  &:first-child {
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    width: 11rem;
+  }
+
+  &__bar {
+    width:  100%;
+
+    &2 {
+      background: rgb(34, 34, 34);
+      border: 0.1rem solid black;
+      border-radius: 0.5rem;
+      display: flex;
+      height: $barwidth;
+      justify-content: flex-end;
+      line-height: $barwidth;
+      min-width: min-content;
+      padding: 0 1rem;
+      transition: 200ms;
+      white-space: nowrap;
+    }
+  }
+
+  &__positive {
+    color: $positiveMoney;
+  }
+  &__negative {
+    color: $negativeMoney
+  }
+}

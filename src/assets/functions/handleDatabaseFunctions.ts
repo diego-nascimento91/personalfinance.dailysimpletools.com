@@ -11,7 +11,7 @@ export const handleFetchCategories = async (setCategories: SetterOrUpdater<ICate
 
     // user categories
     const collectionPathUser = `users/${userId}/categories`;
-    const orderConfigUser: IOrderConfig[] = [{ fieldName: 'value', orderDirection: 'asc' }];
+    const orderConfigUser: IOrderConfig[] = [{ fieldName: 'name', orderDirection: 'asc' }];
     const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
 
     const categoriesDB = [...categoriesUser, ...categoriesDefault];
@@ -29,7 +29,7 @@ export const handleFetchOnlyUserCategories = async (setCategories: SetterOrUpdat
     // user categories
     const collectionPathUser = `users/${userId}/categories`;
     const orderConfigUser: IOrderConfig[] = [
-      { fieldName: 'value', orderDirection: 'asc' },
+      { fieldName: 'name', orderDirection: 'asc' },
       { fieldName: 'type', orderDirection: 'desc' }];
     const categoriesUser = await FirebaseFirestoreService.readAllDocsFromCollection(collectionPathUser, orderConfigUser);
 

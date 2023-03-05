@@ -1,4 +1,4 @@
-import logo from '../assets/simpletools.svg';
+import logo from '../_assets/simpletools.svg';
 import styles from './Logo.module.scss';
 
 const Logo = () => {

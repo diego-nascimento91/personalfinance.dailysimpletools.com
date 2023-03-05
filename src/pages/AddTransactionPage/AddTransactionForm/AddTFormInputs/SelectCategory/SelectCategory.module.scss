@@ -1,8 +1,8 @@
-.SelectInput__container {
+.selectCategory {
   display: block;
   width: 100%;
 
-  .SelectInput__select {
+  &__select {
     background: rgb(180, 180, 180);
     border: none;
     border-radius: 0.5rem;
@@ -13,10 +13,18 @@
     margin-top: 0.5rem;
     width: 100%;
   }
-  
-  .SelectInput__accountDeletedAlert {
-    color: rgb(243, 102, 102);
-    font-size: 80%;
+
+  &__categoryDescription {
+    font-size: 90%;
+    margin-bottom: 1rem;
+    margin-left: 0.25rem;
+    margin-top: -0.75rem;
+  }
+
+  &__categoryDeletedAlert {
+    color: rgb(229, 114, 114);
+    font-size: 90%;
+    line-height: 1.4rem;
     margin-top: -0.75rem;
     margin-bottom: 1rem;
   }

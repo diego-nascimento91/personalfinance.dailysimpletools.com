@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
 import { IAccount, IAccountType } from 'assets/interfaces/interfaces';
 import { useAccounts, useSelectedAccount, useUser } from 'assets/state/hooks/firebaseHooks';
-import { isAccountNameValid } from './isAccountNameValid';
+import { isAccountNameValid } from './_assets/isAccountNameValid';
 import { handleCreateDocFunction, handleFetchAccounts, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import styles from './AddAccountForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';

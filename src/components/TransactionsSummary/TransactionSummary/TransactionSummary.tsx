@@ -43,16 +43,8 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
   };
 
   const getCategoryURL = () => {
-    const category = categories.find(item => {
-      const found = item.value === transaction.category;
-      return found;
-    });
-
-    if(category) {
-      setImageURL(category.icon);
-      return;
-    } 
-    setImageURL('');
+    if(transaction.category) setImageURL(transaction.category.icon);
+    else setImageURL('');
   };
 
   return (
@@ -70,16 +62,17 @@ const TransactionSummary = ({ transaction } : { transaction: ITransaction }) => 
                       setImageError(true);
                     }}
                   />
-                  {imageError && <span className={styles['transaction__category--iconText']} >{transaction.category[0]}</span>}
+                  {imageError && <span className={styles['transaction__category--iconText']} >{transaction.category?.name[0]}</span>}
                 </>
               )
               : (
-                <span className={styles['transaction__category--iconText']} >{transaction.category[0]}</span>
+                <span className={styles['transaction__category--iconText']} >{
+                  transaction.category && transaction.category.name ? transaction.category.name[0] : 'T' }</span>
               )
           }
         </div>
         <div className={styles.transaction__body}>
-          <p className={styles.transaction__description}>{transaction.description}</p>
+          <p className={styles.transaction__description}>{transaction.name}</p>
           <p className={
             classNames({
               [styles.transaction__amount]: true,

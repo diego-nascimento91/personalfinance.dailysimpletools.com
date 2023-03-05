@@ -5,7 +5,7 @@ import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCate
 import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
 import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
-import { isCategoryNameInvalid } from './isCategoryNameInvalid';
+import { isCategoryNameInvalid } from './_assets/isCategoryNameInvalid';
 import styles from './AddCategoryForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import IconPreview from './IconPreview/IconPreview';
@@ -37,7 +37,7 @@ const AddCategoryForm = () => {
 
   const handleSelectedCategoryFormLoad = () => {
     if (selectedCategory) {
-      const editValue = selectedCategory.value;
+      const editValue = selectedCategory.name;
       const editType = selectedCategory.type;
       const editDescription = selectedCategory.description;
       const editIcon = selectedCategory.icon;
@@ -72,7 +72,7 @@ const AddCategoryForm = () => {
 
   const getCategoryObj = () => {
     const categoryObj: ICategory = {
-      value: name,
+      name: name,
       type: type as ITransactionType,
       description: description,
       icon: icon,

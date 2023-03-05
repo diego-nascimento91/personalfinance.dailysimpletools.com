@@ -29,7 +29,7 @@ const TransactionsSummary = (props: Props) => {
     else {
       if (filteredCategory) {
         thisFilteredTransactions = transactions.filter(item => (
-          item.category === filteredCategory.name 
+          item.category?.name === filteredCategory.name 
             && item.type === filteredTransactionType
             
         ));

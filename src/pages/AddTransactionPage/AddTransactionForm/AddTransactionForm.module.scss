@@ -16,4 +16,17 @@
     max-width: 50rem;
     width: 50rem;
   }
+
+  .addTransaction__form {
+    background: rgb(0, 0, 66);
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    padding: 1rem;
+  }
+  .addTransaction__form--income-expense {
+    border-top-right-radius: 0.5rem;
+  }
+  .addTransaction__form--transfer {
+    border-top-left-radius: 0.5rem;
+  }
 }

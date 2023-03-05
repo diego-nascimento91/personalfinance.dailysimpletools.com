@@ -1,26 +1,26 @@
-import { SetterOrUpdater } from 'recoil';
 import classNames from 'classnames';
 import styles from './AddTFormOptionTabs.module.scss';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 
+type typeTab = 'income-expense' | 'transfer-withdraw';
 
 interface Props {
-  tabTransactionOption: 'income-expense' | 'transfer-withdraw',
-  setTabTransactionOption: SetterOrUpdater<'income-expense' | 'transfer-withdraw'>,
+  isIncomeExpenseTransaction: boolean,
+  isTransferTransaction: boolean,
+  isUpdateTransaction: boolean,
+  setTabTransactionOption: (typeTab: typeTab) => void,
 }
 const AddTFormOptionTabs = (props: Props) => {
-  const { tabTransactionOption, setTabTransactionOption } = props;
-  const [currentTransaction] = useCurrentTransaction();
+  const { isIncomeExpenseTransaction, isTransferTransaction, isUpdateTransaction, setTabTransactionOption } = props;
 
   return (
     <div className={styles.addTFormOptionTabs__container} >
       {
-        !currentTransaction || (currentTransaction?.type !== 'transfer')
+        !isUpdateTransaction || (isUpdateTransaction && isIncomeExpenseTransaction)
           ? (
             <div id='option-tab1'
               className={classNames({
                 [styles.addTFormOptionTabs__formOption]: true,
-                [styles.addTFormOptionTabs__formOptionChosen]: tabTransactionOption === 'income-expense',
+                [styles.addTFormOptionTabs__formOptionChosen]: isIncomeExpenseTransaction,
               })}
               role='option'
               onClick={() => setTabTransactionOption('income-expense')}
@@ -32,12 +32,12 @@ const AddTFormOptionTabs = (props: Props) => {
       }
 
       {
-        !currentTransaction || (currentTransaction.type === 'transfer')
+        !isUpdateTransaction || (isUpdateTransaction && isTransferTransaction)
           ? (
             <div id='option-tab2'
               className={classNames({
                 [styles.addTFormOptionTabs__formOption]: true,
-                [styles.addTFormOptionTabs__formOptionChosen]: tabTransactionOption === 'transfer-withdraw',
+                [styles.addTFormOptionTabs__formOptionChosen]: isTransferTransaction,
               })}
               role='option'
               onClick={() => setTabTransactionOption('transfer-withdraw')}

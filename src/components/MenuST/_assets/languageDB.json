@@ -1,0 +1,10 @@
+{
+  "languages": [
+    {
+      "id": 1,
+      "value": "en",
+      "label": "English",
+      "pagetitle": "Personal Finance Manager - SimpleTools"
+    }
+  ]
+}

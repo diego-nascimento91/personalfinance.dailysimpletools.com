@@ -53,7 +53,7 @@ const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) 
 
   const getCategoryURL = () => {
     const category = categories.find(item => {
-      return item.value === totalCategory.name;
+      return item.name === totalCategory.name;
     });
 
     if(category) {

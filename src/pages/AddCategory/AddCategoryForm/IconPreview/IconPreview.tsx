@@ -45,7 +45,7 @@ const IconPreview = (props: Props) => {
             </>
           )
           : name && name.length > 0
-            ? <span className={styles['addCategoryForm__iconPreview--iconText']}>{name[0]}</span>
+            ? <span className={styles.iconPreview__iconText}>{name[0]}</span>
             : null
       }
     </div>

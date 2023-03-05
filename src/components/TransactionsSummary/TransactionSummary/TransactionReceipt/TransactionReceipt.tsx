@@ -83,7 +83,7 @@ const TransactionReceipt = () => {
                     {currentTransaction.type[0].toUpperCase() + currentTransaction.type.substring(1)} transaction
                   </li>
                   <li className={styles.receipt__description}>
-                    {currentTransaction.description}
+                    {currentTransaction.name}
                   </li>
                   <li className={styles.receipt__amount}>
                     <span>Amount ($): </span>
@@ -91,7 +91,7 @@ const TransactionReceipt = () => {
                   </li>
                   <li className={styles.receipt__category}>
                     <span>Category: </span>
-                    <span className={styles.receipt__categorySpan}>{currentTransaction.category}</span>
+                    <span className={styles.receipt__categorySpan}>{currentTransaction.category?.name}</span>
                   </li>
                   <li className={styles.receipt__date}>
                     <span>Transaction&apos;s date: </span>

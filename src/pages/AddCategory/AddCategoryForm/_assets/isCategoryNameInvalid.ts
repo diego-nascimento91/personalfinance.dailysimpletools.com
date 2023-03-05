@@ -16,9 +16,9 @@ export const isCategoryNameInvalid = (name: string, type: string, categories: IC
   const nameExists = categoriesOfType.some(category => {
     // if user is editing a current category
     if(selectedCategory) {
-      return compareStrings(category.value, name) && category.id !== selectedCategory.id;
+      return compareStrings(category.name, name) && category.id !== selectedCategory.id;
     }
-    return compareStrings(category.value, name);
+    return compareStrings(category.name, name);
   });
 
   if (nameExists) {

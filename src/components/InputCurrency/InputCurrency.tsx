@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
-import { SetterOrUpdater } from 'recoil';
 import classNames from 'classnames';
 import styles from './InputCurrency.module.scss';
 
 interface Props {
   moneyAmount: number,
-  setMoneyAmount: SetterOrUpdater<number>,
-  onChange?: (amount: number) => void, // optional to be used in case the parent component wants to trigger a function with the amount the user entered.
+  setMoneyAmount: (amount: number) => void,
   allowNumbers?: 'positive' | 'negative'
 }
 const InputCurrency = (props: Props) => {
-  const { moneyAmount, setMoneyAmount, onChange, allowNumbers } = props;
+  const { moneyAmount, setMoneyAmount, allowNumbers } = props;
   const [numberSign, setNumberSign] = useState<'+' | '-'>('+');
 
   //useEffect to set correctly the numberSign according to the allowNumbers variable.
@@ -33,11 +31,6 @@ const InputCurrency = (props: Props) => {
       setNumberSign('-');
   }, [moneyAmount]);
 
-  const callParentOnChange = (value: number) => {
-    if (onChange) // calls the onChange prop's function with the finalValue in case onChange exists
-      onChange(value);
-  };
-
   const maskCurrencyNumber = (value: number) => {
     const currency = numberSign === '+' ? '+ $' : '- $';
     const options = { minimumFractionDigits: 2 };
@@ -52,7 +45,6 @@ const InputCurrency = (props: Props) => {
     const finalValue = isNaN(valueToFloat) ? 0 : numberSign === '+' ? valueToFloat : - valueToFloat;
 
     setMoneyAmount(finalValue);
-    callParentOnChange(finalValue);
   };
 
   const handleNumberSignClick = (input: '+' | '-') => {
@@ -66,7 +58,6 @@ const InputCurrency = (props: Props) => {
     }
 
     setMoneyAmount(finalValue);
-    callParentOnChange(finalValue);
   };
 
   const handleNumberSignOnKeyUp = (key: string) => {

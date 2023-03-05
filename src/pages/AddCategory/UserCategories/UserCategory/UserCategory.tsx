@@ -38,12 +38,12 @@ const UserCategory = (props: Props) => {
               <img className={styles['userCategory__img--icon']} src={category.icon} />
             )
             : (
-              <span className={styles['userCategory__img--iconText']} >{category.value[0]}</span>
+              <span className={styles['userCategory__img--iconText']} >{category.name[0]}</span>
             )
         }
       </div>
       <div className={styles['userCategory__nameAndType--container']}>
-        <p className={styles['userCategory__nameAndType--name']}>{category.value}</p>
+        <p className={styles['userCategory__nameAndType--name']}>{category.name}</p>
         <p className={styles['userCategory__nameAndType--type']}>{category.type[0].toUpperCase() + category.type.substring(1)} category</p>
       </div>
       <div className={styles.userCategory__buttons}>

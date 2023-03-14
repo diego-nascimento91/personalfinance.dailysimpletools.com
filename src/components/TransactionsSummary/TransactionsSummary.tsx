@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useFilteredCategory, useFilteredTransactionType } from 'assets/state/hooks/filterTransactionsHooks';
 import { useEffect, useState } from 'react';
 import styles from './TransactionsSummary.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
+import { useFilteredCategory, useFilteredTransactionType } from 'assets/state/hooks/transactions';
 
 interface Props {
   transactions: ITransaction[],

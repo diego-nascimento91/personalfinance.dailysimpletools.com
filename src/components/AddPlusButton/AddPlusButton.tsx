@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
 import classNames from 'classnames';
 import styles from './AddPlusButton.module.scss';
 import AddPlusButtonPopUp from './AddPlusButtonPopUp/AddPlusButtonPopUp';
+import { useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/transactions';
 
 
 const AddPlusButton = () => {

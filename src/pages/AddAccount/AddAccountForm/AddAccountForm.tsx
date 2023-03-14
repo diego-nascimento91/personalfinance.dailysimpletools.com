@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
 import { IAccount, IAccountType } from 'assets/interfaces/interfaces';
-import { useAccounts, useSelectedAccount, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import { isAccountNameValid } from './_assets/isAccountNameValid';
 import { handleCreateDocFunction, handleFetchAccounts, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import styles from './AddAccountForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import InputCurrency from 'components/InputCurrency/InputCurrency';
+import { useAccounts, useSelectedAccount } from 'assets/state/hooks/accounts';
 
 
 const AddAccountForm = () => {

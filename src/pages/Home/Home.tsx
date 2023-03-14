@@ -1,12 +1,11 @@
 import styles from './Home.module.scss';
-
 import TotalsPerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import UserHeader from 'components/UserHeader/UserHeader';
 import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
-import { useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/firebaseHooks';
 import PageWrapperLoggedIn from 'components/PageWrapperLoggedIn/PageWrapperLoggedIn';
+import { useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/transactions';
 
 const Home = () => {
   const [transactionsMonth] = useTransactionsMonth();

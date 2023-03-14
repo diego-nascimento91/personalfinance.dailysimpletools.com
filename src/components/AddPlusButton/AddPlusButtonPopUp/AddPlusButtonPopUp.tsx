@@ -1,5 +1,5 @@
+import { useCurrentTransaction, useShowChooseTypeTransactionPopUp } from 'assets/state/hooks/transactions';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { useCurrentTransaction, useShowChooseTypeTransactionPopUp } from 'assets/state/hooks/addTransactionHooks';
 import { useNavigate } from 'react-router-dom';
 import styles from './AddPlusButtonPopUp.module.scss';
 

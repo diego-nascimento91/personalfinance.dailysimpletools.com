@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { FaGlobeAmericas } from 'react-icons/fa';
-import { useMenuStatus, useSelectedLanguage } from 'assets/state/hooks/menuHooks';
+import { useMenuStatus, useSelectedLanguage } from 'assets/state/hooks/navbar';
 import LanguageOptions from './LanguageOptions/LanguageOptions';
 import styles from './Language.module.scss';
 

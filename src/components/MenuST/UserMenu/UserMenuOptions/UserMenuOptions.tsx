@@ -1,4 +1,4 @@
-import { useUserMenuStatus } from 'assets/state/hooks/menuHooks';
+import { useUserMenuStatus } from 'assets/state/hooks/navbar';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './UserMenuOptions.module.scss';
 

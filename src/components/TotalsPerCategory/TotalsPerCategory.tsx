@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ITotalsCategories, ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
-import { useUser } from 'assets/state/hooks/firebaseHooks';
-import { useFilteredCategory, useFilteredTransactionType } from 'assets/state/hooks/filterTransactionsHooks';
+import { useUser } from 'assets/state/hooks/user';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import { useFilteredCategory, useFilteredTransactionType } from 'assets/state/hooks/transactions';
 
 interface Props {
   transactions: ITransaction[],

@@ -1,9 +1,9 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { handleDeleteDocFunction, handleDeleteDocsTransferFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
-import { useCurrentTransaction, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
-import { useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './TransactionReceipt.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useChosenMonth, useCurrentTransaction, useRecentTransactions, useShowReceiptPopUp, useTransactionsMonth } from 'assets/state/hooks/transactions';
+import { useUser } from 'assets/state/hooks/user';
 
 const TransactionReceipt = () => {
   const [showReceipt, setShowReceipt] = useShowReceiptPopUp();

@@ -1,7 +1,7 @@
 import { handleDeleteDocFunction, handleFetchCategories, handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory } from 'assets/interfaces/interfaces';
-import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useCategories, useSelectedCategory, useUserCategories } from 'assets/state/hooks/categories';
+import { useUser } from 'assets/state/hooks/user';
 import styles from './UserCategory.module.scss';
 
 interface Props {

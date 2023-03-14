@@ -1,7 +1,7 @@
-import { useUserCategories } from 'assets/state/hooks/addCategoryHooks';
 import styles from './UserCategories.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import UserCategory from './UserCategory/UserCategory';
+import { useUserCategories } from 'assets/state/hooks/categories';
 
 
 const UserCategories = () => {

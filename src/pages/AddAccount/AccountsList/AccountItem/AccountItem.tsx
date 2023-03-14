@@ -1,6 +1,7 @@
 import { handleDeleteDocFunction, handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
 import { IAccount } from 'assets/interfaces/interfaces';
-import { useAccounts, useSelectedAccount, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useAccounts, useSelectedAccount } from 'assets/state/hooks/accounts';
+import { useUser } from 'assets/state/hooks/user';
 import styles from './AccountItem.module.scss';
 
 interface Props {

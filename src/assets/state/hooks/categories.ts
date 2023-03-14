@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { useSelectedCategoryAtom, useUserCategoriesAtom } from '../addCategoryAtoms';
+import { useCategoriesAtom, useSelectedCategoryAtom, useUserCategoriesAtom } from '../categories';
 
 export const useUserCategories = () => {
   return useRecoilState(useUserCategoriesAtom);
@@ -7,4 +7,8 @@ export const useUserCategories = () => {
 
 export const useSelectedCategory = () => {
   return useRecoilState(useSelectedCategoryAtom);
+};
+
+export const useCategories = () => {
+  return useRecoilState(useCategoriesAtom);
 };

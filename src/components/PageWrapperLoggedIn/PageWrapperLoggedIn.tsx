@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './PageWrapperLoggedIn.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { handleFetchAccounts, handleFetchCategories, handleFetchOnlyUserCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
 import stylesPadding from 'assets/styles/padding.module.scss';
-import { useUserCategories } from 'assets/state/hooks/addCategoryHooks';
+import { useCategories, useUserCategories } from 'assets/state/hooks/categories';
+import { useUser } from 'assets/state/hooks/user';
+import { useChosenMonth, useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/transactions';
+import { useAccounts } from 'assets/state/hooks/accounts';
 
 
 interface Props {

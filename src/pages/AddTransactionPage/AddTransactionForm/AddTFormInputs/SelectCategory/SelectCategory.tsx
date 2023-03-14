@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { ICategory } from 'assets/interfaces/interfaces';
-import { useCategories } from 'assets/state/hooks/firebaseHooks';
 import { FormTypeData } from '../../_assets/formTypes';
 import styles from './SelectCategory.module.scss';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
+import { useCategories } from 'assets/state/hooks/categories';
+import { useCurrentTransaction } from 'assets/state/hooks/transactions';
 
 interface Props {
   amount: number,

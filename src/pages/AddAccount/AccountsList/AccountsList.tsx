@@ -1,7 +1,7 @@
 import styles from './AccountsList.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
-import { useAccounts } from 'assets/state/hooks/firebaseHooks';
 import AccountItem from './AccountItem/AccountItem';
+import { useAccounts } from 'assets/state/hooks/accounts';
 
 
 const AccountsList = () => {

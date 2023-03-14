@@ -2,7 +2,7 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Router } from 'react-router-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import ResetPassword from './ResetPassword';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 

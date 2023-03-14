@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { menuStatusAtom, languagesAtom, selectedLanguageAtom, userMenuStatusAtom } from '../menuAtoms';
+import { menuStatusAtom, languagesAtom, selectedLanguageAtom, userMenuStatusAtom } from '../navbar';
 
 export const useMenuStatus = () => {
   return useRecoilState(menuStatusAtom);

@@ -3,7 +3,7 @@ import { FormTypeData } from './formTypes';
 import { useState } from 'react';
 import { typeTab } from './formTypes';
 import { handleCreateDocFunction, handleCreateDocsTransferFunction, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
+import { useCurrentTransaction } from 'assets/state/hooks/transactions';
 
 
 export const useMultitabForm = (amount: number) => {

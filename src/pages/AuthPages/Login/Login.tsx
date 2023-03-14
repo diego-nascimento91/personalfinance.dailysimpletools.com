@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { validateEmail } from 'assets/functions/validateEmail';
 import { validatePassword } from 'assets/functions/validatePassword';
-import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import styles from './Login.module.scss';

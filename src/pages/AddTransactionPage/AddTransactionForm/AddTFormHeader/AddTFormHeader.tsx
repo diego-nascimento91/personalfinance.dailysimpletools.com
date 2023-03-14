@@ -1,5 +1,5 @@
 import { returnPage } from 'assets/functions/returnPage';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
+import { useCurrentTransaction } from 'assets/state/hooks/transactions';
 import { BsArrowLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import styles from './AddTFormHeader.module.scss';

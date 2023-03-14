@@ -10,3 +10,8 @@ export const useSelectedCategoryAtom = atom<ICategory | null> ({
   key: 'useSelectedCategoryAtom',
   default: null
 });
+
+export const useCategoriesAtom = atom<ICategory[]> ({
+  key: 'useCategoriesAtom',
+  default: []
+});

@@ -1,10 +1,11 @@
 import { ITotalsCategories } from 'assets/interfaces/interfaces';
-import { useFilteredCategory } from 'assets/state/hooks/filterTransactionsHooks';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './CategoryBarChart.module.scss';
 import stylesImgError from 'assets/styles/imgError.module.scss';
+import { useCategories } from 'assets/state/hooks/categories';
+import { useFilteredCategory } from 'assets/state/hooks/transactions';
 
 interface Props {
   barHeight: number,

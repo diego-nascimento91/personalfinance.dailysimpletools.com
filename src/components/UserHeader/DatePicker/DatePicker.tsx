@@ -1,9 +1,10 @@
 import { handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
-import { useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import { useEffect } from 'react';
 import { AiOutlineDown } from 'react-icons/ai';
 import DatePickerReact from 'react-datepicker';
 import styles from './DatePicker.module.scss';
+import { useChosenMonth, useTransactionsMonth } from 'assets/state/hooks/transactions';
 
 const DatePicker = () => {
   const [month, setMonth] = useChosenMonth();

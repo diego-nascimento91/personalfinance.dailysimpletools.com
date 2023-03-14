@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
 import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCategories, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
 import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
-import { useSelectedCategory, useUserCategories } from 'assets/state/hooks/addCategoryHooks';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import { isCategoryNameInvalid } from './_assets/isCategoryNameInvalid';
 import styles from './AddCategoryForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import IconPreview from './IconPreview/IconPreview';
+import { useCategories, useSelectedCategory, useUserCategories } from 'assets/state/hooks/categories';
 
 
 const AddCategoryForm = () => {

@@ -1,11 +1,12 @@
 import { ITransaction } from 'assets/interfaces/interfaces';
-import { useCurrentTransaction, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/addTransactionHooks';
-import { useCategories, useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import TransactionReceipt from './TransactionReceipt/TransactionReceipt';
 import styles from './TransactionSummary.module.scss';
 import stylesImgError from 'assets/styles/imgError.module.scss';
+import { useCategories } from 'assets/state/hooks/categories';
+import { useCurrentTransaction, useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/transactions';
 
 
 const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {

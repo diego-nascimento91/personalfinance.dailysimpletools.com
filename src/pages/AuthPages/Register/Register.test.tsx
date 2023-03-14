@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
 import Register from './Register';
-import { useUser } from 'assets/state/hooks/firebaseHooks';
+import { useUser } from 'assets/state/hooks/user';
 
 jest.mock('assets/state/hooks/firebaseHooks', () => {
   return {

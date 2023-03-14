@@ -4,7 +4,7 @@ import TransactionsSummary from 'components/TransactionsSummary/TransactionsSumm
 import UserHeader from 'components/UserHeader/UserHeader';
 import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
 import PageWrapperLoggedIn from 'components/PageWrapperLoggedIn/PageWrapperLoggedIn';
-import { useTransactionsMonth } from 'assets/state/hooks/firebaseHooks';
+import { useTransactionsMonth } from 'assets/state/hooks/transactions';
 
 const TransactionsPage = () => {
   const [transactionsMonth,] = useTransactionsMonth();

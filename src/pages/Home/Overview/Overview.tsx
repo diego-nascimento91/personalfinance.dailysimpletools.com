@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAccounts, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import { calcChartWidth } from './_assets/calcChartWidth';
 import { getIncomeExpenseSums } from './_assets/getIncomeExpenseSums';
 import { getBalancesSum } from './_assets/getBalancesSum';
@@ -9,17 +8,18 @@ import styles from './Overview.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import InfoProjectedBalance from './InfoProjectedBalance/InfoProjectedBalance';
 import GraphBar from './GraphBar/GraphBar';
+import { useUser } from 'assets/state/hooks/user';
+import { useTransactionsMonth } from 'assets/state/hooks/transactions';
+import { useAccounts } from 'assets/state/hooks/accounts';
 
 const Overview = () => {
   const [user,] = useUser();
   const [transactions] = useTransactionsMonth();
   const [accounts, setAccounts] = useAccounts();
-
   const [sumIncome, setSumIncome] = useState(0);
   const [sumExpense, setSumExpense] = useState(0);
   const [incomeWidth, setIncomeWidth] = useState('100%');
   const [expenseWidth, setExpenseWidth] = useState('100%');
-
   const [sumCurrentBalance, setSumCurrentBalance] = useState(0);
   const [sumProjectedBalance, setSumProjectedBalance] = useState(0);
   const [currentBalanceWidth, setCurrentBalanceWidth] = useState('100%');

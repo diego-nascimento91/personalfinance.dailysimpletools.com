@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAccounts, useCategories, useChosenMonth, useRecentTransactions, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
 import { FormTypeData } from './_assets/formTypes';
 import { loadCurrentTransaction, resetForm, submitForm, useMultitabForm } from './_assets/formFunctions';
 import { returnPage } from 'assets/functions/returnPage';
@@ -12,6 +10,10 @@ import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import AddTFormHeader from './AddTFormHeader/AddTFormHeader';
 import AddTFormOptionTabs from './AddTFormOptionTabs/AddTFormOptionTabs';
 import AddTFormInputs from './AddTFormInputs/AddTFormInputs';
+import { useCategories } from 'assets/state/hooks/categories';
+import { useUser } from 'assets/state/hooks/user';
+import { useChosenMonth, useCurrentTransaction, useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/transactions';
+import { useAccounts } from 'assets/state/hooks/accounts';
 
 
 const INITIAL_DATA: FormTypeData = {

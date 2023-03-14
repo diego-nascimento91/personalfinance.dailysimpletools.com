@@ -1,6 +1,6 @@
+import { useAccounts } from 'assets/state/hooks/accounts';
+import { useCurrentTransaction } from 'assets/state/hooks/transactions';
 import { memo } from 'react';
-import { useCurrentTransaction } from 'assets/state/hooks/addTransactionHooks';
-import { useAccounts } from 'assets/state/hooks/firebaseHooks';
 import { useNavigate } from 'react-router-dom';
 import styles from './SelectAccount.module.scss';
 

@@ -29,6 +29,11 @@ const AddAccountForm = () => {
     if (selectedAccount) handleSelectedAccountFormLoad();
   }, [selectedAccount]);
 
+  useEffect(() => {
+    setSelectedAccount(null);
+    resetForm();
+  }, []);
+
 
   const handleSelectedAccountFormLoad = () => {
     if (selectedAccount) {
@@ -173,9 +178,9 @@ const AddAccountForm = () => {
             type === 'balance-account'
               ? (
                 <label className={styles.addAccountform__labels}> Current balance:
-                  <InputCurrency setMoneyAmount={setInitialBalance} moneyAmount={initialBalance}/>
+                  <InputCurrency setMoneyAmount={setInitialBalance} moneyAmount={initialBalance} />
                 </label>
-              ) 
+              )
               : null
           }
         </div>

@@ -1,59 +1,29 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { handleFetchAccounts, handleFetchCategories, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
-import { useAccounts, useCategories, useChosenMonth, useTransactionsMonth, useUser } from 'assets/state/hooks/firebaseHooks';
 import styles from './TransactionsPage.module.scss';
-import stylesPadding from 'assets/styles/padding.module.scss';
-import stylesPages from 'assets/styles/pages.module.scss';
 import TotalsPerCategory from 'components/TotalsPerCategory/TotalsPerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import UserHeader from 'components/UserHeader/UserHeader';
 import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
+import PageWrapperLoggedIn from 'components/PageWrapperLoggedIn/PageWrapperLoggedIn';
+import { useTransactionsMonth } from 'assets/state/hooks/firebaseHooks';
 
 const TransactionsPage = () => {
-  const nav = useNavigate();
-  const [user, loading] = useUser();
-  const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
-  const [categories, setCategories] = useCategories();
-  const [month] = useChosenMonth();
-  const[accounts, setAccounts] = useAccounts();
+  const [transactionsMonth,] = useTransactionsMonth();
 
-  useEffect(() => {
-    if (loading) return;
-    if (!user) nav('/');
-    if (user) {
-      handleUpdateDBs();
-    }
-  }, [user, loading]);
-
-  const handleUpdateDBs = () => {
-    if (user) {
-      if (!(categories && categories.length > 0)) {
-        handleFetchCategories(setCategories, user.uid);
-      }
-      if(!(accounts && accounts.length > 0)){
-        handleFetchAccounts(setAccounts, user.uid);
-      }
-      if (!(transactionsMonth && transactionsMonth.length > 0)) {
-        handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
-      }
-    }
-  };
 
   return (
-    <div className={`${stylesPadding.padding} ${stylesPages.pages}`}>
+    <PageWrapperLoggedIn>
       <div className={styles.transactionsPage__components}>
         <div className={styles.transactionsPage__userHeader}>
-          <UserHeader/>
+          <UserHeader />
         </div>
         <div className={styles.transactionsPage__totalsPerCategory}>
-          <TotalsPerCategory transactions={transactionsMonth} allTransactions={true}/>
+          <TotalsPerCategory transactions={transactionsMonth} allTransactions={true} />
         </div>
         <div className={styles.transactionsPage__transactionsSummary}><TransactionsSummary transactions={transactionsMonth} allTransactions={true} />
         </div>
       </div>
       <AddPlusButton />
-    </div>
+    </PageWrapperLoggedIn>
   );
 };
 

@@ -32,6 +32,10 @@ const AddCategoryForm = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
+    if(user) setSelectedCategory(null);
+  },[]);
+
+  useEffect(() => {
     setCategoryError(isCategoryNameInvalid(name, type, categories, selectedCategory));
   }, [name, type]);
 

@@ -1,6 +1,6 @@
-@import './variables.scss';
+@import 'assets/styles/variables';
 
-.pages {
+.PageWrapperLoggedIn {
   background: $page-background;
   color: white;
   display: flex;

@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
-import { handleCreateDocFunction, handleFetchCategories, handleFetchOnlyUserCategories, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
-import { ICategory, ITransactionType } from 'assets/interfaces/interfaces';
-import { useUser } from 'assets/state/hooks/user';
-import { isCategoryNameInvalid } from './_assets/isCategoryNameInvalid';
+import { ICategory, ITransactionType } from 'utils/interfaces';
+import { useUser } from 'state/hooks/user';
+import { isCategoryNameInvalid } from './utils/isCategoryNameInvalid';
+import { useCategories, useSelectedCategory_toBeEdited } from 'state/hooks/categories';
+import { useAddNewCategory, useUpadateCategory } from 'state/reducers/categories';
 import styles from './AddCategoryForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import IconPreview from './IconPreview/IconPreview';
-import { useCategories, useSelectedCategory, useUserCategories } from 'assets/state/hooks/categories';
 
 
 const AddCategoryForm = () => {
   const nav = useNavigate();
   const [user] = useUser();
-  const [categories, setCategories] = useCategories();
-  const [, setUserCategories] = useUserCategories();
-  const [selectedCategory, setSelectedCategory] = useSelectedCategory();
+  const [categories, ] = useCategories();
+  const [selectedCategory, setSelectedCategory] = useSelectedCategory_toBeEdited();
 
   // 👇 useState forms
   const [name, setName] = useState('');
@@ -24,6 +23,9 @@ const AddCategoryForm = () => {
   const [description, setDescription] = useState('');
   const [icon, setIcon] = useState('');
   // ☝️ useState forms
+
+  const updateCategory = useUpadateCategory();
+  const addNewCategory = useAddNewCategory();
 
   const [categoryError, setCategoryError] = useState(false);
 
@@ -63,13 +65,13 @@ const AddCategoryForm = () => {
     if (user) {
       const category = getCategoryObj();
       if (selectedCategory) {
-        await handleUpdateDocFunction('categories', user.uid, { ...category, id: selectedCategory.id });
+        // await handleUpdateDocFunction('categories', user.uid, { ...category, id: selectedCategory.id });
+        updateCategory({ ...category, id: selectedCategory.id });
       } else {
-        await handleCreateDocFunction('categories', user.uid, category);
+        // await handleCreateDocFunction('categories', user.uid, category);
+        addNewCategory(category);
       }
 
-      handleFetchCategories(setCategories, user.uid);
-      handleFetchOnlyUserCategories(setUserCategories, user.uid);
       resetForm();
     }
   };
@@ -80,6 +82,7 @@ const AddCategoryForm = () => {
       type: type as ITransactionType,
       description: description,
       icon: icon,
+      db: 'user',
     };
 
     return categoryObj;

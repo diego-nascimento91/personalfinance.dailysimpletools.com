@@ -1,18 +1,18 @@
-import { handleDeleteDocFunction, handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
-import { IAccount } from 'assets/interfaces/interfaces';
-import { useAccounts, useSelectedAccount } from 'assets/state/hooks/accounts';
-import { useUser } from 'assets/state/hooks/user';
+import { IAccount } from 'utils/interfaces';
+import { useSelectedAccount_toBeEdited } from 'state/hooks/accounts';
+import { useUser } from 'state/hooks/user';
 import styles from './AccountItem.module.scss';
+import { useDeleteAccount } from 'state/reducers/accounts';
 
 interface Props {
   account: IAccount
 }
 const AccountItem = (props: Props) => {
   const { account } = props;
-
+  
   const [user] = useUser();
-  const [, setAccounts] = useAccounts();
-  const [, setSelectedAccount] = useSelectedAccount();
+  const [, setSelectedAccount] = useSelectedAccount_toBeEdited();
+  const deleteAccount = useDeleteAccount();
 
   const handleEditButtonClick = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -21,9 +21,7 @@ const AccountItem = (props: Props) => {
 
   const handleDeleteButtonClick = async () => {
     if (user) {
-      await handleDeleteDocFunction('accounts', user.uid, account);
-
-      handleFetchAccounts(setAccounts, user.uid);
+      deleteAccount(account);
     }
   };
 

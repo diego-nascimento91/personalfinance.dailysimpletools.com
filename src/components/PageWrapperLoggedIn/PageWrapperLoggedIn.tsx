@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import styles from './PageWrapperLoggedIn.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { handleFetchAccounts, handleFetchCategories, handleFetchOnlyUserCategories, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
+import { useUser } from 'state/hooks/user';
+import { useTransactionsFilter_byMonth } from 'state/hooks/transactions';
+import { useFetchLastAddedTransactions } from 'state/reducers/lastAddedTransactions';
+import { useFetchTransactionsMonth } from 'state/reducers/transactions';
+import { useFetchAccounts } from 'state/reducers/accounts';
+import { useFetchCategories } from 'state/reducers/categories';
+import styles from './PageWrapperLoggedIn.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
-import { useCategories, useUserCategories } from 'assets/state/hooks/categories';
-import { useUser } from 'assets/state/hooks/user';
-import { useChosenMonth, useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/transactions';
-import { useAccounts } from 'assets/state/hooks/accounts';
 
 
 interface Props {
@@ -17,40 +18,27 @@ const PageWrapperLoggedIn = (props: Props) => {
   const { children, customStyles } = props;
   const nav = useNavigate();
   const [user, loading] = useUser();
-  const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
-  const [recentTransactions, setRecentTransactions] = useRecentTransactions();
-  const [UserCategories, setUserCategories] = useUserCategories();
-  const [categories, setCategories] = useCategories();
-  const [accounts, setAccounts] = useAccounts();
-  const [month,] = useChosenMonth();
+  const [month] = useTransactionsFilter_byMonth();
+
+  const fetchLastAddedTransactions = useFetchLastAddedTransactions();
+  const fetchTransactionsMonth = useFetchTransactionsMonth();
+  const fetchAccounts = useFetchAccounts();
+  const fetchCategories = useFetchCategories();
 
   useEffect(() => {
     if (loading) return;
     if (!user) nav('/');
     if (user) {
-      handleUpdateDBs();
+      fetchLastAddedTransactions();
+      fetchAccounts();
+      fetchCategories();
     }
   }, [user, loading]);
 
-  const handleUpdateDBs = () => {
-    if (user) {
-      if (!(categories && categories.length > 0)) {
-        handleFetchCategories(setCategories, user.uid);
-      }
-      if (!(accounts && accounts.length > 0)) {
-        handleFetchAccounts(setAccounts, user.uid);
-      }
-      if (!(recentTransactions && recentTransactions.length > 0)) {
-        handleFetchRecentTransactions(user.uid, setRecentTransactions);
-      }
-      if (!(transactionsMonth && transactionsMonth.length > 0)) {
-        handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
-      }
-      if (!(UserCategories && UserCategories.length > 0)) {
-        handleFetchOnlyUserCategories(setUserCategories, user.uid);
-      }
-    }
-  };
+  useEffect(() => {
+    if (user) fetchTransactionsMonth();
+  }, [month]);
+
 
   return (
     <div className={`${styles.PageWrapperLoggedIn} ${stylesPadding.padding} ${customStyles}`}>

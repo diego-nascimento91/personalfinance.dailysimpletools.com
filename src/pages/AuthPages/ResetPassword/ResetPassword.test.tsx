@@ -2,9 +2,9 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Router } from 'react-router-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import { useUser } from 'assets/state/hooks/user';
+import { useUser } from 'state/hooks/user';
 import ResetPassword from './ResetPassword';
-import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import FirebaseAuthService from 'services/FirebaseAuthService';
 
 const mockedNav = jest.fn();
 jest.mock('react-router-dom', () => {
@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-jest.mock('assets/state/hooks/firebaseHooks', () => {
+jest.mock('state/hooks/firebaseHooks', () => {
   return {
     useUser: jest.fn()
   };

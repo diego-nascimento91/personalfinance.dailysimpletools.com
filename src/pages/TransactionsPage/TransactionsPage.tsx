@@ -1,13 +1,13 @@
+import { useTransactions } from 'state/hooks/transactions';
 import styles from './TransactionsPage.module.scss';
 import TotalsPerCategory from 'components/TotalsPerCategory/TotalsPerCategory';
 import TransactionsSummary from 'components/TransactionsSummary/TransactionsSummary';
 import UserHeader from 'components/UserHeader/UserHeader';
 import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
 import PageWrapperLoggedIn from 'components/PageWrapperLoggedIn/PageWrapperLoggedIn';
-import { useTransactionsMonth } from 'assets/state/hooks/transactions';
 
 const TransactionsPage = () => {
-  const [transactionsMonth,] = useTransactionsMonth();
+  const [transactionsMonth,] = useTransactions();
 
 
   return (

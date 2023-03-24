@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FormTypeData } from './_assets/formTypes';
-import { loadCurrentTransaction, resetForm, submitForm, useMultitabForm } from './_assets/formFunctions';
-import { returnPage } from 'assets/functions/returnPage';
-import { handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
+import { FormTypeData } from './utils/formTypes';
+import { loadCurrentTransaction, resetForm, submitForm, useMultitabForm } from './utils/formFunctions';
+import { useCategories } from 'state/hooks/categories';
+import { useUser } from 'state/hooks/user';
+import { useAccounts } from 'state/hooks/accounts';
+import { useAddNewTransaction, useAddNewTransferTransaction, useUpadateTransaction } from 'state/reducers/transactions';
+import { useSelectedTransaction_toBeEdited, useTransactions } from 'state/hooks/transactions';
+import { returnPage } from 'utils/returnPage';
 import classNames from 'classnames';
 import styles from './AddTransactionForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import AddTFormHeader from './AddTFormHeader/AddTFormHeader';
 import AddTFormOptionTabs from './AddTFormOptionTabs/AddTFormOptionTabs';
 import AddTFormInputs from './AddTFormInputs/AddTFormInputs';
-import { useCategories } from 'assets/state/hooks/categories';
-import { useUser } from 'assets/state/hooks/user';
-import { useChosenMonth, useCurrentTransaction, useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/transactions';
-import { useAccounts } from 'assets/state/hooks/accounts';
 
 
 const INITIAL_DATA: FormTypeData = {
@@ -46,10 +46,12 @@ const AddTransactionForm = () => {
   const [user] = useUser();
   const [accounts] = useAccounts();
   const [categories] = useCategories();
-  const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
-  const [transactionsMonth, setTransactionsMonth] = useTransactionsMonth();
-  const [month] = useChosenMonth();
-  const [, setRecentTransactions] = useRecentTransactions();
+  const [currentTransaction, setCurrentTransaction] = useSelectedTransaction_toBeEdited();
+  const [transactionsMonth, ] = useTransactions();
+
+  const addNewTransaction = useAddNewTransaction();
+  const addNewtransferTransaction = useAddNewTransferTransaction();
+  const updateTransaction = useUpadateTransaction();
 
   const { isUpdateTransaction, isTransferTransaction, isIncomeExpenseTransaction, formTitle, formButtonText, goToTab } = useMultitabForm(data.amount);
 
@@ -64,15 +66,13 @@ const AddTransactionForm = () => {
     e.preventDefault();
 
     if (user) {
-      await submitForm(currentTransaction, data, isIncomeExpenseTransaction, isUpdateTransaction, user.uid);
+      await submitForm(currentTransaction, data, isIncomeExpenseTransaction, isUpdateTransaction, user.uid, addNewTransaction, addNewtransferTransaction, updateTransaction);
 
       resetForm(updateFields);
       if (isUpdateTransaction) {
         setCurrentTransaction(null);
         returnPage(nav);
       }
-      handleFetchRecentTransactions(user.uid, setRecentTransactions);
-      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }
   };
 

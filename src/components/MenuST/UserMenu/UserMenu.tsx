@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useUser } from 'assets/state/hooks/user';
-import { useUserMenuStatus } from 'assets/state/hooks/navbar';
+import { useUser } from 'state/hooks/user';
+import { useUserMenuStatus } from 'state/hooks/navbar';
 import UserMenuOptions from './UserMenuOptions/UserMenuOptions';
 import styles from './UserMenu.module.scss';
 

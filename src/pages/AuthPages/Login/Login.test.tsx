@@ -2,12 +2,12 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Router } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import { useUser } from 'assets/state/hooks/user';
-import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import { useUser } from 'state/hooks/user';
+import FirebaseAuthService from 'services/FirebaseAuthService';
 import Login from './Login';
 
 // mock of useUser to set to true (user loggedin) or false (user not loggedin)
-jest.mock('assets/state/hooks/firebaseHooks');
+jest.mock('state/hooks/firebaseHooks');
 
 // mock of the FirebaseAuthService to check if it was called and to return error
 jest.mock('assets/functions/FirebaseAuthService');

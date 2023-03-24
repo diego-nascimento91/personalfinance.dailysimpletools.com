@@ -20,7 +20,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "downlevelIteration": true
   },
   "include": [
     "src"

@@ -1,3 +1,5 @@
+import { useTransactions } from 'state/hooks/transactions';
+import { useLastAddedTransactions } from 'state/hooks/lastAddedTransactions';
 import styles from './Home.module.scss';
 import TotalsPerCategory from '../../components/TotalsPerCategory/TotalsPerCategory';
 import Overview from './Overview/Overview';
@@ -5,11 +7,10 @@ import TransactionsSummary from 'components/TransactionsSummary/TransactionsSumm
 import UserHeader from 'components/UserHeader/UserHeader';
 import AddPlusButton from 'components/AddPlusButton/AddPlusButton';
 import PageWrapperLoggedIn from 'components/PageWrapperLoggedIn/PageWrapperLoggedIn';
-import { useRecentTransactions, useTransactionsMonth } from 'assets/state/hooks/transactions';
 
 const Home = () => {
-  const [transactionsMonth] = useTransactionsMonth();
-  const [recentTransactions] = useRecentTransactions();
+  const [transactionsMonth] = useTransactions();
+  const [recentTransactions] = useLastAddedTransactions();
 
 
   return (

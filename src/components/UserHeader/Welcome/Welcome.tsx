@@ -1,5 +1,5 @@
 import 'react-datepicker/dist/react-datepicker.css';
-import { useUser } from 'assets/state/hooks/user';
+import { useUser } from 'state/hooks/user';
 import styles from './Welcome.module.scss';
 
 

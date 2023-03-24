@@ -1,21 +1,11 @@
-import { handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
-import { useUser } from 'assets/state/hooks/user';
-import { useEffect } from 'react';
 import { AiOutlineDown } from 'react-icons/ai';
 import DatePickerReact from 'react-datepicker';
 import styles from './DatePicker.module.scss';
-import { useChosenMonth, useTransactionsMonth } from 'assets/state/hooks/transactions';
+import { useTransactionsFilter_byMonth } from 'state/hooks/transactions';
 
 const DatePicker = () => {
-  const [month, setMonth] = useChosenMonth();
-  const [user] = useUser();
-  const [, setTransactionsMonth] = useTransactionsMonth();
+  const [month, setMonth] = useTransactionsFilter_byMonth();
 
-  useEffect(() => {
-    if (user) {
-      if(month) handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
-    }
-  }, [month]);
 
   return (
     <div className={styles.datepicker__container}>

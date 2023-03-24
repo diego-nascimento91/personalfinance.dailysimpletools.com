@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { validateEmail } from 'assets/functions/validateEmail';
-import { useUser } from 'assets/state/hooks/user';
-import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import { useUser } from 'state/hooks/user';
+import { validateEmail } from 'utils/validateEmail';
+import FirebaseAuthService from 'services/FirebaseAuthService';
 import styles from './ResetPassword.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
 

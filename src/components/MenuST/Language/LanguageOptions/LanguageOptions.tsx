@@ -1,4 +1,4 @@
-import { useLanguages, useMenuStatus, useSetSelectedLanguage } from 'assets/state/hooks/navbar';
+import { useLanguages, useMenuStatus, useSetSelectedLanguage } from 'state/hooks/navbar';
 import classNames from 'classnames';
 import styles from './LanguageOptions.module.scss';
 

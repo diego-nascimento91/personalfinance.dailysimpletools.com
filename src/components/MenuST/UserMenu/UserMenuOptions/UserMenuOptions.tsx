@@ -1,5 +1,5 @@
-import { useUserMenuStatus } from 'assets/state/hooks/navbar';
-import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import { useUserMenuStatus } from 'state/hooks/navbar';
+import FirebaseAuthService from 'services/FirebaseAuthService';
 import styles from './UserMenuOptions.module.scss';
 
 const UserMenuOptions = () => {

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { ITransaction, ITransactionType } from 'assets/interfaces/interfaces';
+import { ITransaction, ITransactionType } from 'utils/interfaces';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
-import { useFilteredCategory, useFilteredTransactionType, useTransactionsTotalsPerCategory } from 'assets/state/hooks/transactions';
+import { useTransactionsFilter_byCategory, useTransactionsFilter_byType, useTransactionsTotalsPerCategory } from 'state/hooks/transactions';
 
 interface Props {
   transactions: ITransaction[],
@@ -13,8 +13,8 @@ const TotalsPerCategory = (props: Props) => {
   const { allTransactions = false } = props;
 
   const totals = useTransactionsTotalsPerCategory();
-  const [typeTransaction, setTypeTransaction] = useFilteredTransactionType();
-  const [, setFilteredCategory] = useFilteredCategory();
+  const [typeTransaction, setTypeTransaction] = useTransactionsFilter_byType();
+  const [, setFilteredCategory] = useTransactionsFilter_byCategory();
 
   useEffect(() => {
     setFilteredCategory(null);

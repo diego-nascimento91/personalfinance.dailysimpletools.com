@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { validateEmail } from 'assets/functions/validateEmail';
-import { validatePassword } from 'assets/functions/validatePassword';
-import { useUser } from 'assets/state/hooks/user';
+import { validatePassword } from 'utils/validatePassword';
+import { useUser } from 'state/hooks/user';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import FirebaseAuthService from 'services/FirebaseAuthService';
 import styles from './Login.module.scss';
 import stylesPadding from 'assets/styles/padding.module.scss';
+import { validateEmail } from 'utils/validateEmail';
 
 const Login = () => {
   const [user, loading] = useUser();

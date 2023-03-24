@@ -1,13 +1,14 @@
-import { useCurrentTransaction, useShowChooseTypeTransactionPopUp } from 'assets/state/hooks/transactions';
+import { useSelectedTransaction_toBeEdited } from 'state/hooks/transactions';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import styles from './AddPlusButtonPopUp.module.scss';
+import { useShowPlusButton } from 'state/hooks/addPlusButton';
 
 
 const AddPlusButtonPopUp = () => {
   const nav = useNavigate();
-  const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
-  const [,setCurrentTransaction] = useCurrentTransaction();
+  const [showPopUp, setShowPopUp] = useShowPlusButton();
+  const [,setCurrentTransaction] = useSelectedTransaction_toBeEdited();
 
   const handleNewTransactionButtonClick = () => {
     setShowPopUp(false);

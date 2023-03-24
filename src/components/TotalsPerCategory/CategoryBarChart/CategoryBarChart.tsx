@@ -1,11 +1,11 @@
-import { ITotalsCategories } from 'assets/interfaces/interfaces';
-import { useUser } from 'assets/state/hooks/user';
+import { ITotalsCategories } from 'utils/interfaces';
+import { useUser } from 'state/hooks/user';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './CategoryBarChart.module.scss';
 import stylesImgError from 'assets/styles/imgError.module.scss';
-import { useCategories } from 'assets/state/hooks/categories';
-import { useFilteredCategory } from 'assets/state/hooks/transactions';
+import { useCategories } from 'state/hooks/categories';
+import { useTransactionsFilter_byCategory } from 'state/hooks/transactions';
 
 interface Props {
   barHeight: number,
@@ -14,7 +14,7 @@ interface Props {
 }
 const CategoryBarChart = ({ barHeight, totalCategory, allTransactions }: Props) => {
   const [user] = useUser();
-  const [filteredCategory, setFilteredCategory] = useFilteredCategory();
+  const [filteredCategory, setFilteredCategory] = useTransactionsFilter_byCategory();
   const [categories] = useCategories();
   const [imgError, setImgError] = useState(false);
   const [imageURL, setImageURL] = useState('');

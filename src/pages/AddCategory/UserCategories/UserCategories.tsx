@@ -1,11 +1,11 @@
 import styles from './UserCategories.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import UserCategory from './UserCategory/UserCategory';
-import { useUserCategories } from 'assets/state/hooks/categories';
+import { useUserCategories } from 'state/hooks/categories';
 
 
 const UserCategories = () => {
-  const [userCategories] = useUserCategories();
+  const userCategories = useUserCategories();
 
   return (
     <section className={`${stylesComponents.pageComponents} ${styles.userCategories__container}`}>

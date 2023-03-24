@@ -1,17 +1,16 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { handleDeleteDocFunction, handleDeleteDocsTransferFunction, handleFetchRecentTransactions, handleFetchTransactionsMonth } from 'assets/functions/handleDatabaseFunctions';
-import styles from './TransactionReceipt.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useChosenMonth, useCurrentTransaction, useRecentTransactions, useShowReceiptPopUp, useTransactionsMonth } from 'assets/state/hooks/transactions';
-import { useUser } from 'assets/state/hooks/user';
+import { useUser } from 'state/hooks/user';
+import { useShowReceipt } from 'state/hooks/addPlusButton';
+import { useSelectedTransaction_toBeEdited } from 'state/hooks/transactions';
+import { useDeleteTransaction } from 'state/reducers/transactions';
+import styles from './TransactionReceipt.module.scss';
 
 const TransactionReceipt = () => {
-  const [showReceipt, setShowReceipt] = useShowReceiptPopUp();
-  const [currentTransaction, setCurrentTransaction] = useCurrentTransaction();
   const [user] = useUser();
-  const [, setRecentTransactions] = useRecentTransactions();
-  const [, setTransactionsMonth] = useTransactionsMonth();
-  const [month] = useChosenMonth();
+  const [showReceipt, setShowReceipt] = useShowReceipt();
+  const [currentTransaction, setCurrentTransaction] = useSelectedTransaction_toBeEdited();
+  const deleteTransaction = useDeleteTransaction();
   const nav = useNavigate();
 
   const closeReceiptPopUp = () => {
@@ -34,14 +33,8 @@ const TransactionReceipt = () => {
 
   const handleDeleteButtonClick = async () => {
     if (user && currentTransaction) {
-      if (currentTransaction.type === 'transfer')
-        await handleDeleteDocsTransferFunction('transactions', user.uid, currentTransaction?.id as string, currentTransaction.transferedTransactionID);
-      else
-        await handleDeleteDocFunction('transactions', user.uid, currentTransaction);
-        
+      deleteTransaction(currentTransaction); 
       handleCloseButton();
-      handleFetchRecentTransactions(user.uid, setRecentTransactions);
-      handleFetchTransactionsMonth(user.uid, setTransactionsMonth, month);
     }
   };
 

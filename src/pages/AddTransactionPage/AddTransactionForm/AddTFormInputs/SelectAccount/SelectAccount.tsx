@@ -1,5 +1,5 @@
-import { useAccounts } from 'assets/state/hooks/accounts';
-import { useCurrentTransaction } from 'assets/state/hooks/transactions';
+import { useAccounts } from 'state/hooks/accounts';
+import { useSelectedTransaction_toBeEdited } from 'state/hooks/transactions';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SelectAccount.module.scss';
@@ -18,7 +18,7 @@ const SelectAccount = (props: Props) => {
   const { account, accountID, error, label, setAccount } = props;
   const nav = useNavigate();
   const [accounts] = useAccounts();
-  const [currentTransaction] = useCurrentTransaction();
+  const [currentTransaction] = useSelectedTransaction_toBeEdited();
 
   const handleSetAccount = (value: string) => {
     if (value === 'addaccount') {

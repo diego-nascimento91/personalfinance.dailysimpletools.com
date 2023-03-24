@@ -3,11 +3,11 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Router } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import FirebaseAuthService from 'assets/functions/FirebaseAuthService';
+import FirebaseAuthService from 'services/FirebaseAuthService';
 import Register from './Register';
-import { useUser } from 'assets/state/hooks/user';
+import { useUser } from 'state/hooks/user';
 
-jest.mock('assets/state/hooks/firebaseHooks', () => {
+jest.mock('state/hooks/firebaseHooks', () => {
   return {
     useUser: jest.fn()
   };

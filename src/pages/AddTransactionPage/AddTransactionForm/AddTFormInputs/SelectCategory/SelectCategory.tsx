@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { ICategory } from 'assets/interfaces/interfaces';
-import { FormTypeData } from '../../_assets/formTypes';
+import { ICategory } from 'utils/interfaces';
+import { FormTypeData } from '../../utils/formTypes';
 import styles from './SelectCategory.module.scss';
-import { useCategories } from 'assets/state/hooks/categories';
-import { useCurrentTransaction } from 'assets/state/hooks/transactions';
+import { useCategories } from 'state/hooks/categories';
+import { useSelectedTransaction_toBeEdited } from 'state/hooks/transactions';
 
 interface Props {
   amount: number,
@@ -16,7 +16,7 @@ const SelectCategory = (props: Props) => {
   const { amount, category, categoryDescription, isIncomeExpenseTransaction, updateFields } = props;
   const nav = useNavigate();
   const [categories] = useCategories();
-  const [currentTransaction] = useCurrentTransaction();
+  const [currentTransaction] = useSelectedTransaction_toBeEdited();
 
   const handleSetCategory = (value: string) => {
     if (value === 'addcategory') {

@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
-import { calcChartWidth } from './_assets/calcChartWidth';
-import { getIncomeExpenseSums } from './_assets/getIncomeExpenseSums';
-import { getBalancesSum } from './_assets/getBalancesSum';
-import { handleFetchAccounts } from 'assets/functions/handleDatabaseFunctions';
-import FirebaseFirestoreService from 'assets/functions/FirebaseFirestoreService';
+import { calcChartWidth } from './utils/calcChartWidth';
+import { getIncomeExpenseSums } from './utils/getIncomeExpenseSums';
+import { getBalancesSum } from './utils/getBalancesSum';
+import { useUser } from 'state/hooks/user';
+import { useTransactions } from 'state/hooks/transactions';
+import { useAccounts } from 'state/hooks/accounts';
+import { useFetchAccounts } from 'state/reducers/accounts';
+import FirebaseFirestoreService from 'services/FirebaseFirestoreService';
 import styles from './Overview.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import InfoProjectedBalance from './InfoProjectedBalance/InfoProjectedBalance';
 import GraphBar from './GraphBar/GraphBar';
-import { useUser } from 'assets/state/hooks/user';
-import { useTransactionsMonth } from 'assets/state/hooks/transactions';
-import { useAccounts } from 'assets/state/hooks/accounts';
 
 const Overview = () => {
   const [user,] = useUser();
-  const [transactions] = useTransactionsMonth();
-  const [accounts, setAccounts] = useAccounts();
+  const [transactions] = useTransactions();
+  const [accounts] = useAccounts();
   const [sumIncome, setSumIncome] = useState(0);
   const [sumExpense, setSumExpense] = useState(0);
   const [incomeWidth, setIncomeWidth] = useState('100%');
@@ -25,13 +25,13 @@ const Overview = () => {
   const [currentBalanceWidth, setCurrentBalanceWidth] = useState('100%');
   const [projectedBalanceWidth, setProjectedBalanceWidth] = useState('100%');
 
+  const fetchAccounts = useFetchAccounts();
+
   useEffect(() => {
     // calling firebase listener of the accounts with balance-account type.
     if (user)
       if (accounts && accounts.length > 0) {
-        accounts.map(item => {
-          FirebaseFirestoreService.docListener(`users/${user?.uid}/accounts`, item?.id as string, () => handleFetchAccounts(setAccounts, user.uid));
-        });
+        accounts.map(item => FirebaseFirestoreService.docListener(`users/${user.uid}/accounts`, item?.id as string, fetchAccounts));
       }
   }, []);
 

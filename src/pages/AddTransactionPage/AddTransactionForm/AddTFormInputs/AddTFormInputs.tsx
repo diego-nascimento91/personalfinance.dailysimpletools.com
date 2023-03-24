@@ -1,4 +1,4 @@
-import { FormTypeData } from '../_assets/formTypes';
+import { FormTypeData } from '../utils/formTypes';
 import styles from './AddTFormInputs.module.scss';
 import InputCurrency from 'components/InputCurrency/InputCurrency';
 import SelectAccount from './SelectAccount/SelectAccount';

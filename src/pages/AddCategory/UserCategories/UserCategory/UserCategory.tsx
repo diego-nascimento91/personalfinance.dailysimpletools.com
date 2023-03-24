@@ -1,7 +1,7 @@
-import { handleDeleteDocFunction, handleFetchCategories, handleFetchOnlyUserCategories } from 'assets/functions/handleDatabaseFunctions';
-import { ICategory } from 'assets/interfaces/interfaces';
-import { useCategories, useSelectedCategory, useUserCategories } from 'assets/state/hooks/categories';
-import { useUser } from 'assets/state/hooks/user';
+import { ICategory } from 'utils/interfaces';
+import { useSelectedCategory_toBeEdited } from 'state/hooks/categories';
+import { useUser } from 'state/hooks/user';
+import { useDeleteCategory } from 'state/reducers/categories';
 import styles from './UserCategory.module.scss';
 
 interface Props {
@@ -11,9 +11,9 @@ const UserCategory = (props: Props) => {
   const { category } = props;
 
   const [user] = useUser();
-  const [, setCategories] = useCategories();
-  const [, setUserCategories] = useUserCategories();
-  const [, setSelectedCategory] = useSelectedCategory();
+  const [, setSelectedCategory] = useSelectedCategory_toBeEdited();
+
+  const deleteCategory = useDeleteCategory();
 
   const handleEditButtonClick = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -22,10 +22,8 @@ const UserCategory = (props: Props) => {
 
   const handleDeleteButtonClick = async () => {
     if (user) {
-      await handleDeleteDocFunction('categories', user.uid, category);
-
-      handleFetchCategories(setCategories, user.uid);
-      handleFetchOnlyUserCategories(setUserCategories, user.uid);
+      // await handleDeleteDocFunction('categories', user.uid, category);
+      deleteCategory(category);
     }
   };
 

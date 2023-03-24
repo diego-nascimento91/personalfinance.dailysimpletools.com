@@ -1,4 +1,4 @@
-import { useSelectedLanguage } from 'assets/state/hooks/navbar';
+import { useSelectedLanguage } from 'state/hooks/navbar';
 import Language from './Language/Language';
 import Logo from './Logo/Logo';
 import UserMenu from './UserMenu/UserMenu';

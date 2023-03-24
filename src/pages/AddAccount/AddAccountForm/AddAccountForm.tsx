@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
-import { IAccount, IAccountType } from 'assets/interfaces/interfaces';
-import { useUser } from 'assets/state/hooks/user';
-import { isAccountNameValid } from './_assets/isAccountNameValid';
-import { handleCreateDocFunction, handleFetchAccounts, handleUpdateDocFunction } from 'assets/functions/handleDatabaseFunctions';
+import { IAccount, IAccountType } from 'utils/interfaces';
+import { useUser } from 'state/hooks/user';
+import { isAccountNameValid } from './utils/isAccountNameValid';
+import { useAccounts, useSelectedAccount_toBeEdited } from 'state/hooks/accounts';
+import { useAddNewAccount, useUpadateAccount } from 'state/reducers/accounts';
 import styles from './AddAccountForm.module.scss';
 import stylesComponents from 'assets/styles/pageComponents.module.scss';
 import InputCurrency from 'components/InputCurrency/InputCurrency';
-import { useAccounts, useSelectedAccount } from 'assets/state/hooks/accounts';
 
 
 const AddAccountForm = () => {
   const nav = useNavigate();
   const [user] = useUser();
-  const [accounts, setAccounts] = useAccounts();
-  const [selectedAccount, setSelectedAccount] = useSelectedAccount();
+  const [accounts, ] = useAccounts();
+  const [selectedAccount, setSelectedAccount] = useSelectedAccount_toBeEdited();
 
   // 👇 useState form
   const [name, setName] = useState('');
@@ -25,6 +25,9 @@ const AddAccountForm = () => {
   const [initialBalance, setInitialBalance] = useState(0);
   const [description, setDescription] = useState('');
   // ☝️ useState form
+
+  const addNewAccount = useAddNewAccount();
+  const updateAccount = useUpadateAccount();
 
   useEffect(() => {
     if (selectedAccount) handleSelectedAccountFormLoad();
@@ -60,12 +63,11 @@ const AddAccountForm = () => {
     if (user) {
       const account = getAccountObj();
       if (selectedAccount) {
-        await handleUpdateDocFunction('accounts', user.uid, { ...account, id: selectedAccount.id });
+        updateAccount({...account, id: selectedAccount.id});
       } else {
-        await handleCreateDocFunction('accounts', user.uid, account);
+        addNewAccount(account);
       }
 
-      handleFetchAccounts(setAccounts, user.uid);
       resetForm();
     }
   };

@@ -3,13 +3,13 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import classNames from 'classnames';
 import styles from './AddPlusButton.module.scss';
 import AddPlusButtonPopUp from './AddPlusButtonPopUp/AddPlusButtonPopUp';
-import { useShowChooseTypeTransactionPopUp, useShowReceiptPopUp } from 'assets/state/hooks/transactions';
+import { useShowPlusButton, useShowReceipt } from 'state/hooks/addPlusButton';
 
 
 const AddPlusButton = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [showPopUp, setShowPopUp] = useShowChooseTypeTransactionPopUp();
-  const [showReceiptPopUp] = useShowReceiptPopUp();
+  const [showPopUp, setShowPopUp] = useShowPlusButton();
+  const [showReceiptPopUp] = useShowReceipt();
 
   useEffect(() => {
     document.addEventListener('click', (event) => handleClickOutside(event));

@@ -3,7 +3,7 @@ import { useUser } from 'state/hooks/user';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './CategoryBarChart.module.scss';
-import stylesImgError from 'assets/styles/imgError.module.scss';
+import stylesImgError from 'styles/imgError.module.scss';
 import { useCategories } from 'state/hooks/categories';
 import { useTransactionsFilter_byCategory } from 'state/hooks/transactions';
 

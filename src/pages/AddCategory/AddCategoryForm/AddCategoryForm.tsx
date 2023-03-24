@@ -7,7 +7,7 @@ import { isCategoryNameInvalid } from './utils/isCategoryNameInvalid';
 import { useCategories, useSelectedCategory_toBeEdited } from 'state/hooks/categories';
 import { useAddNewCategory, useUpadateCategory } from 'state/reducers/categories';
 import styles from './AddCategoryForm.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import IconPreview from './IconPreview/IconPreview';
 
 

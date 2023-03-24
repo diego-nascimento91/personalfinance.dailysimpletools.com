@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { ITransaction, ITransactionType } from 'utils/interfaces';
 import CategoryBarChart from './CategoryBarChart/CategoryBarChart';
 import styles from './TotalsPerCategory.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import { useTransactionsFilter_byCategory, useTransactionsFilter_byType, useTransactionsTotalsPerCategory } from 'state/hooks/transactions';
 
 interface Props {

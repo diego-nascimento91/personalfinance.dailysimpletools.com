@@ -7,7 +7,7 @@ import { useFetchTransactionsMonth } from 'state/reducers/transactions';
 import { useFetchAccounts } from 'state/reducers/accounts';
 import { useFetchCategories } from 'state/reducers/categories';
 import styles from './PageWrapperLoggedIn.module.scss';
-import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPadding from 'styles/padding.module.scss';
 
 
 interface Props {

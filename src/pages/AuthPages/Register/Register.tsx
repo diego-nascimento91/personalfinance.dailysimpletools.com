@@ -5,7 +5,7 @@ import { useUser } from 'state/hooks/user';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import FirebaseAuthService from 'services/FirebaseAuthService';
 import styles from './Register.module.scss';
-import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPadding from 'styles/padding.module.scss';
 import { validateEmail } from 'utils/validateEmail';
 
 const Register = () => {

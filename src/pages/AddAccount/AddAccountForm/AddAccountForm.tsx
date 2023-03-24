@@ -7,7 +7,7 @@ import { isAccountNameValid } from './utils/isAccountNameValid';
 import { useAccounts, useSelectedAccount_toBeEdited } from 'state/hooks/accounts';
 import { useAddNewAccount, useUpadateAccount } from 'state/reducers/accounts';
 import styles from './AddAccountForm.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import InputCurrency from 'components/InputCurrency/InputCurrency';
 
 

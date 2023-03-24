@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './IconPreview.module.scss';
-import stylesImgError from 'assets/styles/imgError.module.scss';
+import stylesImgError from 'styles/imgError.module.scss';
 
 
 interface Props {

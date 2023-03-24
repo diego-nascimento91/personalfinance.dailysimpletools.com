@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './PasswordReseted.module.scss';
-import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPadding from 'styles/padding.module.scss';
 
 const PasswordReseted = () => {
   return (

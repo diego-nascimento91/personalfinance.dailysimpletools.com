@@ -3,7 +3,7 @@ import Language from './Language/Language';
 import Logo from './Logo/Logo';
 import UserMenu from './UserMenu/UserMenu';
 import styles from './MenuST.module.scss';
-import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPadding from 'styles/padding.module.scss';
 
 const MenuST = () => {
   const language = useSelectedLanguage();

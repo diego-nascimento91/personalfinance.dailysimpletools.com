@@ -8,7 +8,7 @@ import { useAccounts } from 'state/hooks/accounts';
 import { useFetchAccounts } from 'state/reducers/accounts';
 import FirebaseFirestoreService from 'services/FirebaseFirestoreService';
 import styles from './Overview.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import InfoProjectedBalance from './InfoProjectedBalance/InfoProjectedBalance';
 import GraphBar from './GraphBar/GraphBar';
 

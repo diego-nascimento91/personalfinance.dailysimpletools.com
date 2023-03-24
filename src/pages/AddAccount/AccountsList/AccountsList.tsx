@@ -1,5 +1,5 @@
 import styles from './AccountsList.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import AccountItem from './AccountItem/AccountItem';
 import { useAccounts } from 'state/hooks/accounts';
 

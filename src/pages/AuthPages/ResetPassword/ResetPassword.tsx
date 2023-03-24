@@ -4,7 +4,7 @@ import { useUser } from 'state/hooks/user';
 import { validateEmail } from 'utils/validateEmail';
 import FirebaseAuthService from 'services/FirebaseAuthService';
 import styles from './ResetPassword.module.scss';
-import stylesPadding from 'assets/styles/padding.module.scss';
+import stylesPadding from 'styles/padding.module.scss';
 
 const ResetPassword = () => {
   const [user, loading] = useUser();

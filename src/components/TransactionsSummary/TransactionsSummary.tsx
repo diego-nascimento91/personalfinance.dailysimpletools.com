@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ITransaction } from 'utils/interfaces';
 import { useEffect, useState } from 'react';
 import styles from './TransactionsSummary.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import TransactionSummary from './TransactionSummary/TransactionSummary';
 import { useTransactionsFilter_byCategory, useTransactionsFilter_byType } from 'state/hooks/transactions';
 

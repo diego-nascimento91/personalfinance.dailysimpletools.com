@@ -7,7 +7,7 @@ import { useShowPlusButton, useShowReceipt } from 'state/hooks/addPlusButton';
 import classNames from 'classnames';
 import TransactionReceipt from './TransactionReceipt/TransactionReceipt';
 import styles from './TransactionSummary.module.scss';
-import stylesImgError from 'assets/styles/imgError.module.scss';
+import stylesImgError from 'styles/imgError.module.scss';
 
 
 const TransactionSummary = ({ transaction }: { transaction: ITransaction }) => {

@@ -10,7 +10,7 @@ import { useSelectedTransaction_toBeEdited, useTransactions } from 'state/hooks/
 import { returnPage } from 'utils/returnPage';
 import classNames from 'classnames';
 import styles from './AddTransactionForm.module.scss';
-import stylesComponents from 'assets/styles/pageComponents.module.scss';
+import stylesComponents from 'styles/pageComponents.module.scss';
 import AddTFormHeader from './AddTFormHeader/AddTFormHeader';
 import AddTFormOptionTabs from './AddTFormOptionTabs/AddTFormOptionTabs';
 import AddTFormInputs from './AddTFormInputs/AddTFormInputs';

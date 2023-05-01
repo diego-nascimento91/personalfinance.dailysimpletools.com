@@ -34,7 +34,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deployFirebase": "npm run build && firebase deploy --only hosting"
+    "deployFirebase": "npm run build && firebase deploy --only hosting",
+    "deployPreviewFirebase": "firebase hosting:channel:deploy preview_app"
   },
   "eslintConfig": {
     "extends": [

@@ -17,17 +17,14 @@ jobs:
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
-
     - name: Use Node.js 14
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-      
     - name: 🔨 Build Project
       run: |
         npm install
         npm run build
-    
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
@@ -36,6 +33,25 @@ jobs:
         password: ${{ secrets.ftp_password }}
         server-dir: personalfinance.dailysimpletools.com/
         local-dir: ./build/
+  web-deploy_firebase:
+    runs-on: ubuntu-latest
+    env:
+      REACT_APP_API_KEY: "${{ secrets.REACT_APP_API_KEY }}"
+      REACT_APP_AUTH_DOMAIN: "${{ secrets.REACT_APP_AUTH_DOMAIN }}"
+      REACT_APP_PROJECT_ID: "${{ secrets.REACT_APP_PROJECT_ID }}"
+      REACT_APP_STORAGE_BUCKET: "${{ secrets.REACT_APP_STORAGE_BUCKET }}"
+      REACT_APP_MESSAGING_SENDER_ID: "${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}"
+      REACT_APP_APP_ID: "${{ secrets.REACT_APP_APP_ID }}"
+      REACT_APP_MEASUREMENT_ID: "${{ secrets.REACT_APP_MEASUREMENT_ID }}"
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PFTDAILYSIMPLETOOLS }}'
+          channelId: live
+          projectId: pftdailysimpletools
   functions-deploy_firebase:
     runs-on: ubuntu-latest
     steps:

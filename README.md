@@ -1,7 +1,7 @@
 ## <p align="center">Personal Finance Tool</p>
 
 
-* Projeto Publicado: https://personalfinance.dailysimpletools.com
+* Projeto Publicado: https://personalfinancetool.dinf.dev
 
 ## Descrição do projeto
 
